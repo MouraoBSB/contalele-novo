@@ -46,13 +46,18 @@ if ($pagina === null || !is_file(CL_RAIZ . '/paginas/' . $pagina . '.php')) {
     $pagina = 'erro-404';
 }
 
-// Variáveis de SEO disponíveis para cada página (sobrescritas dentro dela).
+// SEO padrão; a página pode sobrescrever $seo antes de seu HTML.
 $seo = seo_padrao($config['site']['url']);
 
-// Renderiza com buffer: se algo falhar no meio, o handler de erro descarta
-// o HTML parcial e exibe a página de erro limpa (ver pagina_erro()).
+// Fase 1: avalia a página em buffer. A página define $seo (se quiser) e
+// produz seu HTML de conteúdo, capturado em $conteudoPagina.
+ob_start();
+require CL_RAIZ . '/paginas/' . $pagina . '.php';
+$conteudoPagina = ob_get_clean();
+
+// Fase 2: monta a resposta — cabeçalho (com o $seo final) + conteúdo + rodapé.
 ob_start();
 require CL_RAIZ . '/includes/cabecalho.php';
-require CL_RAIZ . '/paginas/' . $pagina . '.php';
+echo $conteudoPagina;
 require CL_RAIZ . '/includes/rodape.php';
 ob_end_flush();
