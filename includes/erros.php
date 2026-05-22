@@ -25,7 +25,11 @@ function registrar_log(string $mensagem, array $contexto = [], ?string $dir = nu
     if ($contexto !== []) {
         $linha .= ' | ' . json_encode($contexto, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
     }
-    @file_put_contents($arquivo, $linha . PHP_EOL, FILE_APPEND | LOCK_EX);
+    $gravado = @file_put_contents($arquivo, $linha . PHP_EOL, FILE_APPEND | LOCK_EX);
+    if ($gravado === false) {
+        // Se o log do projeto falhar (permissão, disco cheio), recorre ao log do PHP.
+        error_log('Conta Lelê — falha ao gravar log: ' . $mensagem);
+    }
 }
 
 /**
