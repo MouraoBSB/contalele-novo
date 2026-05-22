@@ -1,0 +1,64 @@
+/* Site Conta Lelê — estilos do painel administrativo
+   Thiago Mourão — https://github.com/MouraoBSB */
+
+*, *::before, *::after { box-sizing: border-box; }
+body {
+  margin: 0; font-family: var(--cl-font-ui);
+  background: var(--cl-bg); color: var(--cl-ink);
+}
+a { color: var(--cl-accent); }
+img { max-width: 100%; height: auto; }
+
+.adm-topo {
+  background: var(--cl-ink); color: var(--cl-bg);
+  padding: 12px 20px; display: flex; flex-wrap: wrap;
+  align-items: center; gap: 16px;
+}
+.adm-topo a { color: var(--cl-bg-3); text-decoration: none; font-weight: 700; font-size: 14px; }
+.adm-topo strong { font-family: var(--cl-font-display); font-weight: 400; }
+.adm-topo nav { display: flex; flex-wrap: wrap; gap: 14px; }
+.adm-topo .adm-sair { margin-left: auto; }
+
+.adm-conteudo { max-width: 900px; margin: 0 auto; padding: 24px 20px 64px; }
+.adm-conteudo h1 { font-size: 24px; font-weight: 900; }
+.adm-conteudo h2 { font-size: 18px; font-weight: 800; }
+
+.adm-cartao {
+  background: #fff; border: 1px solid var(--cl-border);
+  border-radius: 14px; padding: 18px; margin-bottom: 16px;
+}
+.adm-grade { display: grid; gap: 14px; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }
+
+table.adm-tabela { width: 100%; border-collapse: collapse; background: #fff; }
+.adm-tabela th, .adm-tabela td {
+  text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--cl-border);
+  font-size: 14px;
+}
+.adm-tabela th { background: var(--cl-bg-2); }
+
+.adm-campo { display: block; margin-bottom: 14px; }
+.adm-campo span { display: block; font-weight: 700; font-size: 13px; margin-bottom: 5px; }
+.adm-campo input, .adm-campo textarea, .adm-campo select {
+  width: 100%; padding: 9px 11px; font: inherit;
+  border: 1.5px solid var(--cl-border); border-radius: 10px; background: #fff;
+}
+.adm-campo textarea { min-height: 120px; resize: vertical; }
+
+.adm-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 9px 16px; border-radius: 999px; border: 1.5px solid var(--cl-ink);
+  font: inherit; font-weight: 800; font-size: 14px; cursor: pointer; text-decoration: none;
+  background: var(--cl-ink); color: var(--cl-bg-3);
+}
+.adm-btn--claro { background: #fff; color: var(--cl-ink); }
+.adm-btn--perigo { background: #fff; color: var(--cl-accent); border-color: var(--cl-accent); }
+.adm-btn--mini { padding: 4px 10px; font-size: 12px; }
+
+.adm-aviso { padding: 12px 14px; border-radius: 10px; margin-bottom: 16px; font-size: 14px; }
+.adm-aviso--ok { background: #e7f6e7; color: #1f6b1f; }
+.adm-aviso--erro { background: #fae3dd; color: var(--cl-accent); }
+
+.adm-tag { font-size: 12px; font-weight: 700; padding: 2px 8px; border-radius: 999px; }
+.adm-tag--sim { background: #e7f6e7; color: #1f6b1f; }
+.adm-tag--nao { background: var(--cl-border); color: var(--cl-ink-dim); }
+.adm-acoes { display: flex; flex-wrap: wrap; gap: 6px; }
