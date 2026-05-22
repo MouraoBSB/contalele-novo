@@ -1,0 +1,5 @@
+# Pasta de uploads do painel — conteúdo enviado pelos usuários.
+# Nunca servir nem executar arquivos como código (defesa em profundidade).
+<FilesMatch "(?i)\.(php|phtml|phar|pht|php[0-9]|cgi|pl|py|sh)$">
+    Require all denied
+</FilesMatch>

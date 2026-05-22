@@ -83,7 +83,17 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
         $dados['ordem']     = (int) ($_POST['ordem'] ?? 0);
         $dados['publicado'] = isset($_POST['publicado']) ? 1 : 0;
         if (!empty($rec['slug'])) {
-            $dados['slug'] = gerar_slug((string) ($dados[$rec['rotulo']] ?? '')) ?: ('item-' . time());
+            // Garante um slug único — acrescenta -2, -3... se já existir.
+            $slugBase = gerar_slug((string) ($dados[$rec['rotulo']] ?? '')) ?: ('item-' . time());
+            $slug = $slugBase;
+            $n = 2;
+            $chkSlug = $pdo->prepare("SELECT id FROM {$tabela} WHERE slug = ? AND id <> ? LIMIT 1");
+            $chkSlug->execute([$slug, $id]);
+            while ($chkSlug->fetch()) {
+                $slug = $slugBase . '-' . $n++;
+                $chkSlug->execute([$slug, $id]);
+            }
+            $dados['slug'] = $slug;
         }
 
         if ($erros) {
@@ -136,9 +146,12 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
             $st2->execute([(int) $atual['ordem']]);
             $vizinho = $st2->fetch();
             if ($vizinho) {
+                // Troca de ordem em transação — o swap é tudo ou nada.
+                $pdo->beginTransaction();
                 $up = $pdo->prepare("UPDATE {$tabela} SET ordem = ? WHERE id = ?");
                 $up->execute([(int) $vizinho['ordem'], (int) $atual['id']]);
                 $up->execute([(int) $atual['ordem'], (int) $vizinho['id']]);
+                $pdo->commit();
             }
         }
         header('Location: ' . $base);

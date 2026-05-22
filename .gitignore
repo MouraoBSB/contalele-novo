@@ -12,6 +12,7 @@ logs/
 # ─── Uploads do painel administrativo ───
 uploads/*
 !uploads/.gitkeep
+!uploads/.htaccess
 
 # ─── Assets de origem (mantidos em backup à parte) ───
 Identidade Visual/
