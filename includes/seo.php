@@ -38,3 +38,33 @@ function seo_render(array $seo): void
     echo '<meta property="og:image" content="' . e($seo['imagem']) . '">' . "\n";
     echo '<meta name="twitter:card" content="summary_large_image">' . "\n";
 }
+
+/**
+ * Renderiza um bloco JSON-LD de dados estruturados.
+ */
+function json_ld(array $dados): void
+{
+    echo '<script type="application/ld+json">'
+        . json_encode($dados, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)
+        . '</script>' . "\n";
+}
+
+/**
+ * Dados estruturados schema.org Person da Lelê (usados na home e no Sobre).
+ */
+function json_ld_pessoa(string $urlBase): array
+{
+    return [
+        '@context' => 'https://schema.org',
+        '@type'    => 'Person',
+        'name'     => 'Letícia Rocha Mourão Marques',
+        'alternateName' => 'Conta Lelê',
+        'jobTitle' => 'Contadora de histórias, cordelista e escritora',
+        'url'      => rtrim($urlBase, '/'),
+        'address'  => ['@type' => 'PostalAddress', 'addressLocality' => 'Planaltina', 'addressRegion' => 'DF', 'addressCountry' => 'BR'],
+        'sameAs'   => [
+            'https://www.instagram.com/contalele/',
+            'https://www.youtube.com/c/ContaLel%C3%AA',
+        ],
+    ];
+}

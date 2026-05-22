@@ -14,6 +14,7 @@ declare(strict_types=1);
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?php seo_render($seo); ?>
+    <?php if (!empty($seo['json_ld'])) { json_ld($seo['json_ld']); } ?>
     <link rel="icon" href="/favicon.ico" sizes="any">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
