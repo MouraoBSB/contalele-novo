@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /instalar.php
+
+Sitemap: https://contalele.com.br/sitemap.xml
