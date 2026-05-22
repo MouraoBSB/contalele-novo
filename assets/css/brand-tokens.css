@@ -4,7 +4,7 @@
    Copie este arquivo em qualquer projeto novo e importe no topo.
    ────────────────────────────────────────────────────────────── */
 
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Fredoka+One&display=swap');
+/* As fontes são carregadas via <link> em includes/cabecalho.php — não importe aqui. */
 
 :root {
   /* ── Cores principais (modo claro amarelo — padrão) ─────────── */

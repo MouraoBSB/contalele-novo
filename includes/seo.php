@@ -26,7 +26,8 @@ function seo_padrao(string $urlBase): array
  */
 function seo_render(array $seo): void
 {
-    $url = $seo['url_base'] . ($_SERVER['REQUEST_URI'] ?? '/');
+    $caminho = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?: '/';
+    $url = $seo['url_base'] . $caminho;
     echo '<title>' . e($seo['titulo']) . '</title>' . "\n";
     echo '<meta name="description" content="' . e($seo['descricao']) . '">' . "\n";
     echo '<link rel="canonical" href="' . e($url) . '">' . "\n";

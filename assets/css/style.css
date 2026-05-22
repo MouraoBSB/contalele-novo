@@ -33,7 +33,7 @@ p { text-wrap: pretty; }
   position: sticky; top: 0; z-index: 100;
 }
 .cl-cabecalho__interno {
-  display: flex; align-items: center; justify-content: space-between;
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
   gap: 16px; padding-top: 12px; padding-bottom: 12px;
 }
 .cl-logo img { height: 40px; width: auto; }
@@ -53,7 +53,7 @@ p { text-wrap: pretty; }
 }
 .cl-nav--aberto {
   display: flex; flex-direction: column; gap: 16px;
-  padding: 16px; border-top: 1px solid var(--cl-border);
+  width: 100%; padding: 16px; border-top: 1px solid var(--cl-border);
 }
 
 /* Rodapé */

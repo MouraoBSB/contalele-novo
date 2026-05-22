@@ -62,3 +62,4 @@ foreach ($checagens as [$rotulo, $ok, $detalhe]) {
     echo '<li>' . $icone . ' <strong>' . e($rotulo) . '</strong> — ' . e($detalhe) . '</li>';
 }
 echo '</ul><p><strong>' . ($tudoOk ? 'Ambiente saudável.' : 'Há itens a corrigir.') . '</strong></p>';
+echo '</body></html>';

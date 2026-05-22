@@ -49,6 +49,10 @@ if ($pagina === null || !is_file(CL_RAIZ . '/paginas/' . $pagina . '.php')) {
 // Variáveis de SEO disponíveis para cada página (sobrescritas dentro dela).
 $seo = seo_padrao($config['site']['url']);
 
+// Renderiza com buffer: se algo falhar no meio, o handler de erro descarta
+// o HTML parcial e exibe a página de erro limpa (ver pagina_erro()).
+ob_start();
 require CL_RAIZ . '/includes/cabecalho.php';
 require CL_RAIZ . '/paginas/' . $pagina . '.php';
 require CL_RAIZ . '/includes/rodape.php';
+ob_end_flush();

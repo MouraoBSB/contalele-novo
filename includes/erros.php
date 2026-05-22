@@ -37,6 +37,10 @@ function registrar_log(string $mensagem, array $contexto = [], ?string $dir = nu
  */
 function pagina_erro(int $codigo = 500): void
 {
+    // Descarta qualquer HTML parcial já bufferizado antes de renderizar o erro.
+    while (ob_get_level() > 0) {
+        ob_end_clean();
+    }
     if (!headers_sent()) {
         http_response_code($codigo);
     }
