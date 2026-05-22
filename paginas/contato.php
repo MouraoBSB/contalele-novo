@@ -48,14 +48,23 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
                 $_SERVER['REMOTE_ADDR'] ?? null,
             ]);
 
-            // Notificação por e-mail (mail() — o envio por SMTP entra com o painel).
-            $corpo = "Nome: {$valores['nome']}\nE-mail: {$valores['email']}\n"
-                . "Telefone: {$valores['telefone']}\nAssunto: {$valores['assunto']}\n\n"
-                . $valores['mensagem'];
-            $cabecalhos = 'Content-Type: text/plain; charset=utf-8' . "\r\n"
-                . 'Reply-To: ' . $valores['email'];
-            @mail($emailContato, 'Contato pelo site: ' . ($valores['assunto'] ?: 'sem assunto'),
-                $corpo, $cabecalhos);
+            // Notificação por e-mail — best-effort: uma falha aqui NÃO derruba
+            // o envio, pois a mensagem já está salva no banco. O envio por SMTP
+            // (PHPMailer) entra com o painel administrativo. Em hospedagem sem
+            // a função mail() habilitada, esta etapa é simplesmente ignorada.
+            if (function_exists('mail')) {
+                try {
+                    $corpo = "Nome: {$valores['nome']}\nE-mail: {$valores['email']}\n"
+                        . "Telefone: {$valores['telefone']}\nAssunto: {$valores['assunto']}\n\n"
+                        . $valores['mensagem'];
+                    $cabecalhos = 'Content-Type: text/plain; charset=utf-8' . "\r\n"
+                        . 'Reply-To: ' . $valores['email'];
+                    mail($emailContato, 'Contato pelo site: ' . ($valores['assunto'] ?: 'sem assunto'),
+                        $corpo, $cabecalhos);
+                } catch (Throwable $e) {
+                    registrar_log('Aviso: e-mail de contato não enviado', ['erro' => $e->getMessage()]);
+                }
+            }
 
             $aviso = ['tipo' => 'ok', 'texto' => 'Mensagem enviada! A Lelê responde em breve.'];
             $valores = ['nome' => '', 'email' => '', 'telefone' => '', 'assunto' => '', 'mensagem' => ''];
