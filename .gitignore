@@ -25,3 +25,9 @@ desktop.ini
 .vscode/
 .idea/
 *.swp
+
+# ─── Credenciais de deploy ───
+deploy/credenciais.env
+
+# ─── PHP portátil ───
+/php83/
