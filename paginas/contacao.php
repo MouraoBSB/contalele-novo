@@ -18,12 +18,16 @@ $seo['descricao'] = 'Contação de histórias para escolas, eventos, empresas e 
     . 'Conheça os serviços da Lelê e para quem a contação de histórias encanta.';
 ?>
 <section class="cl-hero">
-  <div class="cl-conteudo" style="padding:48px 16px">
-    <p class="cl-eyebrow">Contação de Histórias</p>
-    <h1 class="cl-secao__titulo">Torne o seu evento <span class="cl-em">encantador</span></h1>
-    <p style="max-width:680px;font-size:16px">A Lelê apresenta-se em escolas,
-      festivais, livrarias, eventos e casas — de forma presencial ou online.</p>
-    <p><a class="cl-btn cl-btn-primary" href="https://wa.me/<?= e($whats) ?>" target="_blank" rel="noopener">Pedir um orçamento</a></p>
+  <div class="cl-conteudo cl-hero__interno">
+    <div>
+      <p class="cl-eyebrow">Contação de Histórias</p>
+      <h1 class="cl-secao__titulo">Torne o seu evento <span class="cl-em">encantador</span></h1>
+      <p style="font-size:16px">A Lelê apresenta-se em escolas, festivais, livrarias,
+        eventos e casas — de forma presencial ou online.</p>
+      <p><a class="cl-btn cl-btn-primary" href="https://wa.me/<?= e($whats) ?>" target="_blank" rel="noopener">Pedir um orçamento</a></p>
+    </div>
+    <img class="cl-hero__foto" src="/assets/img/lele-contacao.jpg"
+         alt="A Lelê contando histórias" width="640" height="800" loading="lazy">
   </div>
 </section>
 

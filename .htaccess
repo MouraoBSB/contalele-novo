@@ -12,8 +12,9 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^ index.php [L]
 
-# Bloqueia arquivos sensíveis
-<FilesMatch "^(config\.php|config\.exemplo\.php|.*\.local\.php)$">
+# Bloqueia arquivos sensíveis e ferramentas de instalação (defesa em profundidade —
+# instalar.php e seed-conteudo.php são de uso único; libere temporariamente se reinstalar).
+<FilesMatch "^(config\.php|config\.exemplo\.php|.*\.local\.php|instalar\.php|seed-conteudo\.php)$">
     Require all denied
 </FilesMatch>
 
