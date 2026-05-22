@@ -215,34 +215,38 @@ O girassol fica no canto inferior direito, posicionado em `right: -22px; bottom:
 
 ## 10. Estrutura de arquivos deste projeto
 
+O site é HTML + PHP puro (PHP 8.3), sem framework. Deploy via FTPS.
+
 ```
 contalele/
-├── CLAUDE.md             ← este arquivo
-├── brand-tokens.css      ← tokens CSS reutilizáveis (importe em projetos novos)
-├── tokens.json           ← mesmos tokens em JSON (Tailwind, Figma, etc.)
-├── index.html            ← entry point, todo o CSS inline
-├── app.jsx               ← root: routing, tema, tweaks
-├── screens.jsx           ← componentes mobile + Icon + Sunflower
-├── desktop.jsx           ← componente DesktopView
-├── data.js               ← COURSES, VIDEOS, BOOKS, TESTIMONIALS
-├── ios-frame.jsx         ← chrome do iPhone
-├── browser-window.jsx    ← chrome do navegador desktop
-├── tweaks-panel.jsx      ← painel de variações
-└── assets/
-    ├── logo-*.png        ← versões do logo
-    ├── lele-*.jpg        ← fotos da Lelê (originais)
-    └── photo-*.jpg       ← fotos contextuais
+├── CLAUDE.md             ← este arquivo (diretrizes da marca)
+├── brand-tokens.css      ← tokens CSS — fonte de design
+├── tokens.json           ← mesmos tokens em JSON
+├── config.php            ← credenciais (NÃO versionado)
+├── config.exemplo.php    ← modelo de configuração
+├── index.php             ← front-controller + roteador
+├── .htaccess             ← URLs limpas, HTTPS, cache, segurança
+├── includes/             ← conexao, erros, funcoes, seo, cabecalho, rodape
+├── paginas/              ← uma página por rota (incluídas pelo roteador)
+├── admin/                ← painel administrativo + diagnostico
+├── assets/               ← css/ (brand-tokens + style), js/, img/
+├── sql/schema.sql        ← schema do banco
+├── downloads/            ← PDFs dos e-books
+├── uploads/              ← imagens enviadas pelo admin
+├── logs/                 ← logs de erro
+├── lib/                  ← bibliotecas de terceiros (ex.: PHPMailer)
+├── tests/                ← testes CLI (rodar com: php tests/correr.php)
+└── deploy/enviar.sh      ← script de deploy FTPS
 ```
 
-### Adicionando uma nova tela
-1. Crie a função em `screens.jsx` no padrão `function MinhaTela({ go, state, setState })`.
-2. Use `data-screen-label="NN Nome"` na div raiz (índice 2-dígitos).
-3. Adicione ao `Object.assign(window, { ... })` no fim do arquivo.
-4. Registre a rota em `app.jsx` no `switch`.
-5. Se for uma tela "interna" sem bottom nav, adicione à array `hideNav`.
+### Adicionando uma nova página
+1. Crie `paginas/<nome>.php` com o conteúdo da página (sem `<head>`/`<header>`).
+2. Registre a rota no array `$rotas` em `index.php`.
+3. Ajuste `$seo` dentro da página se o título/descrição forem específicos.
 
-### Adicionando um curso/vídeo/livro
-Edite `data.js` apenas — todas as telas leem dele.
+### Adicionando um curso/cordel/livro
+O conteúdo dinâmico (cordéis, e-books, notícias, depoimentos, festivais) é
+gerenciado pelo painel administrativo (`/admin/`) — não por edição de código.
 
 ---
 
