@@ -271,7 +271,7 @@ require __DIR__ . '/../includes/funcoes.php';
 
 // e() — escape de HTML
 afirmar_igual('&lt;b&gt;', e('<b>'), 'e() escapa tags HTML');
-afirmar_igual('Jo&atilde;o &amp; Cia', e('João & Cia'), 'e() escapa & preservando acentos');
+afirmar_igual('João &amp; Cia', e('João & Cia'), 'e() escapa & preservando acentos UTF-8');
 
 // gerar_slug()
 afirmar_igual('cordel-monstruoso', gerar_slug('Cordel Monstruoso'), 'gerar_slug() simples');
@@ -1506,7 +1506,8 @@ git commit -m "Adiciona autodiagnóstico do ambiente"
 ```bash
 # Credenciais de deploy FTPS — MODELO.
 # Copie para deploy/credenciais.env e preencha. credenciais.env NÃO é versionado.
-FTP_HOST=186.209.113.101
+# FTP_HOST usa o hostname do servidor (o certificado TLS é emitido para ele).
+FTP_HOST=pro115.dnspro.com.br
 FTP_USUARIO=USUARIO_FTP
 FTP_SENHA=SENHA_FTP
 FTP_RAIZ=/
