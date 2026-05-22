@@ -195,8 +195,8 @@ return [
         ],
         [
             'titulo' => 'Suporte ao Cliente',
-            'texto'  => 'Caso tenha alguma dúvida ou ideia para o seu projeto, minha equipe '
-                . 'estará à disposição sempre que possível!',
+            'texto'  => 'Caso tenha alguma reclamação, dúvida ou ideia para o seu projeto, '
+                . 'minha equipe estará à disposição sempre que possível!',
         ],
     ],
 
