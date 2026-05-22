@@ -83,3 +83,86 @@ p { text-wrap: pretty; }
 .cl-btn:hover { transform: translateY(-1px); filter: brightness(1.05); }
 .cl-btn-primary { background: var(--cl-ink); color: var(--cl-bg-3); }
 .cl-btn-yellow  { background: var(--cl-bg-3); color: var(--cl-ink); border-color: var(--cl-ink); }
+
+/* ─── Componentes da vitrine ─────────────────────────────────── */
+
+/* Seções */
+.cl-secao { padding: 56px 0; }
+.cl-secao--alt { background: #fff; }
+.cl-secao__titulo { font-size: clamp(24px, 4vw, 42px); font-weight: 900; margin: 0 0 8px; }
+.cl-eyebrow {
+  font-size: 11px; font-weight: 800; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--cl-accent); margin: 0 0 8px;
+}
+.cl-em {
+  font-family: var(--cl-font-display); font-style: normal;
+  font-weight: 400; color: var(--cl-accent);
+}
+
+/* Hero */
+.cl-hero { background: var(--cl-bg-2); }
+.cl-hero__interno {
+  display: grid; gap: 24px; padding: 40px 0; align-items: center;
+}
+.cl-hero__foto {
+  border-radius: 24px; width: 100%; object-fit: cover; aspect-ratio: 4/5;
+  object-position: 50% 30%;
+}
+@media (min-width: 900px) {
+  .cl-hero__interno { grid-template-columns: 1.1fr 0.9fr; padding: 64px 0; }
+  .cl-hero__foto { border-radius: 280px 280px 24px 24px; }
+}
+
+/* Grade de cards */
+.cl-grade { display: grid; gap: 18px; grid-template-columns: 1fr; }
+@media (min-width: 640px) { .cl-grade { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 900px) { .cl-grade--3 { grid-template-columns: 1fr 1fr 1fr; } }
+
+.cl-card {
+  background: #fff; border: 1px solid var(--cl-border);
+  border-radius: 18px; padding: 18px; box-shadow: var(--cl-shadow-md);
+}
+.cl-card h3 { margin: 0 0 6px; font-size: 18px; font-weight: 800; }
+.cl-card p { margin: 0; color: var(--cl-ink-dim); font-size: 14px; }
+
+/* Card de mídia (capa + texto) */
+.cl-card-midia { padding: 0; overflow: hidden; }
+.cl-card-midia img { width: 100%; aspect-ratio: 3/4; object-fit: cover; }
+.cl-card-midia__corpo { padding: 16px; }
+
+/* Vídeo do YouTube responsivo */
+.cl-video {
+  position: relative; aspect-ratio: 16/9; border-radius: 14px;
+  overflow: hidden; background: var(--cl-ink);
+}
+.cl-video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+
+/* Depoimentos */
+.cl-depo { background: #fff; border-radius: 18px; padding: 20px; box-shadow: var(--cl-shadow-md); }
+.cl-depo__autor { display: flex; align-items: center; gap: 12px; margin-top: 12px; }
+.cl-depo__autor img { width: 44px; height: 44px; border-radius: 999px; object-fit: cover; }
+
+/* Banner café (faixa "sexta 16h" / CTA) */
+.cl-faixa {
+  background: var(--cl-ink); color: var(--cl-bg);
+  border-radius: 24px; padding: 32px; text-align: center;
+}
+.cl-faixa h2 { color: var(--cl-bg); }
+.cl-faixa .cl-btn-yellow { margin-top: 12px; }
+
+/* Formulário */
+.cl-campo { display: block; margin-bottom: 16px; }
+.cl-campo span { display: block; font-weight: 700; font-size: 14px; margin-bottom: 6px; }
+.cl-campo input, .cl-campo textarea {
+  width: 100%; padding: 12px 14px; font: inherit;
+  border: 1.5px solid var(--cl-border); border-radius: 12px; background: #fff;
+}
+.cl-campo textarea { min-height: 130px; resize: vertical; }
+.cl-mel { position: absolute; left: -9999px; }  /* honeypot */
+.cl-aviso { padding: 14px 16px; border-radius: 12px; margin-bottom: 16px; }
+.cl-aviso--ok  { background: #e7f6e7; color: #1f6b1f; }
+.cl-aviso--erro { background: #fae3dd; color: var(--cl-accent); }
+
+/* Lista simples */
+.cl-lista { list-style: none; padding: 0; display: grid; gap: 12px; }
+.cl-lista a { font-weight: 700; }
