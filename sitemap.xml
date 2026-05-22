@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://contalele.com.br/</loc><priority>1.0</priority></url>
+  <url><loc>https://contalele.com.br/sobre</loc><priority>0.8</priority></url>
+  <url><loc>https://contalele.com.br/contacao</loc><priority>0.9</priority></url>
+  <url><loc>https://contalele.com.br/cordeis</loc><priority>0.7</priority></url>
+  <url><loc>https://contalele.com.br/livros</loc><priority>0.7</priority></url>
+  <url><loc>https://contalele.com.br/festivais</loc><priority>0.6</priority></url>
+  <url><loc>https://contalele.com.br/cursos</loc><priority>0.5</priority></url>
+  <url><loc>https://contalele.com.br/contato</loc><priority>0.7</priority></url>
+</urlset>
