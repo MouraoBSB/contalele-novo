@@ -1,0 +1,27 @@
+# Site Conta Lelê — arquivos fora do versionamento
+
+# ─── Credenciais e configuração local ───
+config.php
+deploy.config.php
+*.local.php
+
+# ─── Logs de erro ───
+logs/
+*.log
+
+# ─── Uploads do painel administrativo ───
+uploads/*
+!uploads/.gitkeep
+
+# ─── Assets de origem (mantidos em backup à parte) ───
+Identidade Visual/
+
+# ─── Sistema operacional ───
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ─── Editores ───
+.vscode/
+.idea/
+*.swp
