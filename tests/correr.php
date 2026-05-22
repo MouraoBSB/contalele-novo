@@ -8,6 +8,12 @@
 
 declare(strict_types=1);
 
+// Inicia a sessão antes de qualquer saída — funções que dependem de sessão
+// (ex.: CSRF) não emitem warning de "headers already sent" durante os testes.
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
+
 $GLOBALS['placar'] = ['ok' => 0, 'falhas' => 0];
 
 function afirmar(bool $condicao, string $descricao): void
