@@ -10,11 +10,12 @@ declare(strict_types=1);
 require_once CL_RAIZ . '/includes/conexao.php';
 require_once CL_RAIZ . '/includes/repositorio.php';
 require_once CL_RAIZ . '/includes/email.php';
+require_once CL_RAIZ . '/includes/girassol.php';
 
 $whats = configuracao('whatsapp', '5561991938603');
 $emailContato = configuracao('email_contato', 'contato@contalele.com.br');
 
-$aviso = null;        // ['tipo' => 'ok'|'erro', 'texto' => ...]
+$aviso = null;
 $valores = ['nome' => '', 'email' => '', 'telefone' => '', 'assunto' => '', 'mensagem' => ''];
 
 if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
@@ -23,7 +24,6 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
     if (!csrf_validar($_POST['csrf'] ?? null)) {
         $erros[] = 'Sessão expirada. Recarregue a página e tente de novo.';
     }
-    // Honeypot: campo invisível que só bots preenchem.
     if (!empty($_POST['site'] ?? '')) {
         $erros[] = 'Envio bloqueado.';
     }
@@ -49,8 +49,6 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
                 $_SERVER['REMOTE_ADDR'] ?? null,
             ]);
 
-            // Notificação por e-mail — best-effort: uma falha aqui NÃO derruba
-            // o envio, pois a mensagem já está salva no banco.
             $corpoEmail = "Nome: {$valores['nome']}\nE-mail: {$valores['email']}\n"
                 . "Telefone: {$valores['telefone']}\nAssunto: {$valores['assunto']}\n\n"
                 . $valores['mensagem'];
@@ -78,45 +76,81 @@ $seo['titulo']    = 'Contato — fale com a Lelê | Conta Lelê';
 $seo['descricao'] = 'Entre em contato com a Conta Lelê para apresentações, '
     . 'cordéis personalizados e oficinas. WhatsApp e formulário.';
 ?>
-<section class="cl-hero">
-  <div class="cl-conteudo" style="padding:48px 16px">
-    <p class="cl-eyebrow">Contato</p>
-    <h1 class="cl-secao__titulo">Vamos <span class="cl-em">conversar</span>?</h1>
-    <p style="max-width:680px;font-size:16px">Conte o que você imagina — a Lelê e a
-      equipe vão ouvir, pode acreditar.</p>
-  </div>
+
+<section class="cl-hero-simples">
+    <div class="cl-conteudo">
+        <p class="cl-eyebrow">Contato</p>
+        <h1>Vamos <span class="cl-em">conversar</span>?</h1>
+        <p>Conte o que você imagina — a Lelê e a equipe vão ouvir, pode acreditar.</p>
+    </div>
 </section>
 
-<section class="cl-secao">
-  <div class="cl-conteudo" style="max-width:680px">
-    <?php if ($aviso): ?>
-      <p class="cl-aviso cl-aviso--<?= e($aviso['tipo']) ?>"><?= e($aviso['texto']) ?></p>
-    <?php endif; ?>
+<section class="cl-secao" style="padding-top:32px">
+    <div class="cl-conteudo" style="max-width:760px">
+        <?php if ($aviso): ?>
+            <p class="cl-aviso cl-aviso--<?= e($aviso['tipo']) ?>"><?= e($aviso['texto']) ?></p>
+        <?php endif; ?>
 
-    <form method="post" action="/contato">
-      <input type="hidden" name="csrf" value="<?= e($token) ?>">
-      <label class="cl-mel">Não preencha este campo
-        <input type="text" name="site" tabindex="-1" autocomplete="off"></label>
+        <form class="cl-form" method="post" action="/contato" novalidate>
+            <span class="cl-form__girassol" aria-hidden="true">
+                <?php girassol(['tamanho' => 130, 'gira' => true]); ?>
+            </span>
 
-      <label class="cl-campo"><span>Nome</span>
-        <input type="text" name="nome" required value="<?= e($valores['nome']) ?>"></label>
-      <label class="cl-campo"><span>E-mail</span>
-        <input type="email" name="email" required value="<?= e($valores['email']) ?>"></label>
-      <label class="cl-campo"><span>Telefone (opcional)</span>
-        <input type="text" name="telefone" value="<?= e($valores['telefone']) ?>"></label>
-      <label class="cl-campo"><span>Assunto</span>
-        <input type="text" name="assunto" value="<?= e($valores['assunto']) ?>"></label>
-      <label class="cl-campo"><span>Mensagem</span>
-        <textarea name="mensagem" required><?= e($valores['mensagem']) ?></textarea></label>
+            <input type="hidden" name="csrf" value="<?= e($token) ?>">
+            <label class="cl-mel">Não preencha este campo
+                <input type="text" name="site" tabindex="-1" autocomplete="off"></label>
 
-      <button class="cl-btn cl-btn-primary" type="submit">Enviar mensagem</button>
-      <a class="cl-btn cl-btn-yellow" href="https://wa.me/<?= e($whats) ?>" target="_blank" rel="noopener">Falar no WhatsApp</a>
-    </form>
+            <div class="cl-form__grid">
+                <label class="cl-campo">
+                    <span>Nome</span>
+                    <input type="text" name="nome" required value="<?= e($valores['nome']) ?>"
+                           placeholder="Como podemos te chamar?" autocomplete="name">
+                </label>
+                <label class="cl-campo">
+                    <span>E-mail</span>
+                    <input type="email" name="email" required value="<?= e($valores['email']) ?>"
+                           placeholder="voce@exemplo.com" autocomplete="email">
+                </label>
+                <label class="cl-campo">
+                    <span>Telefone <small>(opcional)</small></span>
+                    <input type="text" name="telefone" value="<?= e($valores['telefone']) ?>"
+                           placeholder="(00) 00000-0000" autocomplete="tel">
+                </label>
+                <label class="cl-campo">
+                    <span>Assunto</span>
+                    <input type="text" name="assunto" value="<?= e($valores['assunto']) ?>"
+                           placeholder="Contação na escola, cordel, curso…">
+                </label>
+                <label class="cl-campo cl-campo--full">
+                    <span>Mensagem</span>
+                    <textarea name="mensagem" required
+                              placeholder="Conte um pouquinho do seu projeto, evento ou ideia."><?= e($valores['mensagem']) ?></textarea>
+                </label>
+            </div>
 
-    <p style="margin-top:32px;color:var(--cl-ink-dim)">
-      Planaltina-DF · <a href="mailto:<?= e($emailContato) ?>"><?= e($emailContato) ?></a><br>
-      <a href="<?= e(configuracao('instagram', '#')) ?>" target="_blank" rel="noopener">Instagram</a> ·
-      <a href="<?= e(configuracao('youtube', '#')) ?>" target="_blank" rel="noopener">YouTube</a>
-    </p>
-  </div>
+            <div class="cl-form__rodape">
+                <button class="cl-btn cl-btn-primary cl-btn-lg" type="submit">Enviar mensagem</button>
+                <a class="cl-btn cl-btn-yellow cl-btn-lg" href="https://wa.me/<?= e($whats) ?>"
+                   target="_blank" rel="noopener">Falar no WhatsApp</a>
+            </div>
+        </form>
+
+        <div class="cl-contato-info">
+            <div class="cl-contato-card">
+                <strong>WhatsApp</strong>
+                <a href="https://wa.me/<?= e($whats) ?>" target="_blank" rel="noopener">(61) 99193-8603</a>
+                <small style="color:var(--cl-ink-dim)">Resposta rápida em horário comercial</small>
+            </div>
+            <div class="cl-contato-card">
+                <strong>E-mail</strong>
+                <a href="mailto:<?= e($emailContato) ?>"><?= e($emailContato) ?></a>
+                <small style="color:var(--cl-ink-dim)">Para propostas e parcerias</small>
+            </div>
+            <div class="cl-contato-card">
+                <strong>Redes</strong>
+                <a href="<?= e(configuracao('instagram', 'https://www.instagram.com/contalele/')) ?>" target="_blank" rel="noopener">Instagram</a>
+                <a href="<?= e(configuracao('youtube', 'https://www.youtube.com/c/ContaLel%C3%AA')) ?>" target="_blank" rel="noopener">YouTube</a>
+            </div>
+        </div>
+    </div>
 </section>

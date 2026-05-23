@@ -15,17 +15,25 @@ $seo['titulo']    = 'Cursos — em breve | Conta Lelê';
 $seo['descricao'] = 'Cursos online da Lelê para professores e mediadores de '
     . 'leitura. Em breve. Avise-me quando abrir.';
 ?>
+
 <section class="cl-secao">
-  <div class="cl-conteudo">
-    <div class="cl-faixa">
-      <p class="cl-eyebrow" style="color:var(--cl-bg-3)">Novidade chegando</p>
-      <h1 class="cl-secao__titulo">Cursos da Lelê para
-        <span class="cl-em">professores</span></h1>
-      <p style="max-width:560px;margin:12px auto">Estamos preparando cursos online
-        para quem ensina, media leitura e quer encantar com histórias.
-        Quer ser avisado quando abrir?</p>
-      <a class="cl-btn cl-btn-yellow" href="https://wa.me/<?= e($whats) ?>?text=<?= rawurlencode('Oi! Quero saber dos cursos da Lelê.') ?>"
-         target="_blank" rel="noopener">Quero ser avisado</a>
+    <div class="cl-conteudo">
+        <div class="cl-faixa">
+            <div class="cl-faixa__interno">
+                <div>
+                    <p class="cl-eyebrow">Novidade chegando</p>
+                    <h1 class="cl-secao__titulo">Cursos da Lelê para
+                        <span class="cl-em">professores</span>.</h1>
+                    <p>Estamos preparando cursos online para quem ensina, media leitura e
+                        quer encantar com histórias. Quer ser avisado quando abrir?</p>
+                    <div class="cl-faixa__ctas">
+                        <a class="cl-btn cl-btn-yellow"
+                           href="https://wa.me/<?= e($whats) ?>?text=<?= rawurlencode('Oi! Quero saber dos cursos da Lelê.') ?>"
+                           target="_blank" rel="noopener">Quero ser avisado</a>
+                        <a class="cl-btn cl-btn-ghost" href="/contacao">Conhecer o trabalho</a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
 </section>

@@ -76,57 +76,6 @@ body {
   color: var(--cl-ink);
 }
 
-/* ── Helpers de tipografia ────────────────────────────────────── */
-.cl-display     { font-family: var(--cl-font-display); font-weight: 400; }
-.cl-eyebrow {
-  font-size: var(--cl-text-eyebrow);
-  font-weight: 800;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--cl-accent);
-}
-.cl-h1 {
-  font-size: var(--cl-text-h1-m);
-  font-weight: 900;
-  line-height: 1.05;
-  letter-spacing: -0.025em;
-}
-@media (min-width: 900px) {
-  .cl-h1 { font-size: var(--cl-text-h1-d); }
-}
-.cl-h1 em {
-  font-family: var(--cl-font-display);
-  font-style: normal;
-  font-weight: 400;
-  font-size: 1.15em;
-  color: var(--cl-accent);
-}
-
-/* ── Botões ───────────────────────────────────────────────────── */
-.cl-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 12px 20px;
-  border-radius: var(--cl-pill);
-  font-family: var(--cl-font-ui);
-  font-weight: 800;
-  font-size: 14px;
-  border: 1.5px solid transparent;
-  cursor: pointer;
-  transition: transform .12s, filter .12s;
-}
-.cl-btn:hover  { transform: translateY(-1px); filter: brightness(1.05); }
-.cl-btn:active { transform: translateY(0); }
-.cl-btn-primary { background: var(--cl-ink);   color: var(--cl-bg-3); }
-.cl-btn-yellow  { background: var(--cl-bg-3);  color: var(--cl-ink); border-color: var(--cl-ink); }
-.cl-btn-ghost   { background: transparent;     color: var(--cl-ink); border-color: var(--cl-ink); }
-
-/* ── Cards ────────────────────────────────────────────────────── */
-.cl-card {
-  background: var(--cl-surface);
-  border: 1px solid var(--cl-border);
-  border-radius: var(--cl-radius);
-  padding: var(--cl-space-4);
-  box-shadow: var(--cl-shadow-md);
-}
+/* As demais regras de componentes ficam em style.css —
+   este arquivo é só de tokens. */
+.cl-display { font-family: var(--cl-font-display); font-weight: 400; }
