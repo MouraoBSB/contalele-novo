@@ -93,6 +93,7 @@ $token = csrf_token();
             <input type="password" name="senha" required></label>
         <button class="adm-btn" type="submit">Entrar</button>
     </form>
+    <p style="margin-top:12px"><a href="/admin/recuperar-senha.php">Esqueci minha senha</a></p>
 </main>
 </body>
 </html>
