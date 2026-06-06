@@ -11,6 +11,9 @@ require_once CL_RAIZ . '/includes/conexao.php';
 require_once CL_RAIZ . '/includes/repositorio.php';
 require_once CL_RAIZ . '/includes/email.php';
 require_once CL_RAIZ . '/includes/girassol.php';
+require_once CL_RAIZ . '/includes/autenticacao_cursista.php';
+
+iniciar_sessao_site();
 
 $whats = configuracao('whatsapp', '5561991938603');
 $emailContato = configuracao('email_contato', 'contato@contalele.com.br');

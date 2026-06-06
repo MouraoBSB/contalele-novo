@@ -30,6 +30,9 @@ function seo_render(array $seo): void
     $url = $seo['url_base'] . $caminho;
     echo '<title>' . e($seo['titulo']) . '</title>' . "\n";
     echo '<meta name="description" content="' . e($seo['descricao']) . '">' . "\n";
+    if (!empty($seo['robots'])) {
+        echo '<meta name="robots" content="' . e($seo['robots']) . '">' . "\n";
+    }
     echo '<link rel="canonical" href="' . e($url) . '">' . "\n";
     echo '<meta property="og:type" content="website">' . "\n";
     echo '<meta property="og:title" content="' . e($seo['titulo']) . '">' . "\n";

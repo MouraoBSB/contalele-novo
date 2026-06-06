@@ -640,3 +640,12 @@ p { text-wrap: pretty; line-height: 1.55; }
 .cl-max-680 { max-width: 680px; }
 .cl-grid-2cols { display: grid; gap: 32px; grid-template-columns: 1fr; }
 @media (min-width: 820px) { .cl-grid-2cols { grid-template-columns: 1.05fr 0.95fr; } }
+
+.cl-conta-link {
+  font-weight: 800;
+  color: var(--cl-ink);
+  text-decoration: none;
+  padding: 8px 6px;
+  white-space: nowrap;
+}
+.cl-conta-link:hover { color: var(--cl-accent); }

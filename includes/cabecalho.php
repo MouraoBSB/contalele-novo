@@ -9,6 +9,8 @@
 declare(strict_types=1);
 
 require_once CL_RAIZ . '/includes/girassol.php';
+require_once CL_RAIZ . '/includes/autenticacao_cursista.php';
+$cursistaCab = cursista_logado();
 ?>
 <!doctype html>
 <html lang="pt-BR">
@@ -48,6 +50,11 @@ require_once CL_RAIZ . '/includes/girassol.php';
             <a href="/contato">Contato</a>
         </nav>
         <div class="cl-cabecalho__cta">
+            <?php if ($cursistaCab !== null): ?>
+                <a class="cl-btn cl-btn-ghost" href="/minha-conta">Minha conta</a>
+            <?php else: ?>
+                <a class="cl-conta-link" href="/entrar">Entrar</a>
+            <?php endif; ?>
             <a class="cl-btn cl-btn-primary" href="/cursos">Quero contar histórias</a>
             <button class="cl-menu-btn" type="button" aria-expanded="false" aria-label="Abrir menu" aria-controls="cl-nav-principal">
                 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">

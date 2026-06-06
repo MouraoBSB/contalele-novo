@@ -35,6 +35,17 @@ $rotas = [
     'festivais' => 'festivais',
     'cursos'    => 'cursos',
     'contato'   => 'contato',
+    // Contas de cursistas
+    'criar-conta'            => 'criar-conta',
+    'entrar'                 => 'entrar',
+    'sair'                   => 'sair',
+    'verificar-email'        => 'verificar-email',
+    'recuperar-senha'        => 'recuperar-senha',
+    'redefinir-senha'        => 'redefinir-senha',
+    'minha-conta'            => 'minha-conta',
+    'minha-conta/senha'      => 'conta-senha',
+    'entrar/google'          => 'google-iniciar',
+    'entrar/google/callback' => 'google-callback',
 ];
 
 $caminho = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?? '/';
