@@ -44,7 +44,8 @@
 
 **Novos (raiz / testes):**
 - `migrar.php` — migração idempotente do banco já instalado.
-- `tests/tokens-teste.php`, `tests/cursistas-teste.php`.
+- `includes/limites.php` — limite de ações por IP (anti-abuso, Task 16).
+- `tests/tokens-teste.php`, `tests/cursistas-teste.php`, `tests/limites-teste.php`.
 
 **Modificados:**
 - `sql/schema.sql`, `index.php`, `includes/cabecalho.php`, `includes/email.php`, `paginas/contato.php`,
@@ -2584,9 +2585,292 @@ git commit -m "Ajustes finais das contas de cursistas após UAT"
 
 ---
 
+## Task 16: Endurecimento anti-abuso (limite por IP + honeypot no login)
+
+Endurece os endpoints que enviam e-mail e os logins contra abuso (email-bombing e account-lockout DoS),
+com limite por IP em janela deslizante e honeypot nos formulários de login. Roda **depois** do núcleo.
+
+**Files:**
+- Create: `includes/limites.php`
+- Test: `tests/limites-teste.php`
+- Modify: `sql/schema.sql` (tabela `limites_acao`)
+- Modify: `migrar.php` (criar `limites_acao`)
+- Modify: `admin/diagnostico.php` (incluir `limites_acao` em `$esperadas`)
+- Modify: `paginas/criar-conta.php`, `paginas/recuperar-senha.php`, `paginas/entrar.php`
+- Modify: `admin/login.php`, `admin/recuperar-senha.php`
+
+- [ ] **Step 1: Tabela `limites_acao` no schema e na migração**
+
+Acrescente ao final de `sql/schema.sql`:
+
+```sql
+
+-- Limites de ação por IP (anti-abuso) — Fase 2
+CREATE TABLE IF NOT EXISTS limites_acao (
+    id        INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    acao      VARCHAR(40)  NOT NULL,
+    ip        VARCHAR(45)  NOT NULL,
+    criado_em DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (id),
+    KEY ix_limites_lookup (acao, ip, criado_em)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+```
+
+Em `migrar.php`, antes da seção de configurações (Step 2 da Task 1), acrescente:
+
+```php
+$pdo->exec(
+    "CREATE TABLE IF NOT EXISTS limites_acao (
+        id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+        acao VARCHAR(40) NOT NULL,
+        ip VARCHAR(45) NOT NULL,
+        criado_em DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        PRIMARY KEY (id),
+        KEY ix_limites_lookup (acao, ip, criado_em)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci"
+);
+echo '<p>Tabela limites_acao garantida.</p>';
+```
+
+Em `admin/diagnostico.php`, inclua `'limites_acao'` no array `$esperadas`.
+
+- [ ] **Step 2: Escrever o teste de `ip_requisicao()`**
+
+Crie `tests/limites-teste.php`:
+
+```php
+<?php
+declare(strict_types=1);
+
+require __DIR__ . '/../includes/limites.php';
+
+$_SERVER['REMOTE_ADDR'] = '203.0.113.7';
+afirmar_igual('203.0.113.7', ip_requisicao(), 'ip_requisicao() devolve o REMOTE_ADDR');
+
+unset($_SERVER['REMOTE_ADDR']);
+afirmar_igual('0.0.0.0', ip_requisicao(), 'ip_requisicao() usa o padrão sem REMOTE_ADDR');
+```
+
+- [ ] **Step 3: Rodar e ver falhar**
+
+Run: `php tests/correr.php`
+Expected: FALHA em `[limites-teste.php]` (arquivo/função inexistente).
+
+- [ ] **Step 4: Implementar `includes/limites.php`**
+
+Crie `includes/limites.php`:
+
+```php
+<?php
+/**
+ * Limites de ação por IP (anti-abuso) — contagem em janela deslizante.
+ *
+ * Thiago Mourão — https://github.com/MouraoBSB
+ */
+
+declare(strict_types=1);
+
+require_once __DIR__ . '/conexao.php';
+
+/** IP da requisição atual (com padrão seguro). */
+function ip_requisicao(): string
+{
+    return (string) ($_SERVER['REMOTE_ADDR'] ?? '0.0.0.0');
+}
+
+/** Registra uma ocorrência da ação para o IP. */
+function registrar_acao(string $acao, ?string $ip = null): void
+{
+    bd()->prepare('INSERT INTO limites_acao (acao, ip) VALUES (?, ?)')
+        ->execute([$acao, $ip ?? ip_requisicao()]);
+}
+
+/** True se o IP já atingiu $max ocorrências de $acao na janela de $janelaSegundos. */
+function acao_excedida(string $acao, int $max, int $janelaSegundos, ?string $ip = null): bool
+{
+    $janelaSegundos = (int) $janelaSegundos;
+    $st = bd()->prepare(
+        "SELECT COUNT(*) FROM limites_acao
+         WHERE acao = ? AND ip = ? AND criado_em > DATE_SUB(NOW(), INTERVAL {$janelaSegundos} SECOND)"
+    );
+    $st->execute([$acao, $ip ?? ip_requisicao()]);
+    return (int) $st->fetchColumn() >= $max;
+}
+
+/** Housekeeping: remove registros com mais de 1 dia. */
+function limpar_limites_antigos(): void
+{
+    bd()->query('DELETE FROM limites_acao WHERE criado_em < DATE_SUB(NOW(), INTERVAL 1 DAY)');
+}
+```
+
+- [ ] **Step 5: Rodar e ver passar**
+
+Run: `php tests/correr.php`
+Expected: `[limites-teste.php]` todas `ok`.
+
+- [ ] **Step 6: Aplicar limite por IP no cadastro (`paginas/criar-conta.php`)**
+
+Acrescente o require (junto aos demais requires do topo):
+
+```php
+require_once CL_RAIZ . '/includes/limites.php';
+```
+
+Troque:
+
+```php
+    if (!$erros) {
+        $base = rtrim($config['site']['url'], '/');
+        $existente = cursista_por_email($valores['email']);
+```
+
+por:
+
+```php
+    if (!$erros && acao_excedida('cadastro', 10, 3600)) {
+        $enviado = true; // limite de envios por IP atingido — resposta neutra (anti-enumeração)
+    } elseif (!$erros) {
+        registrar_acao('cadastro');
+        $base = rtrim($config['site']['url'], '/');
+        $existente = cursista_por_email($valores['email']);
+```
+
+- [ ] **Step 7: Aplicar limite por IP nas recuperações de senha**
+
+Em `paginas/recuperar-senha.php`, acrescente o require `includes/limites.php` no topo e troque:
+
+```php
+        if ($c && (int) $c['ativo'] === 1
+            && !token_recente('cursista', (int) $c['id'], 'recuperacao', 60)) {
+            $base = rtrim($config['site']['url'], '/');
+```
+
+por:
+
+```php
+        if ($c && (int) $c['ativo'] === 1
+            && !acao_excedida('recuperacao', 5, 3600)
+            && !token_recente('cursista', (int) $c['id'], 'recuperacao', 60)) {
+            registrar_acao('recuperacao');
+            $base = rtrim($config['site']['url'], '/');
+```
+
+Em `admin/recuperar-senha.php`, acrescente o require `includes/limites.php` no topo e troque:
+
+```php
+        if ($a && !token_recente('admin', (int) $a['id'], 'recuperacao', 60)) {
+            $base = rtrim($config['site']['url'], '/');
+```
+
+por:
+
+```php
+        if ($a && !acao_excedida('recuperacao_admin', 5, 3600)
+            && !token_recente('admin', (int) $a['id'], 'recuperacao', 60)) {
+            registrar_acao('recuperacao_admin');
+            $base = rtrim($config['site']['url'], '/');
+```
+
+- [ ] **Step 8: Honeypot + limite por IP no login do cursista (`paginas/entrar.php`)**
+
+Acrescente o require `includes/limites.php` no topo. Troque o início do bloco POST:
+
+```php
+if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
+    if (!csrf_validar($_POST['csrf'] ?? null)) {
+        $aviso = ['tipo' => 'erro', 'texto' => 'Sessão expirada. Recarregue a página.'];
+    } elseif (($_POST['reenviar'] ?? '') === '1') {
+```
+
+por:
+
+```php
+if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
+    if (!csrf_validar($_POST['csrf'] ?? null)) {
+        $aviso = ['tipo' => 'erro', 'texto' => 'Sessão expirada. Recarregue a página.'];
+    } elseif (!empty($_POST['site'])) {
+        $aviso = ['tipo' => 'erro', 'texto' => 'E-mail ou senha incorretos.'];
+    } elseif (acao_excedida('login', 20, 900)) {
+        $aviso = ['tipo' => 'erro', 'texto' => 'Muitas tentativas. Aguarde alguns minutos.'];
+    } elseif (($_POST['reenviar'] ?? '') === '1') {
+```
+
+E, dentro do ramo de autenticação (o `} else {` final que trata e-mail/senha), logo após a linha
+`$destino = destino_seguro($_POST['destino'] ?? null);`, acrescente:
+
+```php
+        registrar_acao('login');
+```
+
+No formulário de login (a `<form class="cl-form" ...>` principal), logo após o input hidden `csrf`,
+acrescente o honeypot:
+
+```php
+            <label class="cl-mel">Não preencha este campo
+                <input type="text" name="site" tabindex="-1" autocomplete="off"></label>
+```
+
+- [ ] **Step 9: Honeypot + limite por IP no login do admin (`admin/login.php`)**
+
+Acrescente o require `includes/limites.php` (junto aos demais requires do topo). Troque:
+
+```php
+if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
+    if (!csrf_validar($_POST['csrf'] ?? null)) {
+        $erro = 'Sessão expirada. Recarregue a página.';
+    } else {
+        $email = limpar_texto((string) ($_POST['email'] ?? ''));
+```
+
+por:
+
+```php
+if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
+    if (!csrf_validar($_POST['csrf'] ?? null)) {
+        $erro = 'Sessão expirada. Recarregue a página.';
+    } elseif (!empty($_POST['site'])) {
+        $erro = 'E-mail ou senha incorretos.';
+    } elseif (acao_excedida('login_admin', 20, 900)) {
+        $erro = 'Muitas tentativas. Aguarde alguns minutos.';
+    } else {
+        registrar_acao('login_admin');
+        $email = limpar_texto((string) ($_POST['email'] ?? ''));
+```
+
+No formulário de login do admin, logo após o input hidden `csrf`, acrescente o honeypot:
+
+```php
+        <label style="position:absolute;left:-9999px" aria-hidden="true">Não preencha
+            <input type="text" name="site" tabindex="-1" autocomplete="off"></label>
+```
+
+- [ ] **Step 10: Rodar testes, lint e commit**
+
+Run: `php tests/correr.php`
+Expected: `Total: N ok, 0 falha(s)`.
+
+Run: `php -l includes/limites.php && php -l paginas/criar-conta.php && php -l paginas/recuperar-senha.php && php -l paginas/entrar.php && php -l admin/login.php && php -l admin/recuperar-senha.php && php -l migrar.php`
+Expected: `No syntax errors detected` em todos.
+
+```bash
+git add includes/limites.php tests/limites-teste.php sql/schema.sql migrar.php admin/diagnostico.php paginas/criar-conta.php paginas/recuperar-senha.php paginas/entrar.php admin/login.php admin/recuperar-senha.php
+git commit -m "Adiciona endurecimento anti-abuso (limite por IP e honeypot no login)"
+```
+
+> **Nota de UAT adicional:** confirme que muitas tentativas de login do mesmo IP passam a ser barradas
+> com "Muitas tentativas"; que preencher o campo oculto `site` bloqueia o login; e que o limite de
+> envios por IP no cadastro/recuperação não impede o uso legítimo normal.
+
+> **Turnstile (opcional, fora desta task):** o Cloudflare já está na frente; se quiser proteção extra
+> contra automação, integrar o Cloudflare Turnstile aos formulários de cadastro/login é o próximo passo
+> natural, mas exige chaves e configuração próprias.
+
+---
+
 ## Auto-revisão (preenchida pelo autor do plano)
 
-**Cobertura do spec:** §1 modelo de dados → Task 1; §3 camadas → Tasks 2-5, 11; §5 rotas/páginas → Tasks 6-10, 12-14; §6 fluxos → Tasks 7-10, 12-14; §7 segurança (tokens só-hash, anti-enumeração, throttle 60s, honeypot, sessões, OAuth state, admin "só vincula") → Tasks 2, 7, 8, 9, 11-14; §8 cache → Task 6 (detecção sem cookie p/ anônimo) + Task 15 Step 3b (purge do Cloudflare); §9 identidade visual → Tasks 6-10 (classes `cl-*`, botão Google); §10 testes → Tasks 2, 4, 15; §11 pré-requisitos Google → Task 15 (UAT). Sem lacunas.
+**Cobertura do spec:** §1 modelo de dados → Task 1; §3 camadas → Tasks 2-5, 11; §5 rotas/páginas → Tasks 6-10, 12-14; §6 fluxos → Tasks 7-10, 12-14; §7 segurança (tokens só-hash, anti-enumeração, throttle 60s, honeypot, sessões, OAuth state, admin "só vincula") → Tasks 2, 7, 8, 9, 11-14; §8 cache → Task 6 (detecção sem cookie p/ anônimo) + Task 15 Step 3b (purge do Cloudflare); §9 identidade visual → Tasks 6-10 (classes `cl-*`, botão Google); §10 testes → Tasks 2, 4, 15, 16; §11 pré-requisitos Google → Task 15 (UAT); endurecimento anti-abuso (limite por IP + honeypot) → Task 16. Sem lacunas.
 
 **Limitação conhecida (do spec):** sessões já abertas em outros dispositivos não são encerradas à força na redefinição de senha. Mantida intencionalmente.
 
@@ -2599,10 +2883,10 @@ Corrigidos no plano: coluna `google_id` no `schema.sql` (Task 1 Step 1b); `desti
 barra invertida/controle (Task 5); try/catch de corrida no cadastro (Task 7); chamada oportunística de
 `limpar_tokens_expirados()` (Task 2); purge do Cloudflare (Task 15 Step 3b).
 
-## Endurecimento recomendado (decisão de escopo — pendente do usuário)
+## Endurecimento anti-abuso (aprovado — implementado na Task 16)
 
-Dois achados de segurança **reais** mas que **ampliam o escopo** além do combinado. Não são bugs do
-plano; são melhorias a decidir. Também valem para a página `/contato` existente (mesma postura atual).
+Dois achados de segurança reais (também presentes na página `/contato` atual). O usuário aprovou
+implementá-los nesta entrega — ver **Task 16**. Resumo do que foi endereçado:
 
 1. **Limite por IP no envio de e-mail (anti email-bombing).** `/criar-conta`, `/recuperar-senha` e o
    reenvio disparam e-mail para o endereço informado; o throttle de 60 s é por conta, não por IP/destino.
@@ -2614,5 +2898,5 @@ plano; são melhorias a decidir. Também valem para a página `/contato` existen
    login, um atacante que conheça o e-mail (cursista ou admin) pode bloquear a conta repetidamente.
    *Mitigação:* limite/backoff por IP além do bloqueio por conta, honeypot/captcha no login, log de IP.
 
-> Se aprovado, vira uma Task 16 ("Endurecimento anti-abuso") com tabela de limites por IP, honeypot no
-> login e (opcional) Turnstile. Caso contrário, fica registrado como dívida de segurança consciente.
+> Implementado na **Task 16**: tabela `limites_acao`, limite por IP em cadastro/recuperação/login e
+> honeypot nos formulários de login (cursista e admin). Turnstile fica como passo opcional futuro.
