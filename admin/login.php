@@ -16,6 +16,9 @@ require __DIR__ . '/incluir/sessao.php';
 ativar_tratamento_erros($config['site']['ambiente']);
 iniciar_sessao();
 
+require CL_RAIZ . '/includes/repositorio.php';
+$googleAtivo = configuracao('google_oauth_ativo', '0') === '1' && configuracao('google_client_id') !== '';
+
 // Já logado? Vai para o painel.
 if (usuario_logado() !== null) {
     header('Location: /admin/');
@@ -93,6 +96,11 @@ $token = csrf_token();
             <input type="password" name="senha" required></label>
         <button class="adm-btn" type="submit">Entrar</button>
     </form>
+    <?php if ($googleAtivo): ?>
+        <p style="margin:12px 0;text-align:center;color:var(--cl-ink-dim)">ou</p>
+        <a class="adm-btn" style="display:block;text-align:center;text-decoration:none"
+           href="/admin/google.php">Entrar com Google</a>
+    <?php endif; ?>
     <p style="margin-top:12px"><a href="/admin/recuperar-senha.php">Esqueci minha senha</a></p>
 </main>
 </body>

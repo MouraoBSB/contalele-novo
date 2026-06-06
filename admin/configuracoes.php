@@ -31,6 +31,9 @@ $campos = [
     'smtp_senha'     => ['SMTP — senha', 'password'],
     'smtp_remetente' => ['SMTP — e-mail remetente', 'email'],
     'smtp_seguranca' => ['SMTP — criptografia (tls, ssl ou nenhuma)', 'text'],
+    'google_client_id'     => ['Google — Client ID', 'text'],
+    'google_client_secret' => ['Google — Client Secret', 'password'],
+    'google_oauth_ativo'   => ['Google — ativo (1 = ligado, 0 = desligado)', 'text'],
 ];
 
 $aviso = null;
@@ -44,8 +47,9 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
              ON DUPLICATE KEY UPDATE valor = VALUES(valor)'
         );
         foreach (array_keys($campos) as $chave) {
-            // Campo de senha em branco: mantém o valor atual.
-            if ($chave === 'smtp_senha' && ($_POST[$chave] ?? '') === '') {
+            // Campo de segredo em branco: mantém o valor atual.
+            if (in_array($chave, ['smtp_senha', 'google_client_secret'], true)
+                && ($_POST[$chave] ?? '') === '') {
                 continue;
             }
             $st->execute([$chave, trim((string) ($_POST[$chave] ?? ''))]);
@@ -72,9 +76,9 @@ require __DIR__ . '/incluir/topo.php';
     <input type="hidden" name="csrf" value="<?= e($token) ?>">
     <?php foreach ($campos as $chave => [$rotulo, $tipo]): ?>
         <label class="adm-campo"><span><?= e($rotulo) ?></span>
-            <?php if ($chave === 'smtp_senha'): ?>
+            <?php if ($tipo === 'password'): ?>
                 <input type="password" name="<?= e($chave) ?>"
-                       placeholder="<?= $valores[$chave] !== '' ? 'Senha salva — preencha só para trocar' : '' ?>">
+                       placeholder="<?= ($valores[$chave] ?? '') !== '' ? 'Valor salvo — preencha só para trocar' : '' ?>">
             <?php else: ?>
                 <input type="<?= e($tipo) ?>" name="<?= e($chave) ?>"
                        value="<?= e($valores[$chave] ?? '') ?>">
