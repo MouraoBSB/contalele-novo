@@ -649,3 +649,21 @@ p { text-wrap: pretty; line-height: 1.55; }
   white-space: nowrap;
 }
 .cl-conta-link:hover { color: var(--cl-accent); }
+
+.cl-btn-google {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 13px 20px;
+  border-radius: 999px;
+  background: #fff;
+  color: #2b1300;
+  font-weight: 800;
+  font-size: 15px;
+  text-decoration: none;
+  border: 1.5px solid var(--cl-ink);
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.cl-btn-google:hover { transform: translateY(-1px); box-shadow: 0 8px 18px -12px rgba(43,19,0,0.35); }
