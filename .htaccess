@@ -14,7 +14,7 @@ RewriteRule ^ index.php [L]
 
 # Bloqueia arquivos sensíveis e ferramentas de instalação (defesa em profundidade —
 # instalar.php e seed-conteudo.php são de uso único; libere temporariamente se reinstalar).
-<FilesMatch "^(config\.php|config\.exemplo\.php|.*\.local\.php|instalar\.php|seed-conteudo\.php)$">
+<FilesMatch "^(config\.php|config\.exemplo\.php|.*\.local\.php|instalar\.php|migrar\.php|seed-conteudo\.php)$">
     Require all denied
 </FilesMatch>
 

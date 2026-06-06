@@ -62,6 +62,9 @@ $padroes = [
     ['smtp_senha',      '',                             'Senha SMTP'],
     ['smtp_remetente',  'contato@contalele.com.br',     'E-mail remetente'],
     ['smtp_seguranca',  'tls',                          'Criptografia SMTP (tls/ssl/nenhuma)'],
+    ['google_client_id',     '',  'Google OAuth — Client ID'],
+    ['google_client_secret', '',  'Google OAuth — Client Secret'],
+    ['google_oauth_ativo',   '0', 'Google OAuth — ativo (1/0)'],
 ];
 $ins = $pdo->prepare(
     'INSERT IGNORE INTO configuracoes (chave, valor, descricao) VALUES (?, ?, ?)'

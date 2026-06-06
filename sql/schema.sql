@@ -7,6 +7,7 @@ CREATE TABLE IF NOT EXISTS usuarios_admin (
     nome                 VARCHAR(120) NOT NULL,
     email                VARCHAR(160) NOT NULL,
     senha_hash           VARCHAR(255) NOT NULL,
+    google_id            VARCHAR(40)  NULL,
     precisa_trocar_senha TINYINT(1)   NOT NULL DEFAULT 1,
     tentativas_login     TINYINT UNSIGNED NOT NULL DEFAULT 0,
     bloqueado_ate        DATETIME     NULL,
@@ -14,7 +15,8 @@ CREATE TABLE IF NOT EXISTS usuarios_admin (
     ativo                TINYINT(1)   NOT NULL DEFAULT 1,
     criado_em            DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (id),
-    UNIQUE KEY uq_usuarios_admin_email (email)
+    UNIQUE KEY uq_usuarios_admin_email (email),
+    UNIQUE KEY uq_usuarios_admin_google (google_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS cordeis (
@@ -118,4 +120,39 @@ CREATE TABLE IF NOT EXISTS configuracoes (
     valor     TEXT         NULL,
     descricao VARCHAR(200) NULL,
     PRIMARY KEY (chave)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Cursistas (usuários comuns / alunos) — Fase 2
+CREATE TABLE IF NOT EXISTS usuarios_cursistas (
+    id                INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    nome              VARCHAR(120) NOT NULL,
+    email             VARCHAR(160) NOT NULL,
+    senha_hash        VARCHAR(255) NULL,
+    google_id         VARCHAR(40)  NULL,
+    email_verificado  TINYINT(1)   NOT NULL DEFAULT 0,
+    verificado_em     DATETIME     NULL,
+    tentativas_login  TINYINT UNSIGNED NOT NULL DEFAULT 0,
+    bloqueado_ate     DATETIME     NULL,
+    ultimo_acesso     DATETIME     NULL,
+    ativo             TINYINT(1)   NOT NULL DEFAULT 1,
+    criado_em         DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    atualizado_em     DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (id),
+    UNIQUE KEY uq_usuarios_cursistas_email (email),
+    UNIQUE KEY uq_usuarios_cursistas_google (google_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Tokens de uso único: verificação de e-mail e recuperação de senha (cursista e admin)
+CREATE TABLE IF NOT EXISTS tokens_autenticacao (
+    id          INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    escopo      ENUM('cursista','admin')           NOT NULL,
+    usuario_id  INT UNSIGNED                        NOT NULL,
+    finalidade  ENUM('verificacao','recuperacao')  NOT NULL,
+    token_hash  CHAR(64)     NOT NULL,
+    expira_em   DATETIME     NOT NULL,
+    usado_em    DATETIME     NULL,
+    criado_em   DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (id),
+    UNIQUE KEY uq_token_hash (token_hash),
+    KEY ix_token_lookup (escopo, usuario_id, finalidade)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
