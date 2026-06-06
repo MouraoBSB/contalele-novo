@@ -14,6 +14,7 @@ require CL_RAIZ . '/includes/conexao.php';
 require CL_RAIZ . '/includes/repositorio.php';
 require CL_RAIZ . '/includes/tokens.php';
 require CL_RAIZ . '/includes/email.php';
+require CL_RAIZ . '/includes/limites.php';
 require __DIR__ . '/incluir/sessao.php';
 
 ativar_tratamento_erros($config['site']['ambiente']);
@@ -30,7 +31,9 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
         $st = bd()->prepare('SELECT * FROM usuarios_admin WHERE email = ? AND ativo = 1 LIMIT 1');
         $st->execute([$email]);
         $a = $st->fetch();
-        if ($a && !token_recente('admin', (int) $a['id'], 'recuperacao', 60)) {
+        if ($a && !acao_excedida('recuperacao_admin', 5, 3600)
+            && !token_recente('admin', (int) $a['id'], 'recuperacao', 60)) {
+            registrar_acao('recuperacao_admin');
             $base = rtrim($config['site']['url'], '/');
             $tk = criar_token('admin', (int) $a['id'], 'recuperacao', TOKEN_TTL_RECUPERACAO);
             $url = "{$base}/admin/redefinir-senha.php?token=" . $tk;

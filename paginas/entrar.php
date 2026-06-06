@@ -11,6 +11,7 @@ require_once CL_RAIZ . '/includes/repositorio.php';
 require_once CL_RAIZ . '/includes/autenticacao_cursista.php';
 require_once CL_RAIZ . '/includes/tokens.php';
 require_once CL_RAIZ . '/includes/email.php';
+require_once CL_RAIZ . '/includes/limites.php';
 
 iniciar_sessao_site();
 
@@ -26,6 +27,10 @@ $naoVerificado = null; // guarda o cursista quando o login falha por falta de ve
 if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
     if (!csrf_validar($_POST['csrf'] ?? null)) {
         $aviso = ['tipo' => 'erro', 'texto' => 'Sessão expirada. Recarregue a página.'];
+    } elseif (!empty($_POST['site'])) {
+        $aviso = ['tipo' => 'erro', 'texto' => 'E-mail ou senha incorretos.'];
+    } elseif (acao_excedida('login', 20, 900)) {
+        $aviso = ['tipo' => 'erro', 'texto' => 'Muitas tentativas. Aguarde alguns minutos.'];
     } elseif (($_POST['reenviar'] ?? '') === '1') {
         // Reenvio do e-mail de verificação (botão da própria tela) — branch isolado.
         $c = cursista_por_email((string) ($_POST['email'] ?? ''));
@@ -47,6 +52,7 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
         $aviso = ['tipo' => 'ok', 'texto' => 'Se a conta existir e ainda não estiver confirmada, enviamos um novo link.'];
     } else {
         $destino = destino_seguro($_POST['destino'] ?? null);
+        registrar_acao('login');
         $email = limpar_texto((string) ($_POST['email'] ?? ''));
         $senha = (string) ($_POST['senha'] ?? '');
         $c = cursista_por_email($email);
@@ -102,6 +108,8 @@ $seo['robots'] = 'noindex, nofollow';
         <form class="cl-form" method="post" action="/entrar" novalidate>
             <input type="hidden" name="csrf" value="<?= e($token) ?>">
             <input type="hidden" name="destino" value="<?= e($destino) ?>">
+            <label class="cl-mel">Não preencha este campo
+                <input type="text" name="site" tabindex="-1" autocomplete="off"></label>
             <div class="cl-form__grid">
                 <label class="cl-campo cl-campo--full"><span>E-mail</span>
                     <input type="email" name="email" required autocomplete="email" autofocus></label>

@@ -42,8 +42,8 @@ try {
     $pdo = bd($config['db']);
     $checagens[] = ['Conexão com o banco', true, 'conectado'];
     $tabelas = $pdo->query('SHOW TABLES')->fetchAll(PDO::FETCH_COLUMN);
-    $esperadas = ['usuarios_admin', 'usuarios_cursistas', 'tokens_autenticacao', 'cordeis',
-        'ebooks', 'noticias', 'depoimentos', 'festivais', 'premios', 'mensagens_contato',
+    $esperadas = ['usuarios_admin', 'usuarios_cursistas', 'tokens_autenticacao', 'limites_acao',
+        'cordeis', 'ebooks', 'noticias', 'depoimentos', 'festivais', 'premios', 'mensagens_contato',
         'configuracoes'];
     $faltando = array_diff($esperadas, $tabelas);
     $checagens[] = ['Tabelas do banco', $faltando === [],

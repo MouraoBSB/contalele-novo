@@ -11,6 +11,7 @@ require_once CL_RAIZ . '/includes/repositorio.php';
 require_once CL_RAIZ . '/includes/autenticacao_cursista.php';
 require_once CL_RAIZ . '/includes/tokens.php';
 require_once CL_RAIZ . '/includes/email.php';
+require_once CL_RAIZ . '/includes/limites.php';
 
 iniciar_sessao_site();
 
@@ -24,7 +25,9 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
         $email = limpar_texto((string) ($_POST['email'] ?? ''));
         $c = $email !== '' ? cursista_por_email($email) : null;
         if ($c && (int) $c['ativo'] === 1
+            && !acao_excedida('recuperacao', 5, 3600)
             && !token_recente('cursista', (int) $c['id'], 'recuperacao', 60)) {
+            registrar_acao('recuperacao');
             $base = rtrim($config['site']['url'], '/');
             $tk = criar_token('cursista', (int) $c['id'], 'recuperacao', TOKEN_TTL_RECUPERACAO);
             $url = "{$base}/redefinir-senha?token=" . $tk;

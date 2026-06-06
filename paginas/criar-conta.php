@@ -11,6 +11,7 @@ require_once CL_RAIZ . '/includes/repositorio.php';
 require_once CL_RAIZ . '/includes/autenticacao_cursista.php';
 require_once CL_RAIZ . '/includes/tokens.php';
 require_once CL_RAIZ . '/includes/email.php';
+require_once CL_RAIZ . '/includes/limites.php';
 
 iniciar_sessao_site();
 if (cursista_logado() !== null) {
@@ -41,7 +42,10 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
     if (!senha_forte($senha))              { $erros[] = 'A senha precisa ter pelo menos 8 caracteres.'; }
     if ($senha !== $conf)                  { $erros[] = 'A confirmação não confere com a senha.'; }
 
-    if (!$erros) {
+    if (!$erros && acao_excedida('cadastro', 10, 3600)) {
+        $enviado = true; // limite de envios por IP atingido — resposta neutra (anti-enumeração)
+    } elseif (!$erros) {
+        registrar_acao('cadastro');
         $base = rtrim($config['site']['url'], '/');
         $existente = cursista_por_email($valores['email']);
         if ($existente !== null) {

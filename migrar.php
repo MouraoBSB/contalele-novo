@@ -84,7 +84,20 @@ if (!$temColuna) {
     echo '<p>Coluna google_id já existe em usuarios_admin.</p>';
 }
 
-// 3. Configurações do Google (idempotente via INSERT IGNORE).
+// 3. Tabela de limites de ação por IP (anti-abuso).
+$pdo->exec(
+    "CREATE TABLE IF NOT EXISTS limites_acao (
+        id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+        acao VARCHAR(40) NOT NULL,
+        ip VARCHAR(45) NOT NULL,
+        criado_em DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        PRIMARY KEY (id),
+        KEY ix_limites_lookup (acao, ip, criado_em)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci"
+);
+echo '<p>Tabela limites_acao garantida.</p>';
+
+// 4. Configurações do Google (idempotente via INSERT IGNORE).
 $ins = $pdo->prepare(
     'INSERT IGNORE INTO configuracoes (chave, valor, descricao) VALUES (?, ?, ?)'
 );

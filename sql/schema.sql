@@ -156,3 +156,13 @@ CREATE TABLE IF NOT EXISTS tokens_autenticacao (
     UNIQUE KEY uq_token_hash (token_hash),
     KEY ix_token_lookup (escopo, usuario_id, finalidade)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Limites de ação por IP (anti-abuso) — Fase 2
+CREATE TABLE IF NOT EXISTS limites_acao (
+    id        INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    acao      VARCHAR(40)  NOT NULL,
+    ip        VARCHAR(45)  NOT NULL,
+    criado_em DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (id),
+    KEY ix_limites_lookup (acao, ip, criado_em)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

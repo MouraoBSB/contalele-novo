@@ -11,6 +11,7 @@ $config = require CL_RAIZ . '/config.php';
 require CL_RAIZ . '/includes/erros.php';
 require CL_RAIZ . '/includes/funcoes.php';
 require CL_RAIZ . '/includes/conexao.php';
+require CL_RAIZ . '/includes/limites.php';
 require __DIR__ . '/incluir/sessao.php';
 
 ativar_tratamento_erros($config['site']['ambiente']);
@@ -31,7 +32,12 @@ const MAX_TENTATIVAS = 5;
 if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
     if (!csrf_validar($_POST['csrf'] ?? null)) {
         $erro = 'Sessão expirada. Recarregue a página.';
+    } elseif (!empty($_POST['site'])) {
+        $erro = 'E-mail ou senha incorretos.';
+    } elseif (acao_excedida('login_admin', 20, 900)) {
+        $erro = 'Muitas tentativas. Aguarde alguns minutos.';
     } else {
+        registrar_acao('login_admin');
         $email = limpar_texto((string) ($_POST['email'] ?? ''));
         $senha = (string) ($_POST['senha'] ?? '');
 
@@ -90,6 +96,8 @@ $token = csrf_token();
     <?php endif; ?>
     <form method="post" action="/admin/login.php" class="adm-cartao">
         <input type="hidden" name="csrf" value="<?= e($token) ?>">
+        <label style="position:absolute;left:-9999px" aria-hidden="true">Não preencha
+            <input type="text" name="site" tabindex="-1" autocomplete="off"></label>
         <label class="adm-campo"><span>E-mail</span>
             <input type="email" name="email" required autofocus></label>
         <label class="adm-campo"><span>Senha</span>
