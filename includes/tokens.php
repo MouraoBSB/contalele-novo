@@ -37,11 +37,12 @@ function criar_token(string $escopo, int $usuarioId, string $finalidade, int $tt
         limpar_tokens_expirados();
     }
     $tokenCru = gerar_token_cru();
-    $expira = date('Y-m-d H:i:s', time() + $ttlSegundos);
+    // Usa o relógio do banco (NOW()) também para a expiração, evitando divergência de fuso PHP×MySQL.
+    $ttlSegundos = (int) $ttlSegundos;
     bd()->prepare(
-        'INSERT INTO tokens_autenticacao (escopo, usuario_id, finalidade, token_hash, expira_em)
-         VALUES (?, ?, ?, ?, ?)'
-    )->execute([$escopo, $usuarioId, $finalidade, hash_token($tokenCru), $expira]);
+        "INSERT INTO tokens_autenticacao (escopo, usuario_id, finalidade, token_hash, expira_em)
+         VALUES (?, ?, ?, ?, DATE_ADD(NOW(), INTERVAL {$ttlSegundos} SECOND))"
+    )->execute([$escopo, $usuarioId, $finalidade, hash_token($tokenCru)]);
     return $tokenCru;
 }
 

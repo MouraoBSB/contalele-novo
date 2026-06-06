@@ -18,6 +18,10 @@ function ip_requisicao(): string
 /** Registra uma ocorrência da ação para o IP. */
 function registrar_acao(string $acao, ?string $ip = null): void
 {
+    // Housekeeping oportunístico: ~1% dos registros limpam ocorrências antigas.
+    if (random_int(1, 100) === 1) {
+        limpar_limites_antigos();
+    }
     bd()->prepare('INSERT INTO limites_acao (acao, ip) VALUES (?, ?)')
         ->execute([$acao, $ip ?? ip_requisicao()]);
 }
