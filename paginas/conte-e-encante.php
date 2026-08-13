@@ -682,6 +682,13 @@ function lp_check(): string
                     dentro da contação de histórias, sempre com a história como protagonista.</p>
                 <p class="lp-bonus__frase">A música não precisa ser protagonista. Ela caminha ao
                     lado da história para ampliar a participação, a emoção e o encantamento.</p>
+                <figure class="lp-bonus__foto">
+                    <img class="lp-foto lp-foto--3x2" loading="lazy"
+                         src="/assets/img/curso/curso-bonus-musica.jpg" width="760" height="507"
+                         alt="Lelê com almofadas coloridas e Klayton Santos com o violão">
+                    <figcaption>Lelê e <strong>Klayton Santos</strong>, que assina a criação
+                        musical do bônus.</figcaption>
+                </figure>
             </div>
             <div class="lp-bonus__corpo">
                 <p class="lp-bonus__rotulo">São 6 aulas</p>
@@ -695,7 +702,7 @@ function lp_check(): string
                         que as crianças já conhecem, adaptar letras e &ldquo;pescar&rdquo; novamente
                         a atenção da turma.</li>
                     <li><b>Criando músicas para histórias</b> — começa com A Lagarta Comilona e
-                        mostra, com o tio Kleyton, que uma composição pode nascer de uma frase, de
+                        mostra, com o tio Klayton, que uma composição pode nascer de uma frase, de
                         versos, rimas e repetições da própria narrativa.</li>
                     <li><b>Música sem complicação</b> — mostra que não é preciso tocar violão, ler
                         partitura ou ser profissional. A própria voz, um cantarolar, instrumentos

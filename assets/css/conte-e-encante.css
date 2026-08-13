@@ -273,6 +273,10 @@
   font-weight:800;margin:0}
 .lp-bonus__rotulo{font-size:11px;font-weight:800;letter-spacing:.16em;
   text-transform:uppercase;color:var(--accent);margin:0 0 14px}
+.lp-bonus__foto{margin:20px 0 0}
+.lp-bonus__foto figcaption{margin-top:10px;font-size:13.5px;line-height:1.5;
+  color:var(--ink-dim)}
+.lp-bonus__foto figcaption strong{color:var(--ink)}
 .lp-bonus__fecho{margin:24px 0 0;padding-top:20px;font-weight:800;
   border-top:1px solid var(--borda)}
 .lp-aulas{margin:0;padding:0 0 0 22px;display:grid;gap:12px}
