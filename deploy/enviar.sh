@@ -12,7 +12,7 @@ cd "$DIR_PLANO"
 source deploy/credenciais.env
 
 # Arquivos/pastas que NÃO vão para o servidor.
-EXCLUIR_REGEX='^(\.git|docs|tests|deploy|Identidade Visual|Instruções Site antigo|config\.exemplo\.php|brand-tokens\.css|tokens\.json|CLAUDE\.md|\.gitignore|(instalar|seed-conteudo)\.php)'
+EXCLUIR_REGEX='^(\.git|docs|tests|deploy|Identidade Visual|Instruções Site antigo|handoff-conte-e-encante|config\.exemplo\.php|brand-tokens\.css|tokens\.json|CLAUDE\.md|\.gitignore|(instalar|seed-conteudo)\.php)'
 
 enviar_arquivo() {
     local arquivo="$1"

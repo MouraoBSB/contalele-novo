@@ -1,0 +1,408 @@
+/* ──────────────────────────────────────────────────────────────
+   Conte&Encante — página de vendas
+   Thiago Mourão — https://github.com/MouraoBSB — 12/08/2026
+
+   Carregada só na rota /conte-e-encante. Prefixo lp- (landing page)
+   para não colidir com o cl- do restante do site.
+   Os valores vêm de brand-tokens.css: aqui só apelidamos.
+   ────────────────────────────────────────────────────────────── */
+
+.cl-landing{
+  --bg:        var(--cl-bg);
+  --bg-2:      var(--cl-bg-2);
+  --bg-3:      var(--cl-bg-3);
+  --ink:       var(--cl-ink);
+  --ink-dim:   var(--cl-ink-dim);
+  --accent:    var(--cl-accent);
+  --surface:   var(--cl-surface);
+  --borda:     var(--cl-border);
+  --sombra:    var(--cl-shadow-md);
+  --sombra-g:  var(--cl-shadow-lg);
+  --display:   var(--cl-font-display);
+  --ui:        var(--cl-font-ui);
+  --script:    'Pacifico', cursive;
+}
+
+/* ── Base ─────────────────────────────────────────────────────── */
+.cl-landing{margin:0;padding:0;max-width:100%;overflow-x:hidden;
+  background:var(--bg);color:var(--ink);font-family:var(--ui);
+  font-size:15px;line-height:1.62;-webkit-font-smoothing:antialiased}
+.cl-landing *{box-sizing:border-box}
+/* height:auto é obrigatório em toda imagem: sem ele o atributo height do <img>
+   continua valendo enquanto a largura encolhe, e a foto estica. */
+.cl-landing img{max-width:100%;height:auto;display:block}
+.cl-landing h1,.cl-landing h2,.cl-landing h3{
+  font-weight:900;line-height:1.05;letter-spacing:-.025em;margin:0;text-wrap:balance}
+.cl-landing h1{font-size:32px}
+.cl-landing h2{font-size:22px}
+.cl-landing h3{font-size:18px}
+.cl-landing p{margin:0 0 16px;text-wrap:pretty}
+.cl-landing h1 em,.cl-landing h2 em,.cl-landing h3 em,.lp-fk{
+  font-family:var(--display);font-style:normal;font-weight:400;
+  font-size:1.15em;color:var(--accent);letter-spacing:0}
+.cl-landing a{color:var(--accent)}
+.cl-landing a:hover{color:var(--ink)}
+.cl-landing :focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:4px}
+.cl-skip{position:absolute;left:-9999px;background:var(--ink);color:var(--bg-3);
+  padding:10px 16px;border-radius:999px;z-index:99;font-weight:800}
+.cl-skip:focus{left:16px;top:16px}
+
+/* ── Estrutura ────────────────────────────────────────────────── */
+.lp-largura{max-width:1180px;margin:0 auto;padding:0 18px;position:relative}
+.lp-estreito{max-width:720px;margin-left:auto;margin-right:auto}
+.lp-secao{padding:64px 0;position:relative;overflow:hidden}
+.lp-branco{background:var(--surface)}
+.lp-creme{background:var(--bg)}
+.lp-cafe{background:var(--ink);color:var(--bg);padding:88px 0}
+.lp-cafe h2,.lp-cafe h3{color:var(--bg)}
+.lp-amarelo{background:var(--bg-3)}
+.lp-amarelo-2{background:var(--bg-2)}
+.lp-olho{font-size:11px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--accent);margin:0 0 14px}
+.lp-cafe .lp-olho{color:var(--bg-3)}
+.lp-lead{font-size:17px}
+.lp-dim{color:var(--ink-dim)}
+.lp-cafe .lp-dim{color:rgba(253,245,212,.72)}
+
+/* ── Botões ───────────────────────────────────────────────────── */
+.lp-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:16px 30px;border-radius:999px;font-family:var(--ui);font-weight:800;
+  font-size:15px;line-height:1.2;letter-spacing:.01em;border:1.5px solid transparent;
+  cursor:pointer;text-decoration:none;min-height:52px;text-align:center;
+  transition:transform .12s ease,box-shadow .12s ease}
+.lp-btn:hover{transform:translateY(-2px);box-shadow:0 8px 18px -10px rgba(43,19,0,.35)}
+.lp-btn--primario{background:var(--ink);color:var(--bg-3)}
+.lp-btn--primario:hover{color:var(--bg-3)}
+.lp-btn--amarelo{background:var(--bg-3);color:var(--ink);border-color:var(--ink)}
+.lp-btn--amarelo:hover{color:var(--ink)}
+.lp-btn--sm{padding:11px 20px;font-size:13px;min-height:44px}
+.lp-cta-centro{display:flex;justify-content:center;margin-top:32px}
+
+/* ── Topo e barra fixa ────────────────────────────────────────── */
+.lp-topo{padding:14px 0;position:relative;z-index:5;background:var(--bg-3)}
+.lp-topo__interno{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.lp-topo__logo img{height:44px;width:auto}
+.lp-barra{position:fixed;left:0;right:0;top:0;z-index:60;background:var(--bg);
+  border-bottom:1px solid var(--borda);box-shadow:0 6px 20px -18px rgba(43,19,0,.6);
+  transform:translateY(-100%);transition:transform .22s ease;padding:10px 0}
+.lp-barra[hidden]{display:block}
+.lp-barra__interno{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.lp-barra--on{transform:translateY(0)}
+.lp-barra__nome{font-family:var(--script);font-size:20px;color:var(--ink);line-height:1}
+.lp-barra__nome em{font-style:normal;color:var(--accent)}
+@media (max-width:619px){
+  .lp-barra{top:auto;bottom:0;border-bottom:0;border-top:1px solid var(--borda);
+    transform:translateY(110%);padding:10px 0 calc(10px + env(safe-area-inset-bottom))}
+  .lp-barra__nome{display:none}
+  .lp-barra .lp-btn{width:100%}
+  .lp-barra__interno{padding:0 14px}
+}
+
+/* ── Girassol e entrada ───────────────────────────────────────── */
+.cl-girassol{display:block;color:inherit}
+.lp-deco{position:absolute;pointer-events:none;z-index:0}
+.lp-gira{animation:lp-girar 28s linear infinite}
+@keyframes lp-girar{to{transform:rotate(360deg)}}
+.lp-rv{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease}
+.lp-rv--on{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){
+  .cl-landing *,.cl-landing *::before,.cl-landing *::after{
+    animation-duration:.001ms !important;animation-iteration-count:1 !important;
+    transition-duration:.001ms !important;scroll-behavior:auto !important}
+  .lp-rv{opacity:1;transform:none}
+}
+
+/* ── Fotos ────────────────────────────────────────────────────── */
+/* height:auto é obrigatório: sem ele o atributo height do <img> vence o
+   aspect-ratio e as tiras saem desalinhadas. */
+.lp-foto{width:100%;height:auto;border-radius:18px;object-fit:cover;object-position:50% 30%}
+.lp-foto--2x3{aspect-ratio:2/3}
+.lp-foto--3x2{aspect-ratio:3/2}
+.lp-foto--1x1{aspect-ratio:1/1}
+/* Funde o branco do estúdio no creme sem editar o arquivo. */
+.lp-foto--recorte{mix-blend-mode:multiply}
+
+/* ── Pendências ───────────────────────────────────────────────── */
+.lp-pendente{display:inline-block;padding:3px 10px;border-radius:8px;background:var(--accent);
+  color:var(--bg);font-size:11px;font-weight:800;letter-spacing:.08em;
+  text-transform:uppercase;vertical-align:middle}
+
+/* ── Hero ─────────────────────────────────────────────────────── */
+.lp-hero{background:var(--bg-3);padding-top:32px}
+.lp-hero .lp-deco{right:-70px;bottom:-70px;opacity:.24}
+.lp-hero__grade{display:grid;gap:32px;position:relative;z-index:1}
+.lp-chips{display:flex;flex-wrap:wrap;gap:8px;margin:24px 0 0;padding:0;list-style:none}
+.lp-chips li{background:var(--bg);border:1px solid rgba(43,19,0,.35);border-radius:999px;
+  padding:8px 16px;font-size:13px;font-weight:700}
+.lp-hero__foto{border-radius:24px;overflow:hidden}
+.lp-hero__foto img{border-radius:24px}
+
+/* ── Mural de dúvidas ─────────────────────────────────────────── */
+.lp-mural{columns:1;column-gap:16px;margin-top:32px}
+.lp-balao{background:var(--bg);border-radius:18px;padding:20px 22px;margin:0 0 16px;
+  break-inside:avoid;box-shadow:var(--sombra)}
+.lp-balao__aspas{font-family:var(--display);color:var(--accent);font-size:34px;
+  line-height:.7;display:block;margin-bottom:8px}
+.lp-balao p{font-style:italic;font-weight:700;margin:0}
+.lp-tira3{display:grid;gap:12px;margin-top:24px}
+
+/* ── Listas ───────────────────────────────────────────────────── */
+.lp-tracos{list-style:none;padding:0;margin:24px 0 0}
+.lp-tracos li{position:relative;padding-left:26px;margin-bottom:16px;break-inside:avoid}
+.lp-tracos li::before{content:"—";position:absolute;left:0;top:0;color:var(--accent);font-weight:900}
+.lp-destaque{background:var(--surface);border-radius:22px;border-left:4px solid var(--accent);
+  padding:20px 22px;margin:24px 0;font-weight:800;font-size:17px}
+.lp-checks{list-style:none;padding:0;margin:24px 0 0}
+.lp-checks li{display:flex;gap:12px;align-items:flex-start;margin-bottom:14px;break-inside:avoid}
+.lp-ck{flex:0 0 26px;width:26px;height:26px;border-radius:999px;background:var(--bg-3);
+  display:grid;place-items:center;margin-top:2px}
+.lp-ck svg{width:16px;height:16px}
+
+/* ── Nuvem de chips ───────────────────────────────────────────── */
+.lp-nuvem{display:flex;flex-wrap:wrap;gap:8px;margin:32px 0 0;padding:0;list-style:none}
+.lp-nuvem li{background:var(--bg-2);color:var(--ink);border-radius:999px;padding:9px 18px;
+  font-size:14px;font-weight:800}
+.lp-fecho{max-width:720px;margin:32px auto 0;text-align:center;font-size:19px;font-weight:800}
+/* Depois de um título o texto precisa de mais ar: o line-height apertado dos
+   títulos come parte da margem. */
+.cl-landing h2 + .lp-fecho{margin-top:40px}
+
+/* ── Capa do curso ────────────────────────────────────────────── */
+.lp-capa{border-radius:24px;overflow:hidden;box-shadow:var(--sombra-g)}
+.lp-capa img{width:100%;height:auto;border-radius:24px}
+
+/* ── Cards de tom ─────────────────────────────────────────────── */
+.lp-grade{display:grid;gap:16px;margin-top:32px}
+.lp-card-tom{position:relative;overflow:hidden;border-radius:22px;padding:24px;
+  font-weight:700;font-size:15px;min-height:150px}
+.lp-card-tom .lp-deco{right:-22px;bottom:-22px;opacity:.55}
+.lp-card-tom p{position:relative;z-index:1;margin:0}
+.lp-card-tom__num{font-family:var(--display);font-size:22px;display:block;
+  margin-bottom:8px;opacity:.75}
+.lp-tom-amarelo{background:var(--bg-3);color:var(--ink)}
+.lp-tom-laranja{background:var(--accent);color:var(--bg)}
+.lp-tom-cafe{background:var(--ink);color:var(--bg)}
+.lp-tom-creme{background:var(--bg-2);color:var(--ink)}
+
+/* ── Método ───────────────────────────────────────────────────── */
+.lp-visar{position:relative;text-align:center;margin:40px 0 24px;padding:32px 0}
+.lp-visar .lp-deco{left:50%;top:50%;transform:translate(-50%,-50%);opacity:.16}
+.lp-visar strong{position:relative;z-index:1;font-family:var(--display);font-weight:400;
+  font-size:38px;letter-spacing:.01em;color:var(--ink);display:block}
+.lp-painel{background:var(--bg-2);border-radius:24px;padding:24px;margin-top:32px;
+  font-size:17px;font-weight:800}
+
+/* ── VIPE ─────────────────────────────────────────────────────── */
+.lp-vipe{padding:88px 0}
+.lp-vipe__grade{display:grid;gap:16px;margin-top:32px;align-items:stretch}
+.lp-card-vipe{background:var(--surface);border:1px solid var(--borda);border-radius:24px;
+  padding:24px;box-shadow:var(--sombra);display:flex;flex-direction:column;gap:16px}
+.lp-card-vipe__letra{font-family:var(--display);font-size:56px;line-height:.9;color:var(--accent)}
+.lp-card-vipe h3{font-size:20px}
+.lp-card-vipe p{margin:0;font-size:15px}
+.lp-card-vipe--cafe{background:var(--ink);color:var(--bg);border-color:transparent;
+  overflow:hidden;padding:0}
+.lp-card-vipe--cafe .lp-vipe__txt{padding:24px;display:flex;flex-direction:column;gap:12px}
+.lp-card-vipe--cafe .lp-card-vipe__letra{color:var(--bg-3)}
+.lp-card-vipe--cafe h3{color:var(--bg)}
+/* A foto ocupa a sobra da altura da linha: assim o card café acompanha os
+   vizinhos em vez de esticar a grade. */
+.lp-card-vipe--cafe img{border-radius:0;flex:1 1 auto;aspect-ratio:auto;
+  min-height:240px;object-position:50% 35%}
+.lp-remate{background:var(--ink);color:var(--bg);border-radius:24px;padding:48px 24px;
+  margin-top:32px;text-align:center}
+.lp-remate p{font-size:32px;font-weight:900;line-height:1.1;letter-spacing:-.025em;margin:0}
+.lp-remate .lp-fk{font-family:var(--display);font-weight:400;color:var(--bg-3);font-size:1.15em}
+/* Seletor duplo de propósito: `.lp-remate p` acima zera a margem e venceria. */
+.lp-remate p.lp-remate__quatro{margin-top:24px;font-family:var(--display);font-weight:400;
+  color:var(--bg-3);font-size:17px;letter-spacing:.02em}
+
+/* ── Recursos ─────────────────────────────────────────────────── */
+.lp-escada{margin:48px 0;text-align:center;display:grid;gap:24px}
+.lp-escada span{font-family:var(--display);font-weight:400;color:var(--accent);
+  font-size:24px;line-height:1.2}
+.lp-tira4{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:32px 0}
+
+/* ── Litania ──────────────────────────────────────────────────── */
+.lp-litania{display:grid;gap:32px;margin:32px 0}
+.lp-litania__perg{font-size:22px;font-weight:900;line-height:1.15;
+  letter-spacing:-.025em;margin:0 0 8px}
+.lp-litania__refrao{font-family:var(--display);font-weight:400;color:var(--bg-3);
+  font-size:20px;margin:0}
+.lp-escada-cafe{display:grid;gap:8px;margin:40px 0 0;font-size:19px;font-weight:800}
+
+/* ── Lelê ─────────────────────────────────────────────────────── */
+.lp-selo{position:absolute;width:118px;height:118px;border-radius:999px;background:var(--bg-3);
+  color:var(--ink);display:grid;place-items:center;text-align:center;font-family:var(--display);
+  font-weight:400;font-size:15px;line-height:1.15;padding:14px;box-shadow:var(--sombra-g);
+  right:-10px;bottom:-24px;z-index:2}
+.lp-h-fredoka{font-family:var(--display);font-weight:400;letter-spacing:-.01em;
+  font-size:30px;line-height:1.1}
+
+/* ── Depoimentos ──────────────────────────────────────────────── */
+.lp-dep-grade{display:grid;gap:16px;margin-top:24px;align-items:start}
+.lp-card-dep{background:var(--surface);border:1px solid var(--borda);border-radius:22px;
+  padding:22px;box-shadow:var(--sombra)}
+.lp-card-dep__aspas{font-family:var(--display);color:var(--accent);font-size:34px;
+  line-height:.7;display:block;margin-bottom:12px}
+.lp-dep-pessoa{display:flex;align-items:center;gap:12px;margin-top:18px}
+.lp-dep-pessoa img.lp-avatar{width:46px;height:46px;border-radius:999px;object-fit:cover;
+  border:2px solid var(--bg-3);flex:0 0 46px}
+.lp-avatar{width:46px;height:46px;border-radius:999px;background:var(--bg-2);
+  border:2px solid var(--bg-3);flex:0 0 46px}
+.lp-nota{background:var(--bg-2);border-radius:22px;padding:20px 22px;margin-top:24px;font-weight:700}
+
+/* ── O que recebe ─────────────────────────────────────────────── */
+.lp-recebe{display:grid;gap:16px;margin-top:32px;padding:0;list-style:none}
+.lp-recebe li{display:flex;gap:12px;align-items:flex-start;background:var(--surface);
+  border:1px solid var(--borda);border-radius:18px;padding:18px}
+.lp-recebe b{display:block;font-weight:800;margin-bottom:2px}
+.lp-recebe .lp-dim{display:block;font-size:14px;line-height:1.5}
+
+/* ── Bônus ────────────────────────────────────────────────────── */
+.lp-bonus{background:var(--bg);border:1px solid var(--borda);border-radius:24px;
+  padding:28px 24px;margin-top:24px;display:grid;gap:24px;box-shadow:var(--sombra)}
+.lp-bonus__num{display:inline-block;background:var(--accent);color:var(--bg);
+  border-radius:999px;padding:5px 14px;font-size:11px;font-weight:800;
+  letter-spacing:.14em;text-transform:uppercase;margin-bottom:14px}
+.lp-bonus__nome{font-family:var(--display);font-weight:400;font-size:32px;line-height:1.06;
+  letter-spacing:-.015em;margin:0 0 6px}
+.lp-bonus__nome em{font-style:normal;color:var(--accent)}
+.lp-bonus__sub{font-weight:800;font-size:17px;margin:0 0 16px}
+.lp-bonus__frase{background:var(--bg-2);border-radius:18px;padding:16px 18px;
+  font-weight:800;margin:0}
+.lp-bonus__rotulo{font-size:11px;font-weight:800;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--accent);margin:0 0 14px}
+.lp-bonus__fecho{margin:24px 0 0;padding-top:20px;font-weight:800;
+  border-top:1px solid var(--borda)}
+.lp-aulas{margin:0;padding:0 0 0 22px;display:grid;gap:12px}
+.lp-aulas li{padding-left:4px}
+.lp-aulas li::marker{color:var(--accent);font-weight:900}
+.lp-bonus .lp-checks{margin-top:0}
+@media (min-width:900px){
+  .lp-bonus{grid-template-columns:.85fr 1.15fr;gap:40px;padding:36px 32px;align-items:start}
+  .lp-bonus__nome{font-size:42px}
+}
+
+/* ── Preço ────────────────────────────────────────────────────── */
+.lp-preco-secao .lp-deco.lp-esq{left:-90px;top:40px;opacity:.22}
+.lp-preco-secao .lp-deco.lp-dir{right:-90px;bottom:20px;opacity:.22}
+.lp-cartao-preco{background:var(--surface);border-radius:24px;box-shadow:var(--sombra-g);
+  max-width:560px;margin:32px auto 0;padding:32px 24px;text-align:center;position:relative;z-index:1}
+.lp-cartao-preco__rotulo{font-weight:800;font-size:15px;margin:0}
+.lp-preco{font-family:var(--display);font-weight:400;font-size:56px;line-height:1;
+  color:var(--ink);margin:8px 0;letter-spacing:-.01em}
+.lp-cartao-preco .lp-btn{width:100%;margin-top:16px}
+.lp-garantia{background:var(--bg);border-radius:24px;max-width:720px;margin:24px auto 0;
+  padding:32px 24px;display:grid;gap:16px;justify-items:center;text-align:center;
+  position:relative;z-index:1}
+.lp-selo-garantia{width:110px;height:110px;border-radius:999px;background:var(--bg-3);
+  border:1.5px solid var(--ink);display:grid;place-items:center;text-align:center;
+  font-family:var(--display);font-weight:400;font-size:15px;line-height:1.15;padding:12px}
+.lp-garantia__titulo{font-size:22px;max-width:520px}
+.lp-garantia__texto{max-width:600px}
+.lp-garantia__texto p:last-child{margin-bottom:0}
+.lp-garantia__risco{font-weight:900;font-size:19px;line-height:1.3;max-width:520px;
+  margin:0;padding-top:8px;letter-spacing:-.015em}
+@media (min-width:900px){
+  .lp-garantia{padding:40px 32px}
+  .lp-garantia__titulo{font-size:30px}
+  .lp-garantia__risco{font-size:24px}
+}
+
+/* ── FAQ ──────────────────────────────────────────────────────── */
+.lp-faq{max-width:820px;margin:24px auto 0}
+.lp-faq__item{border-bottom:1px solid var(--borda)}
+.lp-faq__btn{width:100%;background:none;border:0;padding:20px 0;display:flex;
+  align-items:center;justify-content:space-between;gap:16px;text-align:left;
+  font-family:var(--ui);font-weight:800;font-size:16px;color:var(--ink);
+  cursor:pointer;min-height:56px}
+.lp-faq__btn svg{flex:0 0 22px;transition:transform .2s ease}
+.lp-faq__btn[aria-expanded="true"] svg{transform:rotate(180deg)}
+.lp-faq__resp{display:none;padding:0 0 20px;max-width:680px}
+.lp-faq__resp--on{display:block}
+.lp-faq__resp p{margin:0;color:var(--ink-dim)}
+
+/* ── Fechamento ───────────────────────────────────────────────── */
+.lp-fim .lp-deco.lp-esq{left:-60px;top:-40px;opacity:.2}
+.lp-fim .lp-deco.lp-dir{right:-60px;top:-30px;opacity:.2}
+.lp-poema{max-width:720px;margin:0 auto;text-align:center;position:relative;z-index:1}
+.lp-poema p{font-size:17px;margin-bottom:24px}
+.lp-foto-fim{max-width:520px;margin:32px auto}
+.lp-foto-fim img{border-radius:24px}
+.lp-dupla{font-size:26px;font-weight:900;line-height:1.15;letter-spacing:-.025em;
+  margin:32px 0 16px;text-align:center}
+.lp-vem{font-family:var(--display);font-weight:400;color:var(--accent);font-size:30px;
+  text-align:center;margin:0 0 8px}
+.lp-assinatura{text-align:center;font-style:italic;font-weight:700;color:var(--ink-dim);
+  margin-bottom:32px}
+
+/* ── Aviso de pré-visualização ────────────────────────────────── */
+.lp-previa{background:var(--accent);color:var(--bg);padding:12px 0;font-size:13.5px;
+  font-weight:700;text-align:center;position:relative;z-index:6}
+.lp-previa strong{font-weight:900}
+
+/* ── Rodapé ───────────────────────────────────────────────────── */
+.lp-rodape{background:var(--ink);color:var(--bg);padding:48px 0 72px;text-align:center}
+.lp-rodape__interno{display:grid;gap:16px;justify-items:center}
+/* Seletor com o elemento junto: `.cl-landing img` impõe height:auto e venceria
+   uma regra só de classe, estourando a logo. */
+.lp-rodape img.lp-rodape__logo{height:44px;width:auto;filter:brightness(0) invert(1)}
+.lp-rodape__links{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:center}
+.lp-rodape__links a{color:var(--bg-3);text-decoration:none;font-weight:800;font-size:14px}
+.lp-rodape__links a:hover{color:var(--bg)}
+.lp-rodape__base{color:rgba(253,245,212,.62);font-size:13px;margin:0}
+
+/* ── Respiro no rodapé para a barra fixa do mobile ────────────── */
+@media (max-width:619px){
+  .lp-rodape{padding-bottom:calc(72px + 68px)}
+}
+
+/* ── Breakpoints ──────────────────────────────────────────────── */
+@media (min-width:620px){
+  .lp-mural{columns:2}
+  .lp-tira3{grid-template-columns:repeat(3,1fr)}
+  .lp-grade{grid-template-columns:1fr 1fr}
+  .lp-vipe__grade{grid-template-columns:1fr 1fr}
+  .lp-tira4{grid-template-columns:repeat(4,1fr)}
+  .lp-dep-grade{grid-template-columns:repeat(3,1fr)}
+}
+@media (min-width:820px){
+  .lp-duas-col{columns:2;column-gap:40px}
+  .lp-recebe{grid-template-columns:1fr 1fr}
+}
+@media (min-width:900px){
+  .cl-landing{font-size:17px}
+  .cl-landing h1{font-size:64px}
+  .cl-landing h2{font-size:42px}
+  .cl-landing h3{font-size:22px}
+  .lp-largura{padding:0 32px}
+  .lp-secao{padding:88px 0}
+  .lp-cafe{padding:120px 0}
+  .lp-vipe{padding:120px 0}
+  .lp-hero{padding-top:40px}
+  .lp-hero__grade{grid-template-columns:1.05fr .95fr;align-items:center;gap:48px}
+  .lp-hero__foto,.lp-hero__foto img{border-radius:280px 280px 24px 24px}
+  .lp-mural{columns:3}
+  .lp-col2{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+  .lp-col2--lele{grid-template-columns:.85fr 1.15fr;align-items:start}
+  .lp-col2--imagine{display:grid;grid-template-columns:1.25fr .75fr;gap:48px;align-items:center}
+  .lp-visar strong{font-size:64px}
+  .lp-remate{padding:72px 32px}
+  .lp-remate p{font-size:52px}
+  .lp-remate__quatro{font-size:24px}
+  .lp-escada span{font-size:34px}
+  .lp-litania__perg{font-size:32px}
+  .lp-litania__refrao{font-size:28px}
+  .lp-escada-cafe{font-size:24px}
+  .lp-h-fredoka{font-size:52px}
+  .lp-preco{font-size:88px}
+  .lp-dupla{font-size:42px}
+  .lp-vem{font-size:44px}
+  .lp-poema p{font-size:20px}
+  .lp-selo{width:150px;height:150px;font-size:18px;right:-24px}
+  .lp-barra__nome{font-size:26px}
+}
+@media (min-width:940px){
+  .lp-grade{grid-template-columns:repeat(3,1fr)}
+}

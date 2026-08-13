@@ -46,7 +46,13 @@ $rotas = [
     'minha-conta/senha'      => 'conta-senha',
     'entrar/google'          => 'google-iniciar',
     'entrar/google/callback' => 'google-callback',
+    // Página de vendas do curso (landing isolada, sem menu)
+    'conte-e-encante'        => 'conte-e-encante',
 ];
+
+// Layouts disponíveis: a página pode trocar definindo $layout antes de imprimir.
+// 'landing' serve páginas de venda — topo mínimo, sem navegação e sem saídas.
+$layouts = ['padrao' => '', 'landing' => '-landing'];
 
 $caminho = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?? '/';
 $rota = trim(rawurldecode($caminho), '/');
@@ -60,15 +66,23 @@ if ($pagina === null || !is_file(CL_RAIZ . '/paginas/' . $pagina . '.php')) {
 // SEO padrão; a página pode sobrescrever $seo antes de seu HTML.
 $seo = seo_padrao($config['site']['url']);
 
+// Padrões que a página pode redefinir: layout e ativos extras do <head>.
+$layout   = 'padrao';
+$cssExtra = [];
+$jsExtra  = [];
+
 // Fase 1: avalia a página em buffer. A página define $seo (se quiser) e
 // produz seu HTML de conteúdo, capturado em $conteudoPagina.
 ob_start();
 require CL_RAIZ . '/paginas/' . $pagina . '.php';
 $conteudoPagina = ob_get_clean();
 
+// Sufixo do layout pela lista permitida — valor desconhecido cai no padrão.
+$sufixoLayout = $layouts[$layout] ?? '';
+
 // Fase 2: monta a resposta — cabeçalho (com o $seo final) + conteúdo + rodapé.
 ob_start();
-require CL_RAIZ . '/includes/cabecalho.php';
+require CL_RAIZ . '/includes/cabecalho' . $sufixoLayout . '.php';
 echo $conteudoPagina;
-require CL_RAIZ . '/includes/rodape.php';
+require CL_RAIZ . '/includes/rodape' . $sufixoLayout . '.php';
 ob_end_flush();

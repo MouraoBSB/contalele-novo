@@ -17,6 +17,12 @@ uploads/*
 # ─── Assets de origem (mantidos em backup à parte) ───
 Identidade Visual/
 
+# ─── Material de trabalho da página de vendas ───
+# Contém o mockup e as fotos originais das participantes que deram depoimento.
+# Elas autorizaram o depoimento, não a hospedagem da foto original: o que vai
+# ao ar são os recortes em assets/img/curso/.
+handoff-conte-e-encante/
+
 # ─── Sistema operacional ───
 .DS_Store
 Thumbs.db
