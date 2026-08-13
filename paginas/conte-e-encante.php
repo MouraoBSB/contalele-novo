@@ -827,6 +827,11 @@ function lp_check(): string
                     . 'e receber o reembolso.'];
             }
 
+            // Estas duas dependem do painel e podem vir vazias: entram no mesmo array
+            // para que a numeração dos id continue única.
+            $faq[] = ['Por quanto tempo terei acesso?', $tempoAcesso];
+            $faq[] = ['Tem certificado?', $certificado];
+
             $n = 0;
             foreach ($faq as [$pergunta, $resposta]):
                 $n++;
@@ -845,40 +850,10 @@ function lp_check(): string
                     </h3>
                     <div class="lp-faq__resp<?= $aberta ? ' lp-faq__resp--on' : '' ?>"
                          id="lp-faq-r<?= $n ?>" role="region" aria-labelledby="lp-faq-b<?= $n ?>">
-                        <p><?= e($resposta) ?></p>
+                        <p><?= $resposta !== '' ? e($resposta) : $ouPendente('') ?></p>
                     </div>
                 </div>
             <?php endforeach; ?>
-
-            <div class="lp-faq__item">
-                <h3>
-                    <button class="lp-faq__btn" type="button" id="lp-faq-b8"
-                            aria-expanded="false" aria-controls="lp-faq-r8">
-                        Por quanto tempo terei acesso?
-                        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#2b1300"
-                             stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"
-                             aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
-                    </button>
-                </h3>
-                <div class="lp-faq__resp" id="lp-faq-r8" role="region" aria-labelledby="lp-faq-b8">
-                    <p><?= $ouPendente($tempoAcesso) ?></p>
-                </div>
-            </div>
-
-            <div class="lp-faq__item">
-                <h3>
-                    <button class="lp-faq__btn" type="button" id="lp-faq-b9"
-                            aria-expanded="false" aria-controls="lp-faq-r9">
-                        Tem certificado?
-                        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#2b1300"
-                             stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"
-                             aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
-                    </button>
-                </h3>
-                <div class="lp-faq__resp" id="lp-faq-r9" role="region" aria-labelledby="lp-faq-b9">
-                    <p><?= $ouPendente($certificado) ?></p>
-                </div>
-            </div>
         </div>
     </div>
 </section>
