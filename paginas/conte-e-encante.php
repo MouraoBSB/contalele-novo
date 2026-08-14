@@ -35,7 +35,8 @@ $garantiaDias  = trim(configuracao('curso_garantia_dias', '7'));
 $certificado   = trim(configuracao('curso_certificado',
     'Ao concluir o curso, você recebe um certificado.'));
 $tempoAcesso   = trim(configuracao('curso_tempo_acesso',
-    'Você terá acesso ao curso por 1 ano.'));
+    'Você terá acesso ao curso por 1 ano, tempo que cobre os 5 encontros ao vivo '
+    . 'e a revisão das aulas quantas vezes precisar.'));
 $bonus         = trim(configuracao('curso_bonus',
     'Cante&Encante, com 6 aulas sobre música na contação, e Pequenos Objetos, '
     . 'Grandes Histórias, com histórias curtas para contar com objetos simples.'));
