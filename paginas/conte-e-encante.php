@@ -37,9 +37,12 @@ $certificado   = trim(configuracao('curso_certificado',
 $tempoAcesso   = trim(configuracao('curso_tempo_acesso',
     'Você terá acesso ao curso por 1 ano, tempo que cobre os 5 encontros ao vivo '
     . 'e a revisão das aulas quantas vezes precisar.'));
+// Data em que os dois bônus entram na área de membros. Vazio, some o aviso da página.
+$liberacaoBonus = trim(configuracao('curso_bonus_liberacao', '22 de agosto'));
 $bonus         = trim(configuracao('curso_bonus',
     'Cante&Encante, com 6 aulas sobre música na contação, e Pequenos Objetos, '
-    . 'Grandes Histórias, com histórias curtas para contar com objetos simples.'));
+    . 'Grandes Histórias, com histórias curtas para contar com objetos simples.'
+    . ($liberacaoBonus !== '' ? ' Os dois ficam disponíveis em ' . $liberacaoBonus . '.' : '')));
 $encontros     = trim(configuracao('curso_encontros_ao_vivo',
     'São 5 encontros ao vivo, aos sábados pela manhã, pelo Zoom.'));
 
@@ -698,6 +701,7 @@ function lp_check(): string
         <article class="lp-bonus lp-rv">
             <div class="lp-bonus__cabeca">
                 <span class="lp-bonus__num" aria-hidden="true">Bônus 1</span>
+                <span class="lp-bonus__data">Liberado em <?= e($liberacaoBonus) ?></span>
                 <h3 class="lp-bonus__nome">Cante<em>&amp;</em>Encante</h3>
                 <p class="lp-bonus__sub">Como usar a música para dar vida às histórias</p>
                 <p>A proposta não é ensinar musicalização nem formar professoras de música. É
@@ -743,6 +747,7 @@ function lp_check(): string
         <article class="lp-bonus lp-rv">
             <div class="lp-bonus__cabeca">
                 <span class="lp-bonus__num" aria-hidden="true">Bônus 2</span>
+                <span class="lp-bonus__data">Liberado em <?= e($liberacaoBonus) ?></span>
                 <h3 class="lp-bonus__nome">Pequenos Objetos,<br>Grandes Histórias</h3>
                 <p>Um bônus prático com histórias curtas criadas pela Lelê para serem contadas com
                     objetos simples e acessíveis.</p>
