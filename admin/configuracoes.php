@@ -47,8 +47,9 @@ $grupos = [
         'curso_previa_hash' => ['Senha de pré-visualização', 'senha_hash',
             'Quem receber esta senha consegue ver a página antes de ela ir ao ar.'],
         'curso_checkout_url' => ['URL do checkout na Hotmart', 'url',
-            'Vazio, a página usa https://pay.hotmart.com/B107134315C. Preencha aqui para trocar '
-            . 'sem mexer em código. É o link "Página de pagamento" em Links de divulgação.'],
+            'Vazio, a página usa https://pay.hotmart.com/B107134315C?off=87ea4lrn. Mantenha o '
+            . '?off — ele fixa a oferta "Padrao sem juros". Sem esse trecho o link segue o preço '
+            . 'base do momento, o que muda sozinho se alguém criar uma promoção.'],
         'curso_preco' => ['Preço à vista (só o número — ex.: 297)', 'text',
             'Vazio, a página usa 297.'],
         'curso_parcelamento' => ['Linha de parcelamento', 'text',

@@ -24,10 +24,13 @@ $cssExtra = ['/assets/css/conte-e-encante.css'];
 $jsExtra  = ['/assets/js/conte-e-encante.js'];
 
 // ── Dados da oferta ──────────────────────────────────────────────────────
-$urlCheckout   = trim(configuracao('curso_checkout_url', 'https://pay.hotmart.com/B107134315C'));
+// O ?off fixa a oferta "Padrao sem juros". Sem ele o link segue o preço base
+// vigente, o que quebra no dia em que existir uma promoção.
+$urlCheckout   = trim(configuracao('curso_checkout_url',
+    'https://pay.hotmart.com/B107134315C?off=87ea4lrn'));
 $preco         = trim(configuracao('curso_preco', '297'));
 $parcelamento  = trim(configuracao('curso_parcelamento',
-    'ou parcelado no cartão conforme as condições disponíveis no checkout.'));
+    'ou 12x de R$ 24,75 sem juros · Pix ou cartão de crédito'));
 $garantiaDias  = trim(configuracao('curso_garantia_dias', '7'));
 $certificado   = trim(configuracao('curso_certificado',
     'Ao concluir o curso, você recebe um certificado.'));
@@ -38,6 +41,25 @@ $bonus         = trim(configuracao('curso_bonus',
     . 'Grandes Histórias, com histórias curtas para contar com objetos simples.'));
 $encontros     = trim(configuracao('curso_encontros_ao_vivo',
     'São 5 encontros ao vivo, aos sábados pela manhã, pelo Zoom.'));
+
+// A Hotmart anexa o código do afiliado na URL desta página quando alguém chega
+// por um link de divulgação. Sem repassar ao checkout, a comissão não é creditada.
+if ($urlCheckout !== '') {
+    $repasse = [];
+    foreach (['a', 'src', 'sck', 'xcod'] as $parametro) {
+        $valor = $_GET[$parametro] ?? null;
+        if (is_string($valor) && $valor !== '') {
+            $limpo = preg_replace('/[^A-Za-z0-9_.\-]/', '', $valor);
+            if ($limpo !== '') {
+                $repasse[$parametro] = substr($limpo, 0, 64);
+            }
+        }
+    }
+    if ($repasse !== []) {
+        $urlCheckout .= (str_contains($urlCheckout, '?') ? '&' : '?')
+            . http_build_query($repasse);
+    }
+}
 
 // Sem checkout, os botões levam ao bloco da oferta em vez de a lugar nenhum.
 $hrefCta = $urlCheckout !== '' ? $urlCheckout : '#lp-investimento';
