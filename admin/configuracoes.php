@@ -66,6 +66,9 @@ $grupos = [
             . 'lista e no FAQ.'],
         'curso_bonus' => ['Bônus', 'textarea',
             'O que entra além do curso. Enquanto estiver vazio, a página mostra o selo "a definir".'],
+        'curso_whatsapp_grupo' => ['Grupo do curso no WhatsApp', 'url',
+            'Link de convite do grupo. Aparece só no fim da página, abaixo do último botão de '
+            . 'compra — é a saída para quem leu tudo e não comprou. Vazio, o convite some.'],
         'curso_encontros_ao_vivo' => ['Encontros ao vivo — quantidade e periodicidade', 'textarea',
             'Vazio, a página usa "São 5 encontros ao vivo, aos sábados pela manhã, pelo Zoom."'],
     ],

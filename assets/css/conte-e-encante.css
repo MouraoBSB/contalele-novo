@@ -344,6 +344,13 @@
 .lp-assinatura{text-align:center;font-style:italic;font-weight:700;color:var(--ink-dim);
   margin-bottom:32px}
 
+/* ── Convite para o grupo ─────────────────────────────────────── */
+.lp-grupo{margin-top:48px;padding-top:36px;border-top:1px solid var(--borda);
+  text-align:center;position:relative;z-index:1}
+.lp-grupo__chamada{font-weight:800;font-size:16px;margin:0 0 16px;color:var(--ink-dim)}
+.lp-grupo__btn{font-size:14px;padding:13px 24px;min-height:46px}
+.lp-grupo__nota{font-size:13.5px;color:var(--ink-dim);margin:14px 0 0}
+
 /* ── Aviso de pré-visualização ────────────────────────────────── */
 .lp-previa{background:var(--accent);color:var(--bg);padding:12px 0;font-size:13.5px;
   font-weight:700;text-align:center;position:relative;z-index:6}

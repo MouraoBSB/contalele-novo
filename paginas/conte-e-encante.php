@@ -39,6 +39,9 @@ $tempoAcesso   = trim(configuracao('curso_tempo_acesso',
     . 'e a revisão das aulas quantas vezes precisar.'));
 // Data em que os dois bônus entram na área de membros. Vazio, some o aviso da página.
 $liberacaoBonus = trim(configuracao('curso_bonus_liberacao', '22 de agosto'));
+// Grupo do curso no WhatsApp. Vazio, o convite some da página.
+$grupoWhats = trim(configuracao('curso_whatsapp_grupo',
+    'https://chat.whatsapp.com/Ef46TWFuIqXDSWLxR2Mh0j?s=sw&p=a&mlu=4'));
 $bonus         = trim(configuracao('curso_bonus',
     'Cante&Encante, com 6 aulas sobre música na contação, e Pequenos Objetos, '
     . 'Grandes Histórias, com histórias curtas para contar com objetos simples.'
@@ -616,7 +619,7 @@ function lp_check(): string
                 [
                     // Adaptado do áudio, com autorização dela.
                     'texto' => 'Eu tinha 4 anos quando ela chegava com a caixa mágica. Dentro, '
-                        . 'um lápis de cor — e daquele lápis nasceu a história do Flix, do '
+                        . 'um lápis de cor — e daquele lápis nasceu a história do Flicts, do '
                         . 'Ziraldo. Comecei a ler Ziraldo por causa disso. Hoje tenho 30 anos e '
                         . 'ainda lembro.',
                     'autor' => 'Vitória Carolina',
@@ -917,5 +920,22 @@ function lp_check(): string
         <div class="lp-cta-centro lp-rv">
             <?= $abreCta() ?>Quero contar e encantar</a>
         </div>
+
+        <?php if ($grupoWhats !== ''): ?>
+            <!-- Saída secundária, e só aqui no fim: quem rolou a página inteira e não
+                 comprou vale mais no grupo do que perdido. Fica visualmente abaixo do
+                 CTA para não disputar com ele. -->
+            <div class="lp-grupo lp-rv">
+                <p class="lp-grupo__chamada">Quer acompanhar de perto antes de decidir?</p>
+                <a class="lp-btn lp-btn--ghost lp-grupo__btn" href="<?= e($grupoWhats) ?>"
+                   target="_blank" rel="noopener">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
+                        <path d="M12 2a10 10 0 0 0-8.6 15l-1.4 5 5.2-1.4A10 10 0 1 0 12 2zm0 18a8 8 0 0 1-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8 8 0 1 1 12 20zm4.4-6c-.2-.1-1.4-.7-1.6-.8-.2-.1-.4-.1-.5.1l-.7.9c-.1.2-.3.2-.5.1a6.5 6.5 0 0 1-3.2-2.8c-.1-.2 0-.4.1-.5l.4-.5c.1-.1.1-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.5-.4h-.5a1 1 0 0 0-.7.3c-.7.7-1 1.6-.9 2.6.3 2.5 2.6 5.2 5.7 6.3 2 .7 2.8.5 3.4.4.7-.1 1.4-.7 1.6-1.3.2-.6.2-1.1.1-1.2l-.4-.1z"/>
+                    </svg>
+                    Entrar no grupo do Conte&amp;Encante
+                </a>
+                <p class="lp-grupo__nota">Grupo no WhatsApp só sobre o curso, com a Lelê.</p>
+            </div>
+        <?php endif; ?>
     </div>
 </section>
