@@ -150,7 +150,7 @@ function lp_check(): string
                     memórias — usando sua voz, seu corpo, sua presença e até os objetos mais simples
                     que você já tem por perto.</p>
                 <ul class="lp-chips lp-rv">
-                    <li>Mesmo que você seja tímida.</li>
+                    <li>Mesmo que a timidez trave você.</li>
                     <li>Mesmo que ache que não leva jeito.</li>
                     <li>Mesmo que sua turma seja agitada.</li>
                     <li>Mesmo que você tenha poucos recursos.</li>
@@ -193,7 +193,7 @@ function lp_check(): string
             $duvidas = [
                 'Será que eu não tenho jeito para isso?',
                 'Minha voz não é bonita.',
-                'Eu sou tímida demais.',
+                'A timidez me trava.',
                 'Não sei interpretar.',
                 'Não consigo decorar histórias.',
                 'Não tenho aqueles materiais maravilhosos que vejo na internet.',
@@ -297,7 +297,7 @@ function lp_check(): string
         <div class="lp-grade">
             <?php
             $perfis = [
-                'É professora da Educação Infantil ou dos anos iniciais e quer tornar seus momentos de história mais envolventes.',
+                'É professora ou professor da Educação Infantil ou dos anos iniciais e quer tornar seus momentos de história mais envolventes.',
                 'Trabalha em biblioteca, sala de leitura ou mediação e quer ampliar seu repertório.',
                 'Está começando na contação de histórias e não sabe por onde começar.',
                 'Já conta histórias, mas sente que precisa compreender melhor voz, corpo, ritmo, presença e participação.',
@@ -313,7 +313,7 @@ function lp_check(): string
                 </article>
             <?php endforeach; ?>
         </div>
-        <p class="lp-fecho lp-rv">Você não precisa chegar pronta. O curso existe justamente para
+        <p class="lp-fecho lp-rv">Você não precisa chegar sabendo. O curso existe justamente para
             ensinar o caminho.</p>
     </div>
 </section>
@@ -433,14 +433,14 @@ function lp_check(): string
                 'compreender a intenção por trás de cada escolha;',
                 'explorar voz, ritmo, pausas, silêncio e musicalidade;',
                 'usar corpo, olhar, gestos e movimento de maneira consciente;',
-                'trabalhar com livros sem ficar presa apenas à leitura;',
+                'trabalhar com livros sem depender só da leitura;',
                 'descobrir possibilidades narrativas em objetos simples;',
                 'usar recursos sem deixar que eles se tornem mais importantes do que a história;',
                 'lidar com turmas agitadas e diferentes respostas do público;',
                 'estimular a participação sem perder o fio da narrativa;',
                 'ampliar seu repertório;',
                 'adaptar aquilo que aprende à sua realidade;',
-                'e construir, pouco a pouco, a sua própria identidade como contadora de histórias.',
+                'e construir, pouco a pouco, a sua própria identidade como quem conta histórias.',
             ];
             foreach ($aprendizados as $item): ?>
                 <li class="lp-rv"><?= lp_check() ?><span><?= e($item) ?></span></li>
@@ -490,13 +490,13 @@ function lp_check(): string
     </div>
 </section>
 
-<!-- 11 · E se eu for tímida? -------------------------------------------- -->
+<!-- 11 · E se a timidez me travar? -------------------------------------- -->
 <section class="lp-secao lp-cafe">
     <div class="lp-largura lp-estreito">
         <div class="lp-litania">
             <?php
             $objecoes = [
-                'E se eu for tímida?',
+                'E se a timidez me travar?',
                 'E se eu não souber fazer vozes?',
                 'E se eu não souber decorar?',
                 'E se eu não tiver materiais?',
@@ -572,10 +572,10 @@ function lp_check(): string
     <div class="lp-largura">
         <div class="lp-col2">
             <div>
-                <h2 class="lp-rv">E você não vai fazer esse caminho sozinha</h2>
+                <h2 class="lp-rv">E você não vai fazer esse caminho sozinho</h2>
                 <p class="lp-rv" style="margin-top:24px">Além das aulas gravadas, o Conte&amp;Encante
                     terá <strong>encontros ao vivo com a Lelê</strong>.</p>
-                <p class="lp-rv">Serão momentos para estarmos juntas, conversar sobre o que você está
+                <p class="lp-rv">Serão momentos para estarmos juntos, conversar sobre o que você está
                     aprendendo, aprofundar conteúdos, compartilhar experiências e continuar
                     desenvolvendo sua prática.</p>
                 <p class="lp-rv">Porque algumas coisas você aprende assistindo. Outras, experimentando.
@@ -671,7 +671,7 @@ function lp_check(): string
                 ['Encontros ao vivo com a Lelê', 'Momentos de troca, aprofundamento e acompanhamento para levar o conteúdo das aulas para a prática.'],
                 ['Exercícios e experiências práticas', 'Porque contação de histórias não se aprende apenas assistindo. É preciso experimentar.'],
                 ['Materiais complementares', 'Conteúdos que ajudam você a estudar, organizar os aprendizados e aplicá-los.'],
-                ['Recursos e repertório', 'Possibilidades para ampliar sua caixa de ferramentas como contadora de histórias.'],
+                ['Recursos e repertório', 'Possibilidades para ampliar sua caixa de ferramentas de quem conta histórias.'],
                 ['Histórias e ideias com objetos simples', 'Para descobrir que encantamento não depende de materiais caros.'],
             ];
             foreach ($itens as [$titulo, $texto]): ?>
@@ -831,7 +831,7 @@ function lp_check(): string
             $faq = [
                 ['Nunca contei histórias. O curso serve para mim?',
                  'Sim. Você não precisa ter experiência anterior. O Conte&Encante foi pensado também para quem deseja começar.'],
-                ['Sou tímida. Vou conseguir?',
+                ['A timidez me trava. Vou conseguir?',
                  'Sim. Você não precisa se transformar numa pessoa extrovertida para contar histórias. Vamos trabalhar presença, intenção e possibilidades para que você encontre o seu jeito de contar.'],
                 ['Preciso saber interpretar ou fazer vozes?',
                  'Não. Voz é uma ferramenta da contação, mas contar histórias é muito maior do que criar vozes diferentes para personagens.'],
@@ -894,7 +894,7 @@ function lp_check(): string
         <div class="lp-poema">
             <h2 class="lp-rv">Talvez você tenha chegado até aqui pensando que não nasceu para
                 contar histórias.</h2>
-            <p class="lp-rv" style="margin-top:24px">Talvez seja tímida. Talvez ache sua voz comum.
+            <p class="lp-rv" style="margin-top:24px">Talvez a timidez trave você. Talvez ache sua voz comum.
                 Talvez não tenha cenário. Não tenha figurino. Não tenha uma mala cheia de recursos.</p>
             <p class="lp-rv">Mas você tem algo que nenhum material pode substituir:
                 <em class="lp-fk">a possibilidade de criar conexão.</em></p>
