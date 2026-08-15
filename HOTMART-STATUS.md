@@ -1,12 +1,12 @@
 # Hotmart — Conte&Encante · Status da configuração
 
-**Data desta sessão:** 14/08/2026
-**Lançamento previsto:** 15/08/2026
-**Situação geral:** vendas **desligadas** enquanto a configuração é fechada.
+**Última atualização:** 14/08/2026
+**Lançamento:** 15/08/2026
+**Situação geral:** **vendas ativas**. Produto no ar, página publicada, fluxo de
+compra testado de ponta a ponta.
 
-Este documento é um handoff. Ele registra o que foi alterado na Hotmart nesta
-sessão, as decisões tomadas com o motivo, os dados novos descobertos e o que
-continua pendente.
+Este documento é um handoff. Registra o que foi configurado na Hotmart, as decisões
+tomadas com o motivo, e o que continua pendente.
 
 ---
 
@@ -21,9 +21,9 @@ continua pendente.
 | Idioma | Português (Brasil) |
 | Principal país | Brasil |
 | Capa | 600×600, fundo café com girassóis, lettering Conte&Encante + logo Conta Lelê |
-| Descrição | Já escrita, 1262/2000 caracteres — boa, não precisa mexer |
+| Descrição | 1262/2000 caracteres — pronta |
 | Marketplace | Publicado |
-| Vendas ativas | **Desligado** |
+| Vendas ativas | **Ligado** |
 
 ### Conta da produtora
 
@@ -31,8 +31,8 @@ continua pendente.
 |---|---|
 | Titular | Letícia Rocha Mourão Marques |
 | E-mail da conta | `curso.conte.encante@gmail.com` |
-| Nome público | `Conta Lelê` (alterado nesta sessão) |
-| Usuário | `@contalele` (alterado nesta sessão) |
+| Nome público | `Conta Lelê` — **confirmado**, aparece como "Autor" no checkout |
+| Usuário | `@contalele` |
 | Site no perfil | https://contalele.com.br |
 | Natureza fiscal | **Pessoa Física (CPF)** — cadastro validado |
 
@@ -44,11 +44,8 @@ continua pendente.
 ## 2. Links (fonte da verdade)
 
 ```
-Checkout (usar nos botões da página de vendas):
+Checkout (usado nos botões da página de vendas):
 https://pay.hotmart.com/B107134315C?off=87ea4lrn
-
-Checkout sem parâmetro de oferta (funciona hoje, menos robusto):
-https://pay.hotmart.com/B107134315C
 
 Página de Vendas gerada pela Hotmart (redireciona para a página externa):
 https://go.hotmart.com/B107134315C
@@ -56,254 +53,272 @@ https://go.hotmart.com/B107134315C
 Página do Produto (Marketplace):
 https://go.hotmart.com/B107134315C?dp=1
 
-Página de vendas própria:
+Página de vendas própria (publicada):
 https://contalele.com.br/conte-e-encante
+
+Área de membros:
+https://hotmart.com/pt-br/club/leticia-rocha-mourao
 ```
 
-O `?off=87ea4lrn` fixa a oferta. Sem ele o link segue o "preço base" atual — funciona
-hoje porque só existe uma oferta, mas quebra o dia em que criarem uma promoção.
+O `?off=87ea4lrn` fixa a oferta. Sem ele o link segue o preço base vigente, o que
+mudaria sozinho no dia em que existir uma promoção.
+
+> **O link do botão "Copiar link de pagamento"** da tela de Links de divulgação vem
+> **sem** o `?off`. Não use esse — use o de cima.
 
 ---
 
-## 3. O que foi alterado nesta sessão
+## 3. Oferta e pagamento
 
-### 3.1 Regra fiscal — corrigida
+| Item | Valor |
+|---|---|
+| Oferta ativa | `Padrao sem juros` — código `87ea4lrn` |
+| Preço | R$ 297,00 |
+| Parcelamento | Até **12x de R$ 24,75 sem juros** (produtora paga as taxas) |
+| Garantia | **7 dias** (mínimo legal — CDC art. 49) |
+| Formas de pagamento ativas | Cartão, **Pix**, **Boleto**, **PayPal** |
+| Recuperador automático | Ativo, até 12 parcelas |
+| Conversão de moeda automática | Ativa |
+| Vendas internacionais | Ligado |
 
-O produto estava marcado como **"Produto sem conteúdo educacional"**, contradizendo a
-categoria "Educacional" e a própria natureza do produto.
+### Custo do parcelamento sem juros
 
-Corrigido para:
-- Formato: **Conteúdo com menor interação humana (ESS)** — aulas gravadas
-- Conteúdo educacional: **Sim**
+Base de cálculo sobre a qual incidem taxas e comissões:
 
-Resultado declarado pela Hotmart: *"Seu produto tem conteúdo digital ou assíncrono
-(ESS) e tem conteúdo educacional."* Hotmart gerencia impostos em vendas para a União
-Europeia; possível isenção no Chile.
-
-> **Atenção:** a Hotmart avisa que pode exigir **comprovação do tipo do produto com 48h
-> de prazo**, sob risco de suspensão da conta. A área de membros com aulas publicadas é
-> essa comprovação.
-
-### 3.2 Oferta — recriada para parcelamento sem juros
-
-A oferta original cobrava os juros da compradora. O campo "Forma de pagamento" é
-**irreversível** depois que a oferta é criada, então foi necessário criar uma nova.
-
-| | Oferta antiga | Oferta atual |
-|---|---|---|
-| Nome | Preço base | `Padrao sem juros` |
-| Código | `8y0ha3nf` | `87ea4lrn` |
-| Forma de pagamento | Com taxas para o cliente | **Sem taxas para o cliente (produtora paga)** |
-| Situação | **Removida** | **Preço base ativo** |
-
-Descrição no checkout: `Curso Conte e Encante - acesso completo`.
-
-**Ordem que a Hotmart exige:** não é possível remover a oferta que é o preço base.
-Primeiro `Tornar preço base` na nova, depois `Remover oferta` na antiga.
-
-### 3.3 Impacto financeiro do parcelamento sem juros
-
-Comparação registrada do painel:
-
-| | Cliente paga (antes) | Cliente paga (agora) |
-|---|---|---|
-| 12x | R$ 30,72 → **total R$ 368,64** | R$ 24,75 → **total R$ 297,00** |
-
-Custo para a produtora — coluna "Valor base para taxas e comissões":
-
-| Parcelamento | Base de cálculo |
+| Parcelamento | Base |
 |---|---|
 | 1x | R$ 297,00 |
 | 6x | R$ 263,85 |
 | 12x | **R$ 239,31** |
 
-Uma venda em 12x rende **R$ 57,69 a menos** de base que uma à vista, e a comissão da
-Hotmart ainda incide sobre esse valor.
+Uma venda em 12x rende **R$ 57,69 a menos** de base que uma à vista.
 
-> **Oportunidade não implementada:** desconto no Pix ou no à vista. Como o Pix não tem
-> custo de antecipação, um preço tipo R$ 267 no Pix ainda superaria o líquido de uma
-> venda em 12x. Fica registrado para avaliação futura.
+> **Divergência com decisão anterior:** o status de 14/08 registrava o boleto como
+> "desativado por decisão — baixa conversão". Ele está **ativo**, e o PayPal também.
+> O boleto atrasa o acesso (compensação em até 3 dias). Decisão de manter ou desativar
+> ficou em aberto. A página de vendas menciona apenas Pix e cartão.
 
-### 3.4 Recuperador automático — ativado
-
-Estava inativo. Ligado na nova oferta, configurado para **recuperar vendas de até 12
-parcelas**. Recupera Pix não pago e carrinho abandonado. Sem custo.
-
-### 3.5 Perfil da conta — ajustado
-
-- Nome público: `Contalelê` → **`Conta Lelê`** (a marca tem espaço)
-- Usuário: `@curso_conte_en299663` → **`@contalele`**
-
-Ambos os campos apareceram como "Campo validado com sucesso", mas o botão **Salvar
-estava acinzentado** no último print. **Confirmar se a alteração foi gravada.**
+> **Oportunidade não implementada:** desconto no Pix. Como o Pix não tem custo de
+> antecipação, um preço em torno de R$ 267 no Pix ainda superaria o líquido de uma
+> venda em 12x.
 
 ---
 
-## 4. Configurações confirmadas (sem alteração necessária)
+## 4. Área de membros (Hotmart Club)
+
+**Club:** `Conta Lelê` · URL `hotmart.com/club/leticia-rocha-mourao` (URL não é editável)
+
+### Conteúdo — tudo publicado
+
+| Módulo | Aulas |
+|---|---|
+| 0 — Comece aqui | 3 |
+| 01 — Peguei o Livro e agora? | 5 (inclui *Método VISAR: Os 5 Pilares do Encantamento*) |
+| 02 — Do livro a História | 5 |
+| 03 — Como Encantar e Prender a Atenção das Crianças | 4 |
+| 04 — Recursos que Encantam | 6 |
+| 05 — O Encantamento Continua | 4 |
+| **Total** | **27 aulas em 6 módulos** |
+
+**Aba Adicional:** módulo `Cante & Encante`, 6 aulas — **sem nome e não publicadas**.
+Previsão de liberação: **22/08/2026**.
+
+**Segundo bônus** (`Pequenos Objetos, Grandes Histórias`): ainda não existe na área.
+Mesma previsão.
+
+### Tempo de acesso
+
+Configurado por **agendamento em massa**, nos módulos 01 a 05 da aba Principal:
+
+```
+Agendar liberação do conteúdo ....... DESLIGADO  (libera na compra)
+Agendar expiração ................... 365 dias após a liberação
+Turmas .............................. Todas as turmas
+```
+
+O **Módulo 0 ficou de fora** de propósito — segue vitalício, como porta de entrada.
+
+> **Pendente:** repetir o agendamento na aba **Adicional**, para o Cante & Encante.
+> Sem isso o bônus fica vitalício enquanto o curso expira em 1 ano.
+
+Para conferir ou alterar: selecione os módulos → **Agendar**. Não existe "editar" —
+um novo agendamento substitui o anterior. Há também "Remover agendamentos".
+
+### Certificado
+
+**Ativado.** Fundo personalizado na identidade da marca (creme, moldura café e laranja,
+girassóis, logo Conta Lelê). Textos em português. O nome do curso foi escrito **fixo**
+como "Conte&Encante" em vez da tag `*|CURSO|*`, para evitar o título longo e o `&`
+virando `&amp;`.
+
+Arquivo: `Identidade Visual/Conte e Encante/qr/certificado-fundo-2000x1414.jpg`
+
+### Personalização
 
 | Item | Estado |
 |---|---|
-| Preço base | R$ 297,00 |
-| Garantia / prazo de reembolso | **7 dias** (mínimo legal — CDC art. 49) |
-| Formas de pagamento | Pix + cartão de crédito (confirmado pelo usuário) |
-| Boleto | Desativado por decisão — baixa conversão real |
-| Conversão de moeda automática | Ativa (obrigatória para preços em BRL) |
-| Vendas internacionais em outras moedas | Ligado |
-| Hotmart One (doação social) | Inativo — opcional, sem impacto |
+| Nome do Club | ✅ Conta Lelê |
+| Logo tema escuro | ✅ `club-logo-tema-escuro.png` (logo branca, 131×96) |
+| Logo tema claro | ✅ `club-logo-tema-claro.png` (logo preta, 131×96) |
+| Fundo da página de login | ✅ `club-login-fundo-2912x2160.jpg` |
+| Cor de destaque | ✅ definida |
+| Vitrine | **Não publicada** — decisão: com um produto só, ela cria uma tela
+intermediária inútil. A página inicial é o próprio curso |
+| Aplicativo Web | Não configurado (atalho na tela do celular) |
+| Pixel de rastreamento | Inativo |
+| Tutor (IA) | Inativo |
 
 ---
 
-## 5. Descobertas relevantes
+## 5. Página de vendas
 
-### 5.1 Cadastro financeiro só abre depois da primeira venda
+`https://contalele.com.br/conte-e-encante` — **publicada**, sem senha, indexável.
 
-A tela `account.hotmart.com/financial` exibe:
+Landing isolada, sem menu: a única saída é o checkout. 19 blocos.
 
-> **"Faça uma venda antes de cadastrar seus documentos"**
-
-Não é bloqueio por tempo, é bloqueio por marco. **Não é possível cadastrar dados
-bancários antes de vender.** A primeira venda entra e fica em saldo até o cadastro ser
-completado — o valor não se perde, e a Hotmart já retém por um período de segurança de
-qualquer forma.
-
-Consequência: **o cadastro financeiro não pode ser pré-requisito para religar as
-vendas.** A ordem é a inversa.
-
-### 5.2 Reconhecimento facial já está liberado
-
-A tela de verificação de identidade está acessível **agora**, mesmo com o financeiro
-travado. Ela destrava a conquista "Cadastro Completo", exigida para saque.
-
-Requisitos: documento em mãos, celular, e **a administradora principal da conta precisa
-fazer pessoalmente** — ou seja, a Letícia, não terceiros.
-
-### 5.3 Decisão tributária adiada
-
-O cadastro é **Pessoa Física**. Foi levantado que o MEI tende a ter carga efetiva
-bastante menor sobre o mesmo faturamento, e que mudar a natureza do cadastro depois de
-já haver faturamento dá mais trabalho.
-
-**Decisão do cliente: manter CPF.** A Letícia não tem MEI e o lançamento é amanhã, sem
-margem para abrir. Fica registrado como assunto a revisitar com um contador depois do
-lançamento. *Não houve orientação contábil nesta sessão — apenas o alerta.*
-
-### 5.4 O `&` no nome do produto
-
-O painel da própria Hotmart renderizou **"Conte &amp; Encante"** no card de produtos —
-escape de HTML mal resolvido. Esse nome viaja para e-mail de confirmação, recibo, área
-de membros e descritor da fatura do cartão.
-
-**Recomendação (não aplicada):** trocar o nome cadastrado para
-`Conte e Encante: transforme histórias em experiências inesquecíveis`, mantendo o `&`
-apenas na logomarca e na página de vendas, onde é assinatura visual e nada escapa.
-
-### 5.5 Parâmetro de afiliação na página externa
-
-A configuração **"Adicionar Código de Afiliação à página externa dos meus produtos"**
-está **ligada**. Quando alguém chegar por link de afiliado, a Hotmart anexa um parâmetro
-na URL (`?a=CODIGO`).
-
-**A página de vendas precisa repassar esse parâmetro para o link do checkout**, senão a
-comissão não é creditada. Ainda não há programa de afiliados ativo, então não é urgente
-— mas é o tipo de falha que só aparece quando um afiliado reclama.
-
-### 5.6 Contador de ofertas inconsistente
-
-Após a remoção da oferta antiga, a tabela exibia **"Mostrando 1 de 2 registros"** com
-apenas uma linha visível. Provavelmente cache de contador. **Não verificado** — vale
-recarregar e confirmar que a oferta antiga sumiu de fato.
-
-### 5.7 Site bloqueia acesso automatizado
-
-`contalele.com.br` e `contalele.com.br/conte-e-encante` retornam **403 Forbidden** para
-requisições automatizadas. Como a raiz também bloqueia, é regra de servidor
-(`.htaccess`/firewall), não página ausente. **O estado da página de vendas não foi
-verificado nesta sessão.**
-
----
-
-## 6. Pendências
-
-### Bloqueiam o lançamento
-
-- [ ] **Área de membros / gestão do curso** — não verificada. Confirmar:
-  - quantos **módulos** e quantas **aulas**, e se estão **publicados** ou em rascunho
-  - **tempo de acesso** (vitalício ou por período)
-  - **certificado** ativado ou não
-  - **materiais complementares** anexados
-  > Se o conteúdo não estiver publicado, a aluna paga e entra numa área vazia. É o
-  > único item capaz de virar problema de reputação no dia 1.
-- [ ] **Religar "Ativar vendas"** — último clique, depois de tudo conferido
-
-### Iniciadas, status desconhecido
-
-- [ ] **Passo 7 — associar página externa**: colar `https://contalele.com.br/conte-e-encante`
-      em *Produto → Página do produto → Páginas externas → Configurar Página*
-- [ ] **Descartar a Hotmart Pages** parada em "1/2 passos" (não será usada)
-- [ ] Confirmar se o **Salvar** do perfil (nome público / usuário) foi efetivado
-
-### Não bloqueiam, mas rendem
-
-- [ ] **Reconhecimento facial** (só a Letícia)
-- [ ] Trocar o nome do produto para remover o `&`
-- [ ] **Aparência da página de pagamento** — hoje é o checkout padrão. A compradora sai
-      de uma página creme-e-girassol e cai numa tela genérica. Dá para aplicar capa e cores.
-- [ ] Cupons de lançamento
-- [ ] Programa de afiliados
-- [ ] ListBoss (segmentação de leads)
-
-### Travado por dependência
-
-- [ ] **Cadastro financeiro / dados bancários** — só abre após a primeira venda
-
----
-
-## 7. Dados que a página de vendas consome
-
-Valores já definidos e prontos para uso na copy:
-
-| Elemento | Valor final |
+| Elemento | Estado |
 |---|---|
-| Preço à vista | **R$ 297,00** |
-| Parcelamento | **12x de R$ 24,75 sem juros** (total R$ 297,00) |
-| Garantia | **7 dias** |
-| Pagamento | Pix e cartão de crédito |
-| Link dos botões | `https://pay.hotmart.com/B107134315C?off=87ea4lrn` |
+| Preço e parcelamento | R$ 297 · 12x de R$ 24,75 sem juros · Pix ou cartão |
+| Garantia | 7 dias, com a redação da Lelê |
+| Método | VISAR nomeado, **não destrinchado** (decisão dela: uma sigla só na página) |
+| VIPE | Bloco completo, com o remate "Você não precisa ter dom… Mas precisa ter VIPE" |
+| Bônus | Os dois, com selo "Liberado em 22 de agosto" |
+| Depoimentos | 3, com foto: Valdenira Agostinho, Vitória Carolina, Regina Melo |
+| Tempo de acesso | 1 ano, justificado pelos 5 encontros ao vivo |
+| Certificado | Anunciado |
+| Grupo do WhatsApp | Convite no fim, abaixo do último CTA |
+| Linguagem | Neutra quanto a gênero (ver 7.3) |
+| Selos "a definir" | **Nenhum** |
 
-### Lacunas da copy que a área de membros vai fechar
+### Repasse de código de afiliado
 
-- `[INSERIR TEMPO DE ACESSO]` — aparece em 3 pontos do material
-- `[CERTIFICADO — SE HOUVER]`
-- Grade do curso (nº de módulos e aulas) — **a copy nunca informa o tamanho do curso**,
-  que é a pergunta que toda compradora faz antes de decidir
+A configuração *"Adicionar Código de Afiliação à página externa"* está **ligada**: a
+Hotmart anexa `?a=CODIGO` na URL da página. A página **repassa** `a`, `src`, `sck` e
+`xcod` para o link do checkout, com lista fechada de parâmetros e valor sanitizado.
+Sem isso a comissão não seria creditada.
 
-### Lacunas da copy que continuam abertas (independem da Hotmart)
+### Campos editáveis no painel
 
-- **VISAR** — o significado das 5 letras está como `[ENTRA AQUI O SIGNIFICADO]`. É o
-  método que dá nome à autoridade da Lelê e é a seção-âncora da página.
-- **Depoimentos** — nenhum. Os 5 do site antigo são de contratantes de contação, não de
-  alunas: servem como autoridade, não como prova de resultado do curso.
-- **Bônus definitivos**
-- **Periodicidade e quantidade dos encontros ao vivo**
+`/admin/configuracoes.php` → seção **Curso Conte&Encante**. Todos têm padrão no código;
+o campo preenchido sobrescreve.
+
+```
+curso_publicado          curso_previa_hash        curso_checkout_url
+curso_preco              curso_parcelamento       curso_garantia_dias
+curso_certificado        curso_tempo_acesso       curso_bonus
+curso_bonus_liberacao    curso_encontros_ao_vivo  curso_whatsapp_grupo
+```
 
 ---
 
-## 8. Decisões de design já tomadas (contexto para a página)
+## 6. Peças gráficas produzidas
 
-Registradas aqui apenas para evitar retrabalho — o desenvolvimento da página segue em
-outra frente.
+Todas em `Identidade Visual/Conte e Encante/`. **Esta pasta está no `.gitignore`** —
+não vai para o GitHub. Confirmar que o backup à parte está atualizado.
 
-- **Direção visual:** blocos de cor chapada aproveitando os fundos do ensaio fotográfico
-  (creme, amarelo girassol, azul, branco) + camada artesanal (girassol, fitas, textura de
-  papel). Alinhada ao design system já existente em `CLAUDE.md` e `brand-tokens.css`.
-- **Hero:** sem vídeo, foto estática + título + CTA.
-- **Prova social:** existe acervo de fotos da Lelê contando história com público —
-  **localização ainda não informada**.
-- **Acervo disponível:** `Identidade Visual/Foto Lele` (70 fotos de estúdio, fundos
-  branco/azul/amarelo), `Identidade Visual/Cante e Encante` (5 fotos),
-  `Identidade Visual/Logo` (3 versões), `Identidade Visual/Ícones` (girassol).
-  *Observação: a pasta chama-se "Cante e Encante", mas o curso é "Conte&Encante".*
-- **Estrutura da copy:** o PDF de origem contém **duas versões coladas** — páginas 1–20
-  (v1) e 21–27 (revisão). Nas seções duplicadas (bio, o que você recebe, investimento),
-  **vale a versão das páginas 21–27**. O VIPE aparece nas duas: o texto longo (p. 7–10) é
-  melhor, mas na v2 ele passou a ser complemento do VISAR — precisa virar uma seção só.
+| Peça | Arquivo |
+|---|---|
+| Arte do curso (3 formatos × 2 cores) | `arte/conte-encante-*.png` |
+| Banner do produto na Hotmart | `qr/banner-hotmart-1920x640.jpg` |
+| Fundo do certificado | `qr/certificado-fundo-2000x1414.jpg` |
+| QR do checkout (3 formatos) | `qr/qr-conte-encante-*.jpg` |
+| Logos do Club | `qr/club-logo-tema-*.png` |
+| Fundo do login do Club | `qr/club-login-fundo-2912x2160.jpg` |
+| Live no YouTube (thumb, post, story) | `qr/live-youtube-*.jpg` |
+
+Os arquivos `.html` ao lado são as **fontes** — abrem no navegador e reexportam por
+Chrome headless, com o comando no comentário do topo de cada um.
+
+> Os QR codes foram **validados por leitura de volta**: o script decodifica o próprio
+> arquivo salvo e compara com a URL. Se regerar, mantenha essa checagem — a primeira
+> versão não era legível por falta de quiet zone.
+
+---
+
+## 7. Decisões tomadas, com o motivo
+
+### 7.1 VISAR nomeado, não destrinchado
+
+A Lelê definiu as 5 letras (Verdade, Intenção, Simbolismo, Adaptação, Ritmo), mas
+decidiu **não abri-las na página** — VISAR e VIPE compartilhavam Verdade e Intenção
+com a mesma definição, e duas siglas em blocos seguidos confundiam. A página nomeia o
+método; quem ensina as letras é a Aula 05 do Módulo 01.
+
+### 7.2 Acesso de 1 ano, não vitalício
+
+O padrão da Hotmart é vitalício. A limitação foi decisão da Lelê, justificada pelos
+5 encontros ao vivo — o prazo cobre a janela da consultoria. A página explica isso em
+vez de só informar a restrição.
+
+### 7.3 Linguagem aberta a homens
+
+Homens que contam histórias reclamaram que a divulgação falava só no feminino. Onze
+pontos da página foram neutralizados ("mesmo que a timidez trave você" no lugar de
+"mesmo que você seja tímida"). Preservado o feminino onde é correto: a bio da Lelê e
+as concordâncias com "história".
+
+**Não é mudança de posicionamento** — o público segue majoritariamente feminino. O
+objetivo foi remover a exclusão explícita. Depoimento masculino fica para o futuro.
+
+### 7.4 A live não entra na página de vendas
+
+O fluxo correto é live → página, não página → live. Quem está na página está mais
+perto da compra do que quem está no YouTube, e o YouTube não devolve ninguém. A live
+divulga por Instagram, WhatsApp e canal; o QR do checkout aparece na transmissão.
+
+### 7.5 Widget de checkout descartado
+
+A Hotmart oferece um widget que abre o pagamento em janela sobreposta. Não usado:
+carrega script e CSS de terceiro na página, o botão é uma imagem verde genérica, e o
+`?checkoutMode=2` não carrega o `?off`.
+
+### 7.6 Programa de afiliados aberto
+
+Decisão do cliente, ciente dos riscos apontados: divulgação fora de controle, anúncio
+pago usando a marca, e uso da imagem da Lelê. Comissão definida pelo cliente.
+
+### 7.7 Decisão tributária adiada
+
+Cadastro é **Pessoa Física**. O MEI tende a ter carga efetiva menor, mas a Letícia não
+tem MEI e o lançamento era no dia seguinte. **Assunto para revisitar com um contador.**
+*Não houve orientação contábil — apenas o alerta.*
+
+---
+
+## 8. Pendências
+
+### Ação imediata
+
+- [ ] **Agendar 365 dias na aba Adicional** (Cante & Encante) — sem isso o bônus fica
+      vitalício enquanto o curso expira
+- [ ] **Publicar as 6 aulas do Cante & Encante** e montar o *Pequenos Objetos, Grandes
+      Histórias* até **22/08** — a página anuncia essa data
+- [ ] **Reconhecimento facial** — só a Letícia pode fazer; destrava o saque
+
+### Quando entrar a primeira venda
+
+- [ ] **Cadastro bancário** — a tela `account.hotmart.com/financial` só abre depois da
+      primeira venda ("Faça uma venda antes de cadastrar seus documentos"). Não é
+      bloqueio por tempo, é por marco. O valor fica em saldo até o cadastro
+
+### Sem pressa
+
+- [ ] Decidir sobre **boleto e PayPal** (ver seção 3)
+- [ ] **Personalização do Club**: Aplicativo Web (atalho no celular)
+- [ ] Trocar o nome do produto para remover o `&` (o painel renderiza `Conte &amp;
+      Encante`, e esse nome viaja para e-mail, recibo e fatura do cartão)
+- [ ] **Aparência da página de pagamento** — hoje é o checkout padrão
+- [ ] Cupons de lançamento
+- [ ] ListBoss (segmentação de leads)
+- [ ] **Produto gratuito** como isca: a área de membros só abre com compra registrada,
+      então o Módulo 0 não é acessível sem comprar. Um produto de R$ 0 com uma aula
+      prática (ex.: "Objetos que contam") capturaria e-mail e serviria de degustação
+- [ ] **Bloco de grade do curso** na página de vendas — os 6 módulos e 27 aulas. É a
+      informação que mais falta para quem está decidindo
+
+### Atenção
+
+> A Hotmart avisou que pode **exigir comprovação do tipo do produto em 48h**, sob risco
+> de suspensão, por causa da correção da regra fiscal (ESS + conteúdo educacional). A
+> área de membros com as 27 aulas publicadas é essa comprovação. Ficar de olho no
+> e-mail da conta.
