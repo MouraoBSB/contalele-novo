@@ -452,8 +452,67 @@ function lp_check(): string
     </div>
 </section>
 
-<!-- 10 · Recursos simples ----------------------------------------------- -->
+<!-- 9b · Conteúdo programático ------------------------------------------ -->
 <section class="lp-secao lp-creme">
+    <div class="lp-largura">
+        <p class="lp-olho lp-rv">Conteúdo programático</p>
+        <h2 class="lp-rv">Como o curso está organizado</h2>
+        <p class="lp-lead lp-rv" style="margin-top:24px">O Conte&amp;Encante é um curso prático
+            para quem deseja contar histórias com mais segurança, intenção, presença e
+            encantamento. O conteúdo está organizado em <strong>5 módulos</strong>, com atividades
+            e possibilidades que podem ser levadas para a prática.</p>
+
+        <ol class="lp-programa">
+            <?php
+            $modulos = [
+                ['O convite para imaginar',
+                 'Os fundamentos da contação de histórias e o papel da imaginação. Como criar '
+                 . 'conexão com quem ouve e compreender os elementos que transformam uma história '
+                 . 'em uma experiência.'],
+                ['Do livro à história',
+                 'Como preparar uma história para ser contada, fazendo a passagem do texto escrito '
+                 . 'para a oralidade. Escolhas de quem conta, preparação da narrativa, estratégias '
+                 . 'para quem tem dificuldade de decorar e aplicação do VISAR.'],
+                ['Como prender a atenção',
+                 'Estratégias para despertar a curiosidade e sustentar o interesse de quem ouve. '
+                 . 'Voz, ritmo, pausa, silêncio, olhar, intenção, interação e expressão corporal, '
+                 . 'trabalhando também a relação entre corpo, texto e fala.'],
+                ['Recursos que contam',
+                 'Como escolher e utilizar recursos de maneira intencional. Objetos que ganham '
+                 . 'novos significados, possibilidades com materiais simples, movimento, criação e '
+                 . 'uso de recursos dentro da narrativa. E uma questão fundamental: o que vale a '
+                 . 'pena tornar concreto e o que é melhor deixar para a imaginação de quem ouve.'],
+                ['O encantamento continua',
+                 'Como ampliar seu repertório e encontrar novas histórias; possibilidades para '
+                 . 'depois da contação; erros e acertos que interferem na narrativa; e a descoberta '
+                 . 'de que as histórias podem morar nos objetos, nos gestos, no corpo e no '
+                 . 'cotidiano.'],
+            ];
+            foreach ($modulos as $i => [$titulo, $descricao]): ?>
+                <li class="lp-programa__item lp-rv">
+                    <span class="lp-programa__num" aria-hidden="true"><?= $i + 1 ?></span>
+                    <div>
+                        <h3><?= e($titulo) ?></h3>
+                        <p><?= e($descricao) ?></p>
+                    </div>
+                </li>
+            <?php endforeach; ?>
+        </ol>
+
+        <p class="lp-painel lp-rv">Ao longo do curso, trabalhamos também o <strong>VIPE</strong> —
+            Verdade, Intenção, Presença e Encantamento, requisitos que a Lelê considera
+            fundamentais para quem deseja contar histórias.</p>
+
+        <p class="lp-fecho lp-rv">O Conte&amp;Encante não foi criado para você apenas assistir a
+            aulas e aprender sobre contação de histórias.
+            <em class="lp-fk">A proposta é experimentar, praticar e contar melhor.</em></p>
+    </div>
+</section>
+
+<!-- 10 · Recursos simples ----------------------------------------------- -->
+<!-- Branco porque o bloco anterior (programa) é creme: dois cremes seguidos
+     apagariam a divisão entre as duas seções. -->
+<section class="lp-secao lp-branco">
     <div class="lp-largura">
         <h2 class="lp-rv">Recursos simples. Grandes possibilidades.</h2>
         <p class="lp-lead lp-rv" style="margin-top:24px">Talvez você já tenha visto contadores de
