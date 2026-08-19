@@ -32,8 +32,11 @@ $preco         = trim(configuracao('curso_preco', '297'));
 $parcelamento  = trim(configuracao('curso_parcelamento',
     'ou 12x de R$ 24,75 sem juros · Pix ou cartão de crédito'));
 $garantiaDias  = trim(configuracao('curso_garantia_dias', '7'));
+$cargaHoraria  = trim(configuracao('curso_carga_horaria', '25 horas'));
 $certificado   = trim(configuracao('curso_certificado',
-    'Ao concluir o curso, você recebe um certificado.'));
+    $cargaHoraria !== ''
+        ? 'Ao concluir o curso, você recebe um certificado de ' . $cargaHoraria . '.'
+        : 'Ao concluir o curso, você recebe um certificado.'));
 $tempoAcesso   = trim(configuracao('curso_tempo_acesso',
     'Você terá acesso ao curso por 1 ano, tempo que cobre os 5 encontros ao vivo '
     . 'e a revisão das aulas quantas vezes precisar.'));
@@ -461,6 +464,15 @@ function lp_check(): string
             para quem deseja contar histórias com mais segurança, intenção, presença e
             encantamento. O conteúdo está organizado em <strong>5 módulos</strong>, com atividades
             e possibilidades que podem ser levadas para a prática.</p>
+
+        <?php if ($cargaHoraria !== ''): ?>
+            <ul class="lp-numeros lp-rv">
+                <li><strong><?= e($cargaHoraria) ?></strong><span>de carga horária</span></li>
+                <li><strong>5</strong><span>módulos</span></li>
+                <li><strong>5</strong><span>encontros ao vivo</span></li>
+                <li><strong>2</strong><span>bônus</span></li>
+            </ul>
+        <?php endif; ?>
 
         <ol class="lp-programa">
             <?php

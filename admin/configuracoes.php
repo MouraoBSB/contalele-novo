@@ -58,6 +58,9 @@ $grupos = [
             'Só o número. Vazio, a página usa 7. IMPORTANTE: confira se o prazo de garantia '
             . 'configurado no produto da Hotmart é exatamente este — a página e o checkout '
             . 'precisam dizer a mesma coisa.'],
+        'curso_carga_horaria' => ['Carga horária', 'text',
+            'Ex.: "25 horas". Vazio, a página usa 25 horas. Aparece na faixa de números do '
+            . 'conteúdo programático e entra sozinha no texto do certificado.'],
         'curso_certificado' => ['Certificado', 'text',
             'Vazio, a página usa "Ao concluir o curso, você recebe um certificado." O texto '
             . 'aparece em dois lugares: na lista do que a aluna recebe e na resposta do FAQ.'],
