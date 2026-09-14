@@ -182,7 +182,7 @@ Landing isolada, sem menu: a única saída é o checkout. 19 blocos.
 | Garantia | 7 dias, com a redação da Lelê |
 | Método | VISAR nomeado, **não destrinchado** (decisão dela: uma sigla só na página) |
 | VIPE | Bloco completo, com o remate "Você não precisa ter dom… Mas precisa ter VIPE" |
-| Bônus | Os dois, com selo "Liberado em 22 de agosto" |
+| Bônus | Os dois, com selo "Já disponível" |
 | Depoimentos | 3, com foto: Valdenira Agostinho, Vitória Carolina, Regina Melo |
 | Tempo de acesso | 1 ano, justificado pelos 5 encontros ao vivo |
 | Certificado | Anunciado |
@@ -206,7 +206,7 @@ o campo preenchido sobrescreve.
 curso_publicado          curso_previa_hash        curso_checkout_url
 curso_preco              curso_parcelamento       curso_garantia_dias
 curso_certificado        curso_tempo_acesso       curso_bonus
-curso_bonus_liberacao    curso_encontros_ao_vivo  curso_whatsapp_grupo
+curso_carga_horaria      curso_encontros_ao_vivo  curso_whatsapp_grupo
 ```
 
 ---
