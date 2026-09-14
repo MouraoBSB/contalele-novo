@@ -50,10 +50,11 @@ $grupos = [
             'Vazio, a página usa https://pay.hotmart.com/B107134315C?off=87ea4lrn. Mantenha o '
             . '?off — ele fixa a oferta "Padrao sem juros". Sem esse trecho o link segue o preço '
             . 'base do momento, o que muda sozinho se alguém criar uma promoção.'],
-        'curso_preco' => ['Preço à vista (só o número — ex.: 297)', 'text',
-            'Vazio, a página usa 297.'],
+        'curso_preco' => ['Preço à vista (só o número — ex.: 397)', 'text',
+            'Vazio, a página usa 397.'],
         'curso_parcelamento' => ['Linha de parcelamento', 'text',
-            'Vazio, a página usa "ou parcelado no cartão conforme as condições disponíveis no checkout."'],
+            'Vazio, a página usa "ou 12x de R$ 33,09 sem juros · Pix ou cartão de crédito." '
+            . 'Se mudar o preço, confira a parcela no checkout da Hotmart.'],
         'curso_garantia_dias' => ['Garantia — número de dias', 'text',
             'Só o número. Vazio, a página usa 7. IMPORTANTE: confira se o prazo de garantia '
             . 'configurado no produto da Hotmart é exatamente este — a página e o checkout '

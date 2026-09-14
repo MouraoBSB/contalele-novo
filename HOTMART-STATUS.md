@@ -73,8 +73,8 @@ mudaria sozinho no dia em que existir uma promoção.
 | Item | Valor |
 |---|---|
 | Oferta ativa | `Padrao sem juros` — código `87ea4lrn` |
-| Preço | R$ 297,00 |
-| Parcelamento | Até **12x de R$ 24,75 sem juros** (produtora paga as taxas) |
+| Preço | R$ 397,00 (o R$ 297,00 anterior era promocional) |
+| Parcelamento | Até **12x de R$ 33,09 sem juros** (produtora paga as taxas) |
 | Garantia | **7 dias** (mínimo legal — CDC art. 49) |
 | Formas de pagamento ativas | Cartão, **Pix**, **Boleto**, **PayPal** |
 | Recuperador automático | Ativo, até 12 parcelas |
@@ -87,11 +87,11 @@ Base de cálculo sobre a qual incidem taxas e comissões:
 
 | Parcelamento | Base |
 |---|---|
-| 1x | R$ 297,00 |
-| 6x | R$ 263,85 |
-| 12x | **R$ 239,31** |
+| 1x | R$ 397,00 |
+| 6x | R$ 352,71 |
+| 12x | **R$ 319,95** |
 
-Uma venda em 12x rende **R$ 57,69 a menos** de base que uma à vista.
+Uma venda em 12x rende **R$ 77,05 a menos** de base que uma à vista.
 
 > **Divergência com decisão anterior:** o status de 14/08 registrava o boleto como
 > "desativado por decisão — baixa conversão". Ele está **ativo**, e o PayPal também.
@@ -178,7 +178,7 @@ Landing isolada, sem menu: a única saída é o checkout. 19 blocos.
 
 | Elemento | Estado |
 |---|---|
-| Preço e parcelamento | R$ 297 · 12x de R$ 24,75 sem juros · Pix ou cartão |
+| Preço e parcelamento | R$ 397 · 12x de R$ 33,09 sem juros · Pix ou cartão |
 | Garantia | 7 dias, com a redação da Lelê |
 | Método | VISAR nomeado, **não destrinchado** (decisão dela: uma sigla só na página) |
 | VIPE | Bloco completo, com o remate "Você não precisa ter dom… Mas precisa ter VIPE" |

@@ -28,9 +28,9 @@ $jsExtra  = ['/assets/js/conte-e-encante.js'];
 // vigente, o que quebra no dia em que existir uma promoção.
 $urlCheckout   = trim(configuracao('curso_checkout_url',
     'https://pay.hotmart.com/B107134315C?off=87ea4lrn'));
-$preco         = trim(configuracao('curso_preco', '297'));
+$preco         = trim(configuracao('curso_preco', '397'));
 $parcelamento  = trim(configuracao('curso_parcelamento',
-    'ou 12x de R$ 24,75 sem juros · Pix ou cartão de crédito'));
+    'ou 12x de R$ 33,09 sem juros · Pix ou cartão de crédito'));
 $garantiaDias  = trim(configuracao('curso_garantia_dias', '7'));
 $cargaHoraria  = trim(configuracao('curso_carga_horaria', '25 horas'));
 $certificado   = trim(configuracao('curso_certificado',
@@ -113,11 +113,11 @@ $seo['json_ld'] = [
     'hasCourseInstance' => [
         '@type'              => 'CourseInstance',
         'courseMode'         => 'online',
-        'courseWorkload'     => 'PT10H',
+        'courseWorkload'     => 'PT25H',
     ],
     'offers' => [
         '@type'         => 'Offer',
-        'price'         => preg_replace('/\D/', '', $preco) ?: '297',
+        'price'         => preg_replace('/\D/', '', $preco) ?: '397',
         'priceCurrency' => 'BRL',
         'category'      => 'Paid',
         'url'           => $urlCheckout !== '' ? $urlCheckout : $seo['url_base'] . '/conte-e-encante',
