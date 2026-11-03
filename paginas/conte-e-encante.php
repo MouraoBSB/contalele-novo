@@ -50,6 +50,27 @@ $bonus         = trim(configuracao('curso_bonus',
 $encontros     = trim(configuracao('curso_encontros_ao_vivo',
     'São 5 encontros ao vivo, aos sábados pela manhã, pelo Zoom.'));
 
+// ── Promoção ─────────────────────────────────────────────────────────────
+// Black Friday por tempo limitado, sem data de término: liga e desliga aqui.
+// Com 'ativa' => false a página volta ao layout e aos valores normais, sem outra
+// alteração. A versão anterior está no git, na tag conte-e-encante-pre-black-friday.
+// Os valores precisam bater com a oferta "Black Friday 2026" da Hotmart.
+$promocao = [
+    'ativa'    => true,
+    'nome'     => 'Black Friday',
+    'produto'  => 'Conte&Encante',
+    'checkout' => 'https://pay.hotmart.com/B107134315C?off=36l1f851',
+    'de'       => 'R$ 397',
+    'por'      => 'R$ 297',
+    'desconto' => 'R$ 100',
+    'parcela'  => '12x de R$ 24,75',
+];
+$promocao = $promocao['ativa'] ? $promocao : null;
+if ($promocao !== null) {
+    // A oferta da promoção vence o checkout do painel enquanto estiver ativa.
+    $urlCheckout = $promocao['checkout'];
+}
+
 // A Hotmart anexa o código do afiliado na URL desta página quando alguém chega
 // por um link de divulgação. Sem repassar ao checkout, a comissão não é creditada.
 if ($urlCheckout !== '') {
@@ -79,9 +100,9 @@ $ouPendente = static function (string $valor): string {
     return $valor !== '' ? e($valor) : '<span class="lp-pendente">a definir</span>';
 };
 
-/** Abre um botão de compra com o destino e o alvo corretos. */
-$abreCta = static function () use ($hrefCta, $externo): string {
-    return '<a class="lp-btn lp-btn--primario" href="' . e($hrefCta) . '"'
+/** Abre um botão de compra com o destino e o alvo corretos, no tom pedido. */
+$abreCta = static function (string $tom = 'primario') use ($hrefCta, $externo): string {
+    return '<a class="lp-btn lp-btn--' . e($tom) . '" href="' . e($hrefCta) . '"'
         . ($externo ? ' target="_blank" rel="noopener"' : '') . '>';
 };
 
@@ -115,7 +136,7 @@ $seo['json_ld'] = [
     ],
     'offers' => [
         '@type'         => 'Offer',
-        'price'         => preg_replace('/\D/', '', $preco) ?: '397',
+        'price'         => preg_replace('/\D/', '', $promocao['por'] ?? $preco) ?: '397',
         'priceCurrency' => 'BRL',
         'category'      => 'Paid',
         'url'           => $urlCheckout !== '' ? $urlCheckout : $seo['url_base'] . '/conte-e-encante',
@@ -147,6 +168,10 @@ function lp_check(): string
         <div class="lp-hero__grade">
             <div>
                 <p class="lp-olho lp-rv">Conte&amp;Encante · com Lelê</p>
+                <?php if ($promocao !== null): ?>
+                    <a class="lp-bf-selo lp-rv" href="#lp-investimento"><b><?= e($promocao['nome']) ?></b><span
+                        aria-hidden="true">·</span><span><?= e($promocao['desconto']) ?> de desconto</span></a>
+                <?php endif; ?>
                 <h1 class="lp-rv">Você não precisa ter dom para contar histórias.
                     Precisa descobrir como contar <em>do seu jeito</em>.</h1>
                 <p class="lp-lead lp-rv" style="margin-top:24px">Aprenda a transformar histórias em
@@ -855,12 +880,37 @@ function lp_check(): string
             histórias, agora organizados em um caminho para ajudar você a desenvolver a sua própria
             forma de contar.</p>
 
-        <div class="lp-cartao-preco lp-rv">
-            <p class="lp-cartao-preco__rotulo">Entre para o Conte&amp;Encante por</p>
-            <p class="lp-preco">R$&nbsp;<?= e($preco) ?></p>
-            <p class="lp-dim" style="margin:0"><?= e($parcelamento) ?></p>
-            <?= $abreCta() ?>Quero entrar no Conte&amp;Encante</a>
-        </div>
+        <?php if ($promocao !== null): ?>
+            <div class="lp-bf-cartao lp-rv">
+                <figure class="lp-bf-cartao__foto">
+                    <img src="/assets/img/curso/curso-bf-apresenta.jpg" width="1600" height="1067"
+                         loading="lazy"
+                         alt="Lelê sorrindo, com flores roxas no cabelo, estendendo as mãos como quem apresenta algo">
+                </figure>
+                <div class="lp-bf-cartao__corpo">
+                    <?php girassol_ref(['tamanho' => 96, 'classe' => 'lp-bf-cartao__girassol']); ?>
+                    <p class="lp-bf-tag"><b><?= e($promocao['nome']) ?></b> · por tempo limitado</p>
+                    <p class="lp-bf-cartao__rotulo">Entre para o Conte&amp;Encante</p>
+                    <p class="lp-bf-precos">
+                        <span class="lp-sr">Preço anterior: <?= e($promocao['de']) ?>; preço de
+                            <?= e($promocao['nome']) ?>: <?= e($promocao['por']) ?>.</span>
+                        <span class="lp-bf-de" aria-hidden="true">de <s><?= e($promocao['de']) ?></s></span>
+                        <span class="lp-bf-por" aria-hidden="true">por <strong><?= e($promocao['por']) ?></strong></span>
+                    </p>
+                    <p class="lp-bf-desconto"><?= e($promocao['desconto']) ?> de desconto</p>
+                    <p class="lp-bf-parcela">ou <b><?= e($promocao['parcela']) ?></b> sem juros · Pix ou
+                        cartão de crédito</p>
+                    <?= $abreCta('amarelo') ?>Quero entrar no Conte&amp;Encante</a>
+                </div>
+            </div>
+        <?php else: ?>
+            <div class="lp-cartao-preco lp-rv">
+                <p class="lp-cartao-preco__rotulo">Entre para o Conte&amp;Encante por</p>
+                <p class="lp-preco">R$&nbsp;<?= e($preco) ?></p>
+                <p class="lp-dim" style="margin:0"><?= e($parcelamento) ?></p>
+                <?= $abreCta() ?>Quero entrar no Conte&amp;Encante</a>
+            </div>
+        <?php endif; ?>
 
         <div class="lp-garantia lp-rv">
             <?php if ($garantiaDias !== ''): ?>

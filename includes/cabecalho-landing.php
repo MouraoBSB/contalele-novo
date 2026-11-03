@@ -8,6 +8,7 @@
  * @var array  $seo       Dados de SEO (definidos em index.php, ajustáveis na página).
  * @var array  $cssExtra  Folhas de estilo específicas da página.
  * @var array  $ctaTopo   ['href' => string, 'texto' => string] do botão do topo.
+ * @var ?array $promocao  Promoção ativa (nome, produto, de, por, desconto) ou null.
  */
 
 declare(strict_types=1);
@@ -16,13 +17,15 @@ require_once CL_RAIZ . '/includes/girassol.php';
 
 $cssExtra = $cssExtra ?? [];
 $ctaTopo  = $ctaTopo  ?? ['href' => '#', 'texto' => 'Quero entrar'];
+$promocao = $promocao ?? null;
+$ctaAlvo  = $ctaTopo['externo'] ?? false ? ' target="_blank" rel="noopener"' : '';
 ?>
 <!doctype html>
 <html lang="pt-BR">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#ffdc3a">
+    <meta name="theme-color" content="<?= $promocao !== null ? '#2b1300' : '#ffdc3a' ?>">
     <?php seo_render($seo); ?>
     <?php if (!empty($seo['json_ld'])) { json_ld($seo['json_ld']); } ?>
     <link rel="icon" href="/favicon.ico" sizes="any">
@@ -38,16 +41,32 @@ $ctaTopo  = $ctaTopo  ?? ['href' => '#', 'texto' => 'Quero entrar'];
         <link rel="stylesheet" href="<?= e($css) ?>?v=<?= @filemtime(CL_RAIZ . $css) ?: time() ?>">
     <?php endforeach; ?>
 </head>
-<body class="cl-landing">
+<body class="cl-landing<?= $promocao !== null ? ' lp-bf-on' : '' ?>">
 <a class="cl-skip" href="#conteudo">Pular para o conteúdo</a>
 <?php girassol_sprite(); ?>
+
+<?php if ($promocao !== null): ?>
+<div class="lp-bf-faixa" role="region" aria-label="<?= e($promocao['nome']) ?>">
+    <div class="lp-largura">
+        <p><span class="lp-bf-faixa__curto"><b><?= e($promocao['nome']) ?></b>: <?= e($promocao['desconto']) ?>
+            de desconto no <?= e($promocao['produto']) ?>, por tempo limitado.</span><span
+            class="lp-bf-faixa__longo"><b><?= e($promocao['nome']) ?></b> na Conta Lelê: o
+            <?= e($promocao['produto']) ?> está com <?= e($promocao['desconto']) ?> de desconto, por tempo
+            limitado.</span> <a href="#lp-investimento">Ver a oferta</a></p>
+    </div>
+</div>
+<?php endif; ?>
 
 <header class="lp-topo">
     <div class="lp-largura lp-topo__interno">
         <a class="lp-topo__logo" href="/" aria-label="Conta Lelê — página inicial">
-            <img src="/assets/img/logo.png" alt="Conta Lelê" width="150" height="44">
+            <?php if ($promocao !== null): ?>
+                <img src="/assets/img/logo-amarela.png" alt="Conta Lelê" width="180" height="132">
+            <?php else: ?>
+                <img src="/assets/img/logo.png" alt="Conta Lelê" width="150" height="44">
+            <?php endif; ?>
         </a>
-        <a class="lp-btn lp-btn--amarelo lp-btn--sm" href="<?= e($ctaTopo['href']) ?>"<?= $ctaTopo['externo'] ?? false ? ' target="_blank" rel="noopener"' : '' ?>>
+        <a class="lp-btn lp-btn--amarelo lp-btn--sm" href="<?= e($ctaTopo['href']) ?>"<?= $ctaAlvo ?>>
             <?= e($ctaTopo['texto']) ?>
         </a>
     </div>
@@ -56,8 +75,12 @@ $ctaTopo  = $ctaTopo  ?? ['href' => '#', 'texto' => 'Quero entrar'];
 <div class="lp-barra" id="lp-barra" hidden>
     <div class="lp-largura lp-barra__interno">
         <span class="lp-barra__nome">Conte<em>&amp;</em>Encante</span>
-        <a class="lp-btn lp-btn--primario lp-btn--sm" href="<?= e($ctaTopo['href']) ?>"<?= $ctaTopo['externo'] ?? false ? ' target="_blank" rel="noopener"' : '' ?>>
-            <?= e($ctaTopo['texto']) ?>
+        <?php if ($promocao !== null): ?>
+            <span class="lp-bf-barra-txt" aria-hidden="true"><b><?= e($promocao['nome']) ?></b>
+                <s><?= e($promocao['de']) ?></s></span>
+        <?php endif; ?>
+        <a class="lp-btn lp-btn--primario lp-btn--sm" href="<?= e($ctaTopo['href']) ?>"<?= $ctaAlvo ?>>
+            <?= e($ctaTopo['texto']) ?><?= $promocao !== null ? ' por ' . e($promocao['por']) : '' ?>
         </a>
     </div>
 </div>
