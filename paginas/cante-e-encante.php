@@ -3,8 +3,7 @@
  * Página de vendas do curso Cante & Encante.
  *
  * Layout do Claude Design (pacote download-cante-e-encante), com topo, barra e
- * rodapé próprios ($landingPropria). Enquanto não publicada, só abre com a senha
- * de pré-visualização e não entra em buscadores.
+ * rodapé próprios ($landingPropria). Página pública, sem senha de prévia.
  *
  * Thiago Mourão — https://github.com/MouraoBSB — 03/11/2026
  */
@@ -14,9 +13,6 @@ declare(strict_types=1);
 require_once CL_RAIZ . '/includes/conexao.php';
 require_once CL_RAIZ . '/includes/repositorio.php';
 require_once CL_RAIZ . '/includes/girassol.php';
-require_once CL_RAIZ . '/includes/previa.php';
-
-$publicada = exigir_previa('cante', 'Cante & Encante');
 
 $layout         = 'landing';
 $landingPropria = true;
@@ -28,6 +24,7 @@ $jsExtra        = ['/assets/js/cante-e-encante.js'];
 // produto estiver em rascunho na Hotmart: os botões levam ao cartão de preço.
 $urlCheckout = trim(configuracao('cante_checkout_url', ''));
 $preco       = 'R$ 97';
+// Vazio, a página não fala de certificado (nem na lista nem no FAQ).
 $certificado = trim(configuracao('cante_certificado', ''));
 
 // ── Promoção ─────────────────────────────────────────────────────────────
@@ -55,20 +52,11 @@ $externo     = $urlCheckout !== '';
 $cta = 'href="' . e($externo ? $urlCheckout : '#lp-investimento') . '"'
     . ($externo ? ' target="_blank" rel="noopener"' : '');
 
-/** Valor do painel, ou o selo de pendência enquanto estiver vazio. */
-$ouPendente = static function (string $valor, string $rotulo): string {
-    return $valor !== '' ? e($valor) : '<span class="lp-pendente">[PENDENTE: ' . e($rotulo) . ']</span>';
-};
-
 // ── SEO ──────────────────────────────────────────────────────────────────
 $seo['titulo']    = 'Cante & Encante — música na contação de histórias, com Lelê e Kleyton Santos';
 $seo['descricao'] = 'Curso online para colocar música nas suas histórias mesmo sem tocar instrumento '
     . 'nem cantar bem. 6 aulas com Lelê e Kleyton Santos.';
 $seo['imagem']    = $seo['url_base'] . '/assets/img/cante/aula1-lele-e-kleyton.jpg';
-
-if (!$publicada) {
-    $seo['robots'] = 'noindex, nofollow';
-}
 
 $seo['json_ld'] = [
     '@context'    => 'https://schema.org',
@@ -105,14 +93,6 @@ $checkSvg = '<span class="lp-ck"><svg aria-hidden="true" focusable="false"><use 
 <symbol id="ck-sym" viewBox="0 0 24 24"><path d="M4 12.5l5 5 11-11" fill="none" stroke="#2b1300" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></symbol>
 <symbol id="chev-sym" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" fill="none" stroke="#2b1300" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></symbol>
 </defs></svg>
-
-<?php if (!$publicada): ?>
-<div class="lp-previa">
-    <div class="lp-wrap">
-        <strong>Pré-visualização.</strong> Esta página ainda não está publicada e não aparece em buscadores.
-    </div>
-</div>
-<?php endif; ?>
 
 <?php if ($promocao !== null): ?>
 <div class="lp-bf-faixa" role="region" aria-label="<?= e($promocao['nome']) ?>">
@@ -427,7 +407,9 @@ $checkSvg = '<span class="lp-ck"><svg aria-hidden="true" focusable="false"><use 
                 <li class="lp-rv"><?= $checkSvg ?><span><b><?= e($titulo) ?></b><?php if ($detalhe !== ''): ?><span
                     class="lp-dim"><?= e($detalhe) ?></span><?php endif; ?></span></li>
             <?php endforeach; ?>
-            <li class="lp-rv"><?= $checkSvg ?><span><b>Certificado</b><span class="lp-dim"><?= $ouPendente($certificado, 'confirmar certificado') ?></span></span></li>
+            <?php if ($certificado !== ''): ?>
+                <li class="lp-rv"><?= $checkSvg ?><span><b>Certificado</b><span class="lp-dim"><?= e($certificado) ?></span></span></li>
+            <?php endif; ?>
         </ul>
         <div class="lp-previas">
             <figure class="lp-rv"><div class="lp-foto lp-r32"><img src="/assets/img/cante/material-letras-com-cifras-sucolandia.jpg"
@@ -489,7 +471,7 @@ $checkSvg = '<span class="lp-ck"><svg aria-hidden="true" focusable="false"><use 
         <h2 class="lp-rv" style="text-align:center">Perguntas <em>frequentes</em></h2>
         <div class="lp-faq" id="lp-faq">
             <?php
-            // Respostas em texto puro (escapadas), exceto o certificado, que pode trazer o selo de pendência.
+            // Respostas já escapadas.
             $faq = [
                 ['Preciso saber cantar?', e('Não. Você vai usar a sua voz do jeito que ela é. Muitas músicas do curso são '
                     . 'cantigas que as crianças já conhecem e cantam junto com você.')],
@@ -505,12 +487,14 @@ $checkSvg = '<span class="lp-ck"><svg aria-hidden="true" focusable="false"><use 
                     . 'Lagarta foi liberada pelo Kleyton para os alunos. Quando usar músicas de outros autores, cite quem '
                     . 'compôs; em apresentações pagas, respeite os direitos autorais.')],
                 ['Por quanto tempo terei acesso?', e('Por 1 ano.')],
-                ['Tem certificado?', $ouPendente($certificado, 'confirmar certificado')],
                 ['Já comprei o Conte&Encante. Preciso comprar este?', e('Não. O Cante & Encante já está incluído como bônus '
                     . 'no Conte&Encante, na sua área de membros.')],
                 ['Como funciona a garantia?', e('Você tem 7 dias para conhecer o curso. Se não fizer sentido para você, pede '
                     . 'o reembolso pela plataforma.')],
             ];
+            if ($certificado !== '') {
+                array_splice($faq, 7, 0, [['Tem certificado?', e($certificado)]]);
+            }
             foreach ($faq as $i => [$pergunta, $resposta]):
                 $n = $i + 1;
                 $aberta = $n === 1;
