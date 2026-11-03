@@ -73,22 +73,7 @@ if ($promocao !== null) {
 
 // A Hotmart anexa o código do afiliado na URL desta página quando alguém chega
 // por um link de divulgação. Sem repassar ao checkout, a comissão não é creditada.
-if ($urlCheckout !== '') {
-    $repasse = [];
-    foreach (['a', 'src', 'sck', 'xcod'] as $parametro) {
-        $valor = $_GET[$parametro] ?? null;
-        if (is_string($valor) && $valor !== '') {
-            $limpo = preg_replace('/[^A-Za-z0-9_.\-]/', '', $valor);
-            if ($limpo !== '') {
-                $repasse[$parametro] = substr($limpo, 0, 64);
-            }
-        }
-    }
-    if ($repasse !== []) {
-        $urlCheckout .= (str_contains($urlCheckout, '?') ? '&' : '?')
-            . http_build_query($repasse);
-    }
-}
+$urlCheckout = checkout_com_afiliado($urlCheckout, $_GET);
 
 // Sem checkout, os botões levam ao bloco da oferta em vez de a lugar nenhum.
 $hrefCta = $urlCheckout !== '' ? $urlCheckout : '#lp-investimento';
@@ -809,8 +794,8 @@ function lp_check(): string
                 <figure class="lp-bonus__foto">
                     <img class="lp-foto lp-foto--3x2" loading="lazy"
                          src="/assets/img/curso/curso-bonus-musica.jpg" width="760" height="507"
-                         alt="Lelê com almofadas coloridas e Klayton Santos com o violão">
-                    <figcaption>Lelê e <strong>Klayton Santos</strong>, que assina a criação
+                         alt="Lelê com almofadas coloridas e Kleyton Santos com o violão">
+                    <figcaption>Lelê e <strong>Kleyton Santos</strong>, que assina a criação
                         musical do bônus.</figcaption>
                 </figure>
             </div>
@@ -826,7 +811,7 @@ function lp_check(): string
                         que as crianças já conhecem, adaptar letras e &ldquo;pescar&rdquo; novamente
                         a atenção da turma.</li>
                     <li><b>Criando músicas para histórias</b> — começa com A Lagarta Comilona e
-                        mostra, com o tio Klayton, que uma composição pode nascer de uma frase, de
+                        mostra, com o tio Kleyton, que uma composição pode nascer de uma frase, de
                         versos, rimas e repetições da própria narrativa.</li>
                     <li><b>Música sem complicação</b> — mostra que não é preciso tocar violão, ler
                         partitura ou ser profissional. A própria voz, um cantarolar, instrumentos

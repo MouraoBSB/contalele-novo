@@ -81,3 +81,30 @@ function csrf_validar(?string $token): bool
         && is_string($token)
         && hash_equals($_SESSION['csrf'], $token);
 }
+
+/**
+ * Acrescenta ao link do checkout os parâmetros de afiliado que a Hotmart anexa
+ * na URL da página de vendas (a, src, sck, xcod). Sem esse repasse, a comissão
+ * de quem chegou por um link de divulgação não é creditada.
+ * Lista fechada de parâmetros e valores limpos: nada da URL entra cru no link.
+ */
+function checkout_com_afiliado(string $urlCheckout, array $parametros): string
+{
+    if ($urlCheckout === '') {
+        return '';
+    }
+    $repasse = [];
+    foreach (['a', 'src', 'sck', 'xcod'] as $nome) {
+        $valor = $parametros[$nome] ?? null;
+        if (is_string($valor) && $valor !== '') {
+            $limpo = preg_replace('/[^A-Za-z0-9_.\-]/', '', $valor);
+            if ($limpo !== '') {
+                $repasse[$nome] = substr($limpo, 0, 64);
+            }
+        }
+    }
+    if ($repasse === []) {
+        return $urlCheckout;
+    }
+    return $urlCheckout . (str_contains($urlCheckout, '?') ? '&' : '?') . http_build_query($repasse);
+}
