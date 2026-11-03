@@ -1,9 +1,9 @@
 # Hotmart — Conte&Encante · Status da configuração
 
-**Última atualização:** 14/08/2026
+**Última atualização:** 03/11/2026
 **Lançamento:** 15/08/2026
 **Situação geral:** **vendas ativas**. Produto no ar, página publicada, fluxo de
-compra testado de ponta a ponta.
+compra testado de ponta a ponta. **Black Friday ativa desde 03/11/2026** (seção 3.1).
 
 Este documento é um handoff. Registra o que foi configurado na Hotmart, as decisões
 tomadas com o motivo, e o que continua pendente.
@@ -44,8 +44,11 @@ tomadas com o motivo, e o que continua pendente.
 ## 2. Links (fonte da verdade)
 
 ```
-Checkout (usado nos botões da página de vendas):
+Checkout da oferta normal (R$ 397; botões da página fora da Black Friday):
 https://pay.hotmart.com/B107134315C?off=87ea4lrn
+
+Checkout da Black Friday (R$ 297; botões da página enquanto a promoção estiver ligada):
+https://pay.hotmart.com/B107134315C?off=36l1f851
 
 Página de Vendas gerada pela Hotmart (redireciona para a página externa):
 https://go.hotmart.com/B107134315C
@@ -101,6 +104,31 @@ Uma venda em 12x rende **R$ 77,05 a menos** de base que uma à vista.
 > **Oportunidade não implementada:** desconto no Pix. Como o Pix não tem custo de
 > antecipação, um preço em torno de R$ 267 no Pix ainda superaria o líquido de uma
 > venda em 12x.
+
+### 3.1 Black Friday 2026
+
+| Item | Valor |
+|---|---|
+| Oferta | `Black Friday 2026` — código `36l1f851` (criada em 03/11/2026) |
+| Preço | R$ 297,00 (R$ 100 abaixo da oferta normal) |
+| Parcelamento | Até **12x de R$ 24,75 sem juros** (produtora paga as taxas) |
+| Descrição no checkout | `Curso Conte e Encante - acesso completo - Black Friday` |
+| Formas de pagamento | Cartão, Pix, Boleto, PayPal (as mesmas da oferta normal) |
+| Recuperador automático | Ativo, até 12 parcelas |
+| Conversão de moeda automática | Ativa |
+| Prazo | **Sem data de término.** Por tempo limitado, encerrada manualmente |
+
+A oferta normal `87ea4lrn` e o preço base (R$ 397) **não foram alterados**. Só a
+página de vendas troca de checkout durante a promoção.
+
+**Na página:** o array `$promocao` em `paginas/conte-e-encante.php` liga e desliga a
+Black Friday (`'ativa' => true/false`). Ligada, todos os botões vão para `36l1f851`,
+com faixa, topo café, selo e cartão "de R$ 397 por R$ 297". Desligada, o HTML volta
+igual ao da tag git `conte-e-encante-pre-black-friday`.
+
+> **Fora do site, continuam em R$ 397:** os QR codes da seção 6 (`qr-conte-encante-*`)
+> e qualquer link de checkout colado em bio, WhatsApp ou grupo com `?off=87ea4lrn`.
+> Para divulgar a Black Friday, use o link da `36l1f851`.
 
 ---
 
@@ -178,7 +206,7 @@ Landing isolada, sem menu: a única saída é o checkout. 19 blocos.
 
 | Elemento | Estado |
 |---|---|
-| Preço e parcelamento | R$ 397 · 12x de R$ 33,09 sem juros · Pix ou cartão |
+| Preço e parcelamento | R$ 397 · 12x de R$ 33,09 sem juros · Pix ou cartão. **Na Black Friday:** de R$ 397 por R$ 297 · 12x de R$ 24,75 (ver 3.1) |
 | Garantia | 7 dias, com a redação da Lelê |
 | Método | VISAR nomeado, **não destrinchado** (decisão dela: uma sigla só na página) |
 | VIPE | Bloco completo, com o remate "Você não precisa ter dom… Mas precisa ter VIPE" |
@@ -286,6 +314,12 @@ tem MEI e o lançamento era no dia seguinte. **Assunto para revisitar com um con
 ---
 
 ## 8. Pendências
+
+### Ao encerrar a Black Friday
+
+- [ ] `'ativa' => false` em `$promocao` (`paginas/conte-e-encante.php`) e deploy da página
+- [ ] Decidir se a oferta `36l1f851` fica inativa na Hotmart, para ninguém comprar a R$ 297
+      por um link antigo
 
 ### Ação imediata
 
