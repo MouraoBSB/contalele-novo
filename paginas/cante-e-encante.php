@@ -20,22 +20,23 @@ $cssExtra       = ['/assets/css/cante-e-encante.css'];
 $jsExtra        = ['/assets/js/cante-e-encante.js'];
 
 // ── Dados da oferta ──────────────────────────────────────────────────────
-// Link da oferta normal (R$ 97, código q5glzjoe), com o ?off. Vazio enquanto o
-// produto estiver em rascunho na Hotmart: os botões levam ao cartão de preço.
-$urlCheckout = trim(configuracao('cante_checkout_url', ''));
+// O ?off fixa a oferta "Preço base" (R$ 97). Sem ele o link segue o preço base
+// vigente, o que quebra no dia em que existir uma promoção. O painel pode trocar
+// o link; campo vazio (salvo ou nunca preenchido) volta para este.
+$urlCheckout = trim(configuracao('cante_checkout_url', ''))
+    ?: 'https://pay.hotmart.com/O108321613K?off=q5glzjoe';
 $preco       = 'R$ 97';
 // Vazio, a página não fala de certificado (nem na lista nem no FAQ).
 $certificado = trim(configuracao('cante_certificado', ''));
 
 // ── Promoção ─────────────────────────────────────────────────────────────
 // Black Friday por tempo limitado, sem data de término: liga e desliga aqui.
-// Os valores precisam bater com a oferta "Black Friday 2026" da Hotmart (nn7nhybh).
-// O link dela só existe quando o produto sair do rascunho; vazio, vale o do painel.
+// Os valores precisam bater com a oferta "Black Friday 2026" da Hotmart.
 $promocao = [
     'ativa'    => true,
     'nome'     => 'Black Friday',
     'produto'  => 'Cante & Encante',
-    'checkout' => '',
+    'checkout' => 'https://pay.hotmart.com/O108321613K?off=nn7nhybh',
     'de'       => 'R$ 97',
     'por'      => 'R$ 67',
     'desconto' => 'R$ 30',

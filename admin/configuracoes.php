@@ -78,8 +78,9 @@ $grupos = [
     ],
     'Curso Cante & Encante' => [
         'cante_checkout_url' => ['URL do checkout na Hotmart (oferta normal, R$ 97)', 'url',
-            'Link da oferta "Preço base" com o ?off=q5glzjoe. Vazio, os botões levam ao cartão de '
-            . 'preço. Durante a Black Friday vale o link da oferta de R$ 67, definido no código da página.'],
+            'Vazio, a página usa https://pay.hotmart.com/O108321613K?off=q5glzjoe. Mantenha o ?off — '
+            . 'ele fixa a oferta "Preço base". Durante a Black Friday vale o link da oferta de R$ 67, '
+            . 'definido no código da página.'],
         'cante_certificado' => ['Certificado', 'text',
             'Texto sobre o certificado (ex.: "Ao concluir o curso, você recebe um certificado."). '
             . 'Vazio, a página não fala de certificado, nem na lista nem no FAQ.'],
