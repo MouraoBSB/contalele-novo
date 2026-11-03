@@ -96,7 +96,7 @@ body.lp-barra-on{padding-bottom:76px}
 .lp-mapa{position:relative;overflow:hidden;border-radius:22px;aspect-ratio:16/10;background:#fbf6ea;box-shadow:var(--sombra)}
 .lp-mapa img{position:absolute;max-width:none;width:175%;left:-4%;top:-3%;-webkit-mask-image:linear-gradient(to bottom,#000 40%,transparent 92%);mask-image:linear-gradient(to bottom,#000 40%,transparent 92%)}
 .lp-mapa.lp-mapa-dir img{left:auto;right:-4%;top:-30%}
-.lp-mapa figcaption{position:absolute;left:16px;right:16px;bottom:14px;font-size:13px;font-weight:800;text-align:center}
+.lp-mapa figcaption{position:absolute;left:50%;bottom:14px;transform:translateX(-50%);width:max-content;max-width:calc(100% - 32px);padding:6px 14px;border-radius:999px;background:var(--surface);border:1px solid var(--borda);box-shadow:var(--sombra);color:var(--ink);font-size:13px;font-weight:800;text-align:center}
 .lp-manda{font-family:var(--display);font-weight:400;font-size:24px;line-height:1.2;color:var(--accent);margin:32px 0 0;text-align:center}
 /* vídeo */
 .lp-video{border-radius:22px;overflow:hidden;background:var(--ink);box-shadow:var(--sombra-g);aspect-ratio:16/9}
