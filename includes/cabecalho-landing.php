@@ -9,6 +9,8 @@
  * @var array  $cssExtra  Folhas de estilo específicas da página.
  * @var array  $ctaTopo   ['href' => string, 'texto' => string] do botão do topo.
  * @var ?array $promocao  Promoção ativa (nome, produto, de, por, desconto) ou null.
+ * @var bool   $landingPropria  true quando a página desenha o próprio topo, barra e rodapé;
+ *                              aqui sai só o <head> e a abertura do <body>.
  */
 
 declare(strict_types=1);
@@ -18,6 +20,7 @@ require_once CL_RAIZ . '/includes/girassol.php';
 $cssExtra = $cssExtra ?? [];
 $ctaTopo  = $ctaTopo  ?? ['href' => '#', 'texto' => 'Quero entrar'];
 $promocao = $promocao ?? null;
+$landingPropria = $landingPropria ?? false;
 $ctaAlvo  = $ctaTopo['externo'] ?? false ? ' target="_blank" rel="noopener"' : '';
 ?>
 <!doctype html>
@@ -44,6 +47,7 @@ $ctaAlvo  = $ctaTopo['externo'] ?? false ? ' target="_blank" rel="noopener"' : '
 <body class="cl-landing<?= $promocao !== null ? ' lp-bf-on' : '' ?>">
 <a class="cl-skip" href="#conteudo">Pular para o conteúdo</a>
 <?php girassol_sprite(); ?>
+<?php if ($landingPropria) { return; } ?>
 
 <?php if ($promocao !== null): ?>
 <div class="lp-bf-faixa" role="region" aria-label="<?= e($promocao['nome']) ?>">

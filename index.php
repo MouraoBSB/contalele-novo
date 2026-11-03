@@ -48,6 +48,7 @@ $rotas = [
     'entrar/google/callback' => 'google-callback',
     // Página de vendas do curso (landing isolada, sem menu)
     'conte-e-encante'        => 'conte-e-encante',
+    'cante-e-encante'        => 'cante-e-encante',
 ];
 
 // Layouts disponíveis: a página pode trocar definindo $layout antes de imprimir.

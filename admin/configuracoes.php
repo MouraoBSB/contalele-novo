@@ -76,10 +76,22 @@ $grupos = [
         'curso_encontros_ao_vivo' => ['Encontros ao vivo — quantidade e periodicidade', 'textarea',
             'Vazio, a página usa "São 5 encontros ao vivo, aos sábados pela manhã, pelo Zoom."'],
     ],
+    'Curso Cante & Encante' => [
+        'cante_publicado' => ['Página publicada', 'bool',
+            'Desmarcada, a página /cante-e-encante só abre com a senha abaixo e não entra em buscadores.'],
+        'cante_previa_hash' => ['Senha de pré-visualização', 'senha_hash',
+            'Quem receber esta senha consegue ver a página antes de ela ir ao ar.'],
+        'cante_checkout_url' => ['URL do checkout na Hotmart (oferta normal, R$ 97)', 'url',
+            'Link da oferta "Preço base" com o ?off=q5glzjoe. Vazio, os botões levam ao cartão de '
+            . 'preço. Durante a Black Friday vale o link da oferta de R$ 67, definido no código da página.'],
+        'cante_certificado' => ['Certificado', 'text',
+            'Texto sobre o certificado (ex.: "Ao concluir o curso, você recebe um certificado."). '
+            . 'Vazio, a página mostra a etiqueta de pendência na lista e no FAQ.'],
+    ],
 ];
 
 // Campos de segredo: em branco, preservam o valor já salvo.
-$segredos = ['smtp_senha', 'google_client_secret', 'curso_previa_hash'];
+$segredos = ['smtp_senha', 'google_client_secret', 'curso_previa_hash', 'cante_previa_hash'];
 
 $aviso = null;
 

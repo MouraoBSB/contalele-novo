@@ -6,16 +6,19 @@
  * Thiago Mourão — https://github.com/MouraoBSB
  *
  * @var array $jsExtra Scripts específicos da página.
+ * @var bool  $landingPropria true quando a página já desenhou o próprio rodapé.
  */
 
 declare(strict_types=1);
 
 $jsExtra = $jsExtra ?? [];
+$landingPropria = $landingPropria ?? false;
 
 $igRodape    = configuracao('instagram', 'https://www.instagram.com/contalele/');
 $ytRodape    = configuracao('youtube', 'https://www.youtube.com/c/ContaLel%C3%AA');
 $emailRodape = configuracao('email_contato', 'contato@contalele.com.br');
 ?>
+<?php if (!$landingPropria): ?>
 </main>
 
 <footer class="lp-rodape">
@@ -29,6 +32,7 @@ $emailRodape = configuracao('email_contato', 'contato@contalele.com.br');
         <p class="lp-rodape__base">&copy; <?= date('Y') ?> Conta Lelê · Planaltina-DF</p>
     </div>
 </footer>
+<?php endif; ?>
 
 <?php foreach ($jsExtra as $js): ?>
     <script src="<?= e($js) ?>?v=<?= @filemtime(CL_RAIZ . $js) ?: time() ?>" defer></script>
