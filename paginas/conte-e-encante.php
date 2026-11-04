@@ -26,11 +26,13 @@ $jsExtra  = ['/assets/js/conte-e-encante.js'];
 // ── Dados da oferta ──────────────────────────────────────────────────────
 // O ?off fixa a oferta "Padrao sem juros". Sem ele o link segue o preço base
 // vigente, o que quebra no dia em que existir uma promoção.
-$urlCheckout   = trim(configuracao('curso_checkout_url',
-    'https://pay.hotmart.com/B107134315C?off=87ea4lrn'));
-$preco         = trim(configuracao('curso_preco', '397'));
-$parcelamento  = trim(configuracao('curso_parcelamento',
-    'ou 12x de R$ 33,09 sem juros · Pix ou cartão de crédito'));
+// Checkout, preço e parcelamento não têm versão "vazia" na página: campo em
+// branco no painel (salvo ou nunca preenchido) volta para o padrão do código.
+$urlCheckout   = trim(configuracao('curso_checkout_url', ''))
+    ?: 'https://pay.hotmart.com/B107134315C?off=87ea4lrn';
+$preco         = trim(configuracao('curso_preco', '')) ?: '397';
+$parcelamento  = trim(configuracao('curso_parcelamento', ''))
+    ?: 'ou 12x de R$ 33,09 sem juros · Pix ou cartão de crédito';
 $garantiaDias  = trim(configuracao('curso_garantia_dias', '7'));
 $cargaHoraria  = trim(configuracao('curso_carga_horaria', '25 horas'));
 $certificado   = trim(configuracao('curso_certificado',
