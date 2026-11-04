@@ -1,9 +1,11 @@
-# Hotmart — Conte&Encante · Status da configuração
+# Hotmart — Status da configuração
 
-**Última atualização:** 03/11/2026
-**Lançamento:** 15/08/2026
-**Situação geral:** **vendas ativas**. Produto no ar, página publicada, fluxo de
-compra testado de ponta a ponta. **Black Friday ativa desde 03/11/2026** (seção 3.1).
+**Última atualização:** 04/11/2026
+
+| Produto | Lançamento | Situação |
+|---|---|---|
+| Conte&Encante (seções 1 a 8) | 15/08/2026 | **Vendas ativas.** Black Friday ativa desde 03/11/2026 (seção 3.1) |
+| Cante & Encante (seção 9) | 03/11/2026 | **Vendas ativas.** Lançado já com o preço de Black Friday |
 
 Este documento é um handoff. Registra o que foi configurado na Hotmart, as decisões
 tomadas com o motivo, e o que continua pendente.
@@ -148,11 +150,13 @@ igual ao da tag git `conte-e-encante-pre-black-friday`.
 | 05 — O Encantamento Continua | 4 |
 | **Total** | **27 aulas em 6 módulos** |
 
-**Aba Adicional:** módulo `Cante & Encante`, 6 aulas — **sem nome e não publicadas**.
-Previsão de liberação: **22/08/2026**.
+**Aba Adicional** (conferida em 04/11/2026) — tudo publicado, com expiração de 365 dias:
 
-**Segundo bônus** (`Pequenos Objetos, Grandes Histórias`): ainda não existe na área.
-Mesma previsão.
+| Módulo | Conteúdos | Liberação |
+|---|---|---|
+| Cante & Encante (bônus) | 6 aulas | Desde 22/08/2026 |
+| Pequenos Objetos, Grandes Histórias (bônus) | 24 (Comece aqui + 23 histórias) | 7 dias após a compra |
+| Encontros de Mentoria | 1 (*Encontro 01 — Laboratório do Imaginar*) | Na compra, sem expiração |
 
 ### Tempo de acesso
 
@@ -165,9 +169,7 @@ Turmas .............................. Todas as turmas
 ```
 
 O **Módulo 0 ficou de fora** de propósito — segue vitalício, como porta de entrada.
-
-> **Pendente:** repetir o agendamento na aba **Adicional**, para o Cante & Encante.
-> Sem isso o bônus fica vitalício enquanto o curso expira em 1 ano.
+Os módulos de bônus da aba **Adicional** também expiram em 365 dias.
 
 Para conferir ou alterar: selecione os módulos → **Agendar**. Não existe "editar" —
 um novo agendamento substitui o anterior. Há também "Remover agendamentos".
@@ -228,7 +230,9 @@ Sem isso a comissão não seria creditada.
 ### Campos editáveis no painel
 
 `/admin/configuracoes.php` → seção **Curso Conte&Encante**. Todos têm padrão no código;
-o campo preenchido sobrescreve.
+o campo preenchido sobrescreve. Checkout, preço e parcelamento em branco voltam ao
+padrão (o formulário grava todos os campos de uma vez, então "em branco" é comum).
+Nos demais, em branco tem efeito na página: o item some ou mostra "a definir".
 
 ```
 curso_publicado          curso_previa_hash        curso_checkout_url
@@ -315,18 +319,18 @@ tem MEI e o lançamento era no dia seguinte. **Assunto para revisitar com um con
 
 ## 8. Pendências
 
-### Ao encerrar a Black Friday
+### Ao encerrar a Black Friday (vale para os dois produtos)
 
-- [ ] `'ativa' => false` em `$promocao` (`paginas/conte-e-encante.php`) e deploy da página
-- [ ] Decidir se a oferta `36l1f851` fica inativa na Hotmart, para ninguém comprar a R$ 297
-      por um link antigo
+- [ ] Conte: `'ativa' => false` em `$promocao` (`paginas/conte-e-encante.php`) e deploy
+- [ ] Cante: `'ativa' => false` em `$promocao` (`paginas/cante-e-encante.php`) e deploy —
+      os botões voltam sozinhos para a oferta `q5glzjoe` (R$ 97)
+- [ ] Decidir se as ofertas `36l1f851` (Conte, R$ 297) e `nn7nhybh` (Cante, R$ 67) ficam
+      inativas na Hotmart, para ninguém comprar com desconto por um link antigo
 
 ### Ação imediata
 
-- [ ] **Agendar 365 dias na aba Adicional** (Cante & Encante) — sem isso o bônus fica
-      vitalício enquanto o curso expira
-- [ ] **Publicar as 6 aulas do Cante & Encante** e montar o *Pequenos Objetos, Grandes
-      Histórias* até **22/08** — a página anuncia essa data
+- [x] ~~Agendar 365 dias na aba Adicional~~ — feito (conferido em 04/11/2026)
+- [x] ~~Publicar o Cante & Encante e o Pequenos Objetos~~ — feito (seção 4)
 - [ ] **Reconhecimento facial** — só a Letícia pode fazer; destrava o saque
 
 ### Quando entrar a primeira venda
@@ -356,3 +360,96 @@ tem MEI e o lançamento era no dia seguinte. **Assunto para revisitar com um con
 > de suspensão, por causa da correção da regra fiscal (ESS + conteúdo educacional). A
 > área de membros com as 27 aulas publicadas é essa comprovação. Ficar de olho no
 > e-mail da conta.
+
+---
+
+## 9. Cante & Encante (produto solo)
+
+Antes era só o bônus da aba Adicional do Conte&Encante (quem comprou o Conte continua
+com ele lá). Virou produto próprio em 03/11/2026, lançado já com o preço de Black Friday.
+
+### Identificação
+
+| Campo | Valor |
+|---|---|
+| Nome cadastrado | `Cante e Encante: como usar a música para dar vida às histórias` — com "e", não "&", para não virar `&amp;` em e-mail, recibo e fatura |
+| ID do produto | `8875349` |
+| Categoria | Educacional · Curso Online |
+| Capa | **Provisória** (foto da aula 1 + letreiro dos materiais). A definitiva sai de um frame de vídeo |
+| Vendas ativas | **Ligado** — aprovado em 03/11/2026, depois de "Finalizar cadastro" (com aceite do Termo de Tratamento de Dados Pessoais) |
+
+### Links
+
+```
+Checkout da oferta normal (R$ 97; botões da página fora da Black Friday):
+https://pay.hotmart.com/O108321613K?off=q5glzjoe
+
+Checkout da Black Friday (R$ 67; botões da página enquanto a promoção estiver ligada):
+https://pay.hotmart.com/O108321613K?off=nn7nhybh
+
+Página de vendas própria (cadastrada como página externa do produto):
+https://contalele.com.br/cante-e-encante
+```
+
+### Ofertas
+
+| Oferta | Código | Preço | Parcelamento |
+|---|---|---|---|
+| Preço base | `q5glzjoe` | R$ 97,00 | até 12x de R$ 8,09 sem juros |
+| Black Friday 2026 | `nn7nhybh` | R$ 67,00 | até 12x de R$ 5,59 sem juros |
+
+Garantia de **7 dias**. Black Friday **sem data de término**, encerrada manualmente
+(checklist na seção 8).
+
+### Área de membros
+
+Mesmo Club `Conta Lelê`. Aba **Principal**, módulo `Cante & Encante`, tudo publicado com
+expiração de **365 dias** para todas as turmas (via Agendar em massa):
+
+| Aula | Título |
+|---|---|
+| 01 | A música como aliada da narrativa |
+| 02 | Rituais de começo e de fim |
+| 03 | Cantigas de roda e paródias |
+| 04 | Criando músicas para histórias |
+| 05 | Música sem complicação |
+| 06 | Oficina musical |
+
+Materiais anexados às aulas: letras **com cifras** (não partitura), os mapas mentais das
+aulas 1 e 5 e o e-book *Circo Encantado* (aula 6).
+
+A aba **Adicional** está vazia: as cópias importadas do Conte (6 aulas + "Cópia de
+Aula 01", nenhuma publicada) foram excluídas em 04/11/2026.
+
+### Certificado
+
+**Em montagem — ainda desligado.** O fundo está pronto, com a mesma arte do Conte e o
+selo "Cante & Encante": `Identidade Visual/Cante e Encante/certificado-fundo-2000x1414.jpg`
+(fonte: `certificado-fundo.html` na mesma pasta). Falta subir na Hotmart, montar os
+textos e ligar a publicação.
+
+> A Hotmart não tem tag de carga horária no certificado (só participante, curso,
+> organizador, data de término, turma e QR code). Se entrar, é texto fixo.
+
+### Página de vendas
+
+`paginas/cante-e-encante.php` — landing isolada, sem senha, indexável. O array
+`$promocao` liga e desliga a Black Friday; desligada, os botões vão para `q5glzjoe`.
+Repasse de afiliado igual ao do Conte (`checkout_com_afiliado()`).
+
+Painel → seção **Curso Cante & Encante**:
+
+```
+cante_checkout_url   vazio = q5glzjoe
+cante_certificado    vazio = a página não fala de certificado (nem na lista nem no FAQ)
+```
+
+### Pendências
+
+- [ ] **Capa definitiva** (a partir de um frame de vídeo)
+- [ ] **Certificado**: configurar e ligar na Hotmart; depois preencher `cante_certificado`
+- [ ] Conferir se o produto tem programa de afiliados e "Adicionar Código de Afiliação à
+      página externa" ligado, como o Conte
+- [ ] Materiais para a Lelê corrigir: o anexo 3 da Lagarta credita "Nhoc nhoc nhoc" ao
+      Kleyton (na aula é do Chauan); o rodapé do anexo 4 diz "CONTE & ENCANTE"; falta o
+      recurso *Adivinhas dos Animais* / *Cordel dos Animais*, que a aula 6 menciona
