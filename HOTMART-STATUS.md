@@ -179,7 +179,13 @@ um novo agendamento substitui o anterior. Há também "Remover agendamentos".
 **Ativado.** Fundo personalizado na identidade da marca (creme, moldura café e laranja,
 girassóis, logo Conta Lelê). Textos em português. O nome do curso foi escrito **fixo**
 como "Conte&Encante" em vez da tag `*|CURSO|*`, para evitar o título longo e o `&`
-virando `&amp;`.
+virando `&amp;`. Desde 04/11/2026 traz a linha fixa **"COM CARGA HORÁRIA DE 25 HORAS"**,
+a mesma carga que a página anuncia (`curso_carga_horaria`). Mudou uma, mude a outra.
+
+> **Editor da Hotmart:** confira sempre em "Visualizar certificado", que gera o PDF
+> real. O editor mede a Georgia em negrito mais estreita que o servidor: texto fixo
+> nessa fonte e peso sai deslocado para a direita no PDF. Os textos que vêm de tag não
+> sofrem com isso, e o "Conte&Encante" (Times New Roman negrito) sai centralizado.
 
 Arquivo: `Identidade Visual/Conte e Encante/qr/certificado-fundo-2000x1414.jpg`
 
@@ -423,13 +429,20 @@ Aula 01", nenhuma publicada) foram excluídas em 04/11/2026.
 
 ### Certificado
 
-**Em montagem — ainda desligado.** O fundo está pronto, com a mesma arte do Conte e o
-selo "Cante & Encante": `Identidade Visual/Cante e Encante/certificado-fundo-2000x1414.jpg`
-(fonte: `certificado-fundo.html` na mesma pasta). Falta subir na Hotmart, montar os
-textos e ligar a publicação.
+**Ativado em 04/11/2026.** Mesma arte do Conte, com o selo "Cante & Encante":
+`Identidade Visual/Cante e Encante/certificado-fundo-2000x1414.jpg` (fonte:
+`certificado-fundo.html` na mesma pasta). Textos, de cima para baixo:
 
-> A Hotmart não tem tag de carga horária no certificado (só participante, curso,
-> organizador, data de término, turma e QR code). Se entrar, é texto fixo.
+```
+CERTIFICADO · CERTIFICAMOS QUE · *|PARTICIPANTE|* · CONCLUIU O CURSO
+Cante & Encante (fixo, peso normal) · COM CARGA HORÁRIA DE 3 HORAS (fixo)
+*|DATA TÉRMINO|* · *|ORGANIZADOR|*
+```
+
+A Hotmart não tem tag de carga horária (só participante, curso, organizador, data de
+término, turma e QR code): as 3 horas são texto fixo e precisam bater com o texto da
+página. O nome do curso ficou em peso normal porque, em negrito, o PDF sai deslocado
+(ver nota na seção 4).
 
 ### Página de vendas
 
@@ -441,13 +454,12 @@ Painel → seção **Curso Cante & Encante**:
 
 ```
 cante_checkout_url   vazio = q5glzjoe
-cante_certificado    vazio = a página não fala de certificado (nem na lista nem no FAQ)
+cante_certificado    vazio = "Ao concluir o curso, você recebe um certificado de 3 horas."
 ```
 
 ### Pendências
 
 - [ ] **Capa definitiva** (a partir de um frame de vídeo)
-- [ ] **Certificado**: configurar e ligar na Hotmart; depois preencher `cante_certificado`
 - [ ] Conferir se o produto tem programa de afiliados e "Adicionar Código de Afiliação à
       página externa" ligado, como o Conte
 - [ ] Materiais para a Lelê corrigir: o anexo 3 da Lagarta credita "Nhoc nhoc nhoc" ao

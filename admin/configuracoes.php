@@ -82,8 +82,9 @@ $grupos = [
             . 'ele fixa a oferta "Preço base". Durante a Black Friday vale o link da oferta de R$ 67, '
             . 'definido no código da página.'],
         'cante_certificado' => ['Certificado', 'text',
-            'Texto sobre o certificado (ex.: "Ao concluir o curso, você recebe um certificado."). '
-            . 'Vazio, a página não fala de certificado, nem na lista nem no FAQ.'],
+            'Vazio, a página usa "Ao concluir o curso, você recebe um certificado de 3 horas." '
+            . 'O texto aparece na lista do que a pessoa recebe e no FAQ. Se mudar a carga '
+            . 'horária, mude também no certificado da Hotmart, onde ela é texto fixo.'],
     ],
 ];
 

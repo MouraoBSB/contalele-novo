@@ -26,8 +26,10 @@ $jsExtra        = ['/assets/js/cante-e-encante.js'];
 $urlCheckout = trim(configuracao('cante_checkout_url', ''))
     ?: 'https://pay.hotmart.com/O108321613K?off=q5glzjoe';
 $preco       = 'R$ 97';
-// Vazio, a página não fala de certificado (nem na lista nem no FAQ).
-$certificado = trim(configuracao('cante_certificado', ''));
+// A carga horária precisa bater com a do certificado na Hotmart (texto fixo lá).
+// Campo vazio no painel (salvo ou nunca preenchido) volta para este texto.
+$certificado = trim(configuracao('cante_certificado', ''))
+    ?: 'Ao concluir o curso, você recebe um certificado de 3 horas.';
 
 // ── Promoção ─────────────────────────────────────────────────────────────
 // Black Friday por tempo limitado, sem data de término: liga e desliga aqui.
