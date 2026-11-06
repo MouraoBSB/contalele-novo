@@ -289,6 +289,8 @@ function lp_check(): string
                     contar. É justamente o contrário.</p>
                 <p class="lp-rv">Você vai aprender princípios, técnicas e possibilidades para
                     descobrir <em class="lp-fk">o seu jeito de contar histórias</em>.</p>
+                <p class="lp-rv">E vai entender, logo no começo, três coisas que mudam tudo:
+                    contar não é ler, não é atuar, não é explicar.</p>
                 <p class="lp-rv">Ao longo do curso, vamos trabalhar elementos como verdade, intenção,
                     presença e encantamento.</p>
             </div>
@@ -349,7 +351,24 @@ function lp_check(): string
                 <div class="lp-visar lp-rv">
                     <?php girassol_ref(['tamanho' => 220, 'classe' => 'lp-deco lp-gira']); ?>
                     <strong>Método VISAR</strong>
+                    <span class="lp-visar__lema">Visar é olhar além.</span>
                 </div>
+                <ul class="lp-visar-letras lp-rv">
+                    <?php
+                    $visar = [
+                        ['V', 'Verdade', 'Passar segurança naquilo que conta, mesmo quando a história parece impossível.'],
+                        ['I', 'Intenção', 'Nenhuma história é contada de forma ingênua. Sempre existe algo que você quer fazer o outro sentir.'],
+                        ['S', 'Simbolismo', 'Elementos concretos que tornam palpável aquilo que é abstrato.'],
+                        ['A', 'Adaptação', 'A mesma história muda com a idade de quem ouve, o número de crianças, o lugar e o momento.'],
+                        ['R', 'Ritmo', 'A história é como uma música: tem hora de correr e hora de parar.'],
+                    ];
+                    foreach ($visar as [$letra, $nome, $texto]): ?>
+                        <li>
+                            <span class="lp-visar-letras__letra" aria-hidden="true"><?= $letra ?></span>
+                            <span><strong><?= e($nome) ?>.</strong> <?= e($texto) ?></span>
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
                 <p class="lp-rv">Um método que ensina você a fazer escolhas conscientes ao contar uma
                     história, encontrando o seu próprio jeito de narrar — sem fórmulas engessadas e
                     sem precisar imitar ninguém.</p>
@@ -385,9 +404,8 @@ function lp_check(): string
                      src="/assets/img/curso/curso-vipe-verdade.jpg" width="760" height="507"
                      alt="Lelê com as mãos no peito e os olhos fechados">
                 <h3>V — Verdade</h3>
-                <p>Encontrar a sua própria maneira de contar. Não é copiar outro contador, forçar
-                    uma voz ou interpretar um personagem o tempo inteiro. É existir de verdade
-                    naquela história.</p>
+                <p>Contar como quem esteve lá: “aconteceu, eu vi”. É isso que dá segurança a quem
+                    conta e faz a criança acreditar, mesmo quando a história parece impossível.</p>
             </article>
 
             <article class="lp-card-vipe lp-rv">
@@ -406,8 +424,9 @@ function lp_check(): string
                      src="/assets/img/curso/curso-vipe-presenca.jpg" width="760" height="507"
                      alt="Lelê com a mão junto ao olho, olhando com atenção">
                 <h3>P — Presença</h3>
-                <p>Não basta saber a história. É preciso estar presente para quem está ouvindo:
-                    olhar, perceber, escutar as reações, adaptar-se e criar conexão.</p>
+                <p>Não basta saber a história. É preciso estar por inteiro para quem está ouvindo:
+                    olhar, perceber, escutar as reações, adaptar-se e criar conexão. E cuidar da
+                    sua voz, porque é com ela que você está presente.</p>
             </article>
 
             <article class="lp-card-vipe lp-card-vipe--cafe lp-rv">
@@ -462,6 +481,8 @@ function lp_check(): string
                 <li class="lp-rv"><?= lp_check() ?><span><?= e($item) ?></span></li>
             <?php endforeach; ?>
         </ul>
+        <p class="lp-fecho lp-rv" style="margin-top:32px">“Você não conta a história pra criança. Você conta com a
+            criança.” <span class="lp-dim">— Lelê</span></p>
     </div>
 </section>
 
@@ -472,13 +493,14 @@ function lp_check(): string
         <h2 class="lp-rv">Como o curso está organizado</h2>
         <p class="lp-lead lp-rv" style="margin-top:24px">O Conte&amp;Encante é um curso prático
             para quem deseja contar histórias com mais segurança, intenção, presença e
-            encantamento. O conteúdo está organizado em <strong>5 módulos</strong>, com atividades
-            e possibilidades que podem ser levadas para a prática.</p>
+            encantamento. O conteúdo está organizado em <strong>27 aulas, divididas em 6
+            módulos</strong>, com atividades e possibilidades que podem ser levadas para a
+            prática.</p>
 
         <?php if ($cargaHoraria !== ''): ?>
             <ul class="lp-numeros lp-rv">
                 <li><strong><?= e($cargaHoraria) ?></strong><span>de carga horária</span></li>
-                <li><strong>5</strong><span>módulos</span></li>
+                <li><strong>6</strong><span>módulos</span></li>
                 <li><strong>5</strong><span>encontros ao vivo</span></li>
                 <li><strong>2</strong><span>bônus</span></li>
             </ul>
@@ -486,33 +508,37 @@ function lp_check(): string
 
         <ol class="lp-programa">
             <?php
+            // Mesmos nomes e ordem da área de membros; a numeração começa no Módulo 0.
             $modulos = [
-                ['O convite para imaginar',
-                 'Os fundamentos da contação de histórias e o papel da imaginação. Como criar '
-                 . 'conexão com quem ouve e compreender os elementos que transformam uma história '
-                 . 'em uma experiência.'],
+                ['Comece aqui',
+                 'As boas-vindas, a história que trouxe a Lelê até aqui e o convite para imaginar: '
+                 . 'como preparar quem escuta antes de a história começar, com rituais de abertura '
+                 . 'que as crianças repetem junto.'],
+                ['Peguei o livro, e agora?',
+                 'Como escolher uma história e o que muda quando ela sai do livro: contar não é '
+                 . 'ler, não é atuar, não é explicar. O módulo termina no Método VISAR, os cinco '
+                 . 'pilares que guiam as suas escolhas.'],
                 ['Do livro à história',
-                 'Como preparar uma história para ser contada, fazendo a passagem do texto escrito '
-                 . 'para a oralidade. Escolhas de quem conta, preparação da narrativa, estratégias '
-                 . 'para quem tem dificuldade de decorar e aplicação do VISAR.'],
-                ['Como prender a atenção',
-                 'Estratégias para despertar a curiosidade e sustentar o interesse de quem ouve. '
-                 . 'Voz, ritmo, pausa, silêncio, olhar, intenção, interação e expressão corporal, '
-                 . 'trabalhando também a relação entre corpo, texto e fala.'],
-                ['Recursos que contam',
-                 'Como escolher e utilizar recursos de maneira intencional. Objetos que ganham '
-                 . 'novos significados, possibilidades com materiais simples, movimento, criação e '
-                 . 'uso de recursos dentro da narrativa. E uma questão fundamental: o que vale a '
-                 . 'pena tornar concreto e o que é melhor deixar para a imaginação de quem ouve.'],
+                 'A passagem do texto escrito para a oralidade: o que pode e o que não pode mudar '
+                 . 'numa história, a voz, o movimento e a partitura da história, a técnica para '
+                 . 'lembrar sem decorar palavra por palavra. E o monstro do ridículo, aquele medo '
+                 . 'de parecer bobo na frente dos outros.'],
+                ['Como encantar e prender a atenção das crianças',
+                 'Como contar junto com as crianças, e não apenas para elas. Surpreender com o '
+                 . 'inusitado, usar a pausa e o silêncio, e descobrir que o corpo também narra.'],
+                ['Recursos que encantam',
+                 'Começa pelo recurso principal, que é você, e passa por objetos, tecidos, sons, '
+                 . 'partes e papéis que narram. Como escolher cada recurso com intenção, sem deixar '
+                 . 'que ele fique mais importante do que a história, e o que vale a pena deixar '
+                 . 'para a imaginação de quem ouve.'],
                 ['O encantamento continua',
-                 'Como ampliar seu repertório e encontrar novas histórias; possibilidades para '
-                 . 'depois da contação; erros e acertos que interferem na narrativa; e a descoberta '
-                 . 'de que as histórias podem morar nos objetos, nos gestos, no corpo e no '
-                 . 'cotidiano.'],
+                 'Onde encontrar novas histórias, o que fazer antes e depois de contar (sem '
+                 . 'transformar a história em questionário), os 13 erros que mais atrapalham uma '
+                 . 'contação e a descoberta de que as histórias moram em todo lugar.'],
             ];
             foreach ($modulos as $i => [$titulo, $descricao]): ?>
                 <li class="lp-programa__item lp-rv">
-                    <span class="lp-programa__num" aria-hidden="true"><?= $i + 1 ?></span>
+                    <span class="lp-programa__num" aria-hidden="true"><?= $i ?></span>
                     <div>
                         <h3><?= e($titulo) ?></h3>
                         <p><?= e($descricao) ?></p>
@@ -542,10 +568,12 @@ function lp_check(): string
             para uma apresentação. Tudo isso pode ser lindo. Mas você não precisa começar por aí.</p>
         <p class="lp-rv">No Conte&amp;Encante, você vai descobrir que objetos comuns também podem
             abrir portas extraordinárias para a imaginação.</p>
+        <p class="lp-rv">O módulo de recursos tem uma aula para cada família: objetos, tecidos,
+            sons, partes e papéis. E começa por aquele que nunca falta: você.</p>
 
         <div class="lp-escada">
-            <span class="lp-rv">Uma mola vira lagarta.</span>
-            <span class="lp-rv">Uma bola vira lua.</span>
+            <span class="lp-rv">Uma escova vira porco-espinho.</span>
+            <span class="lp-rv">Um secador vira lobo-guará.</span>
             <span class="lp-rv">Um tecido vira céu.</span>
             <span class="lp-rv">Uma taça vira personagem.</span>
         </div>
@@ -565,6 +593,8 @@ function lp_check(): string
                  alt="Lelê rindo enquanto toca um pandeiro de fitas coloridas">
         </div>
 
+        <p class="lp-fecho lp-rv" style="margin-bottom:32px">“Quanto mais simples, mais
+            chamativo.” <span class="lp-dim">— Lelê</span></p>
         <p class="lp-rv">O mais importante não é quanto custa o recurso.
             <em class="lp-fk">É o que você consegue fazer o público imaginar através dele.</em></p>
         <p class="lp-rv">Essa é uma das razões pelas quais o curso trabalha diferentes linguagens e
@@ -623,7 +653,7 @@ function lp_check(): string
                 <img class="lp-foto lp-foto--2x3" loading="lazy"
                      src="/assets/img/curso/curso-lele.jpg" width="900" height="1350"
                      alt="Lelê segurando um girassol, sobre fundo azul">
-                <span class="lp-selo" aria-hidden="true">+20 anos de palco</span>
+                <span class="lp-selo" aria-hidden="true">+20 anos contando histórias</span>
             </div>
             <div>
                 <p class="lp-olho lp-rv">Quem vai caminhar com você</p>
@@ -631,7 +661,8 @@ function lp_check(): string
                 <p class="lp-rv" style="margin-top:24px">Meu nome é Letícia Mourão, mas muita gente
                     me conhece como <strong>Lelê</strong>, da Conta Lelê.</p>
                 <p class="lp-rv">Sou contadora de histórias, atriz, cordelista, escritora e mediadora
-                    de leitura e há <strong>mais de 20 anos conto histórias profissionalmente</strong>,
+                    de leitura. Conto histórias há <strong>mais de 20 anos</strong>: primeiro como
+                    voluntária, depois na sala de aula e, desde 2020, como profissional,
                     transformando palavras, livros, objetos, músicas e gestos em encontros com a
                     imaginação.</p>
                 <p class="lp-rv">Ao longo dessas duas décadas, contei histórias para crianças,
@@ -641,6 +672,10 @@ function lp_check(): string
                     do que você encontrará no Conte&amp;Encante nasceu não apenas dos meus estudos,
                     mas da experiência de quem passou mais de duas décadas diante do público,
                     contando, observando, experimentando e aprendendo.</p>
+                <p class="lp-rv">No fim de 2019, decidi que no ano seguinte contaria histórias como
+                    profissional e escrevi isso no meu diário. Anotei também os meus medos: cobrar,
+                    aparecer nas redes sociais, a idade, a minha própria voz.
+                    <strong>Comecei mesmo assim.</strong></p>
                 <p class="lp-rv">O Conte&amp;Encante reúne aquilo que eu gostaria que alguém tivesse
                     me mostrado quando comecei.</p>
                 <p class="lp-rv">Não quero ensinar você a contar histórias como eu.
@@ -754,7 +789,7 @@ function lp_check(): string
                 ['Curso completo Conte&Encante', 'Aulas gravadas para assistir no seu ritmo e rever sempre que precisar.'],
                 ['Encontros ao vivo com a Lelê', 'Momentos de troca, aprofundamento e acompanhamento para levar o conteúdo das aulas para a prática.'],
                 ['Exercícios e experiências práticas', 'Porque contação de histórias não se aprende apenas assistindo. É preciso experimentar.'],
-                ['Materiais complementares', 'Conteúdos que ajudam você a estudar, organizar os aprendizados e aplicá-los.'],
+                ['Materiais complementares', 'Mapas mentais das aulas, fichas de exercício para baixar e os vídeos das histórias citadas nas aulas.'],
                 ['Recursos e repertório', 'Possibilidades para ampliar sua caixa de ferramentas de quem conta histórias.'],
                 ['Histórias e ideias com objetos simples', 'Para descobrir que encantamento não depende de materiais caros.'],
             ];
@@ -941,13 +976,13 @@ function lp_check(): string
                 ['Nunca contei histórias. O curso serve para mim?',
                  'Sim. Você não precisa ter experiência anterior. O Conte&Encante foi pensado também para quem deseja começar.'],
                 ['A timidez me trava. Vou conseguir?',
-                 'Sim. Você não precisa se transformar numa pessoa extrovertida para contar histórias. Vamos trabalhar presença, intenção e possibilidades para que você encontre o seu jeito de contar.'],
+                 'Sim. A própria Lelê conta no curso: “quando eu estou no meu dia a dia, eu sou tímida”. Você não precisa se transformar numa pessoa extrovertida para contar histórias. Vamos trabalhar presença, intenção e possibilidades para que você encontre o seu jeito de contar.'],
                 ['Preciso saber interpretar ou fazer vozes?',
                  'Não. Voz é uma ferramenta da contação, mas contar histórias é muito maior do que criar vozes diferentes para personagens.'],
                 ['Preciso comprar materiais?',
                  'Não. Um dos princípios do curso é justamente ampliar seu olhar para recursos simples e para aquilo que já existe ao seu redor.'],
                 ['Preciso decorar as histórias?',
-                 'Não. Você vai aprender caminhos para compreender e se apropriar da narrativa sem depender simplesmente da memorização palavra por palavra.'],
+                 'Não. Quem conta histórias não é quem tem boa memória, é quem tem técnica para lembrar. Você vai aprender a montar a partitura da história, dividindo a narrativa em blocos (apresentação, complicação, obstáculos, clímax e desfecho), para se apropriar dela sem decorar palavra por palavra.'],
                 ['As aulas são ao vivo?',
                  'As aulas principais são gravadas e você poderá assistir no seu ritmo. Além delas, o curso terá encontros ao vivo com a Lelê.'],
                 ['Posso assistir pelo celular?',
@@ -1008,7 +1043,7 @@ function lp_check(): string
             <p class="lp-rv">Mas você tem algo que nenhum material pode substituir:
                 <em class="lp-fk">a possibilidade de criar conexão.</em></p>
             <p class="lp-rv">Uma história pode caber em um livro. Em uma música. Em um pedaço de
-                tecido. Em uma mola. Nas suas mãos. Ou simplesmente na sua voz.</p>
+                tecido. Em uma escova de cabelo. Nas suas mãos. Ou simplesmente na sua voz.</p>
             <p class="lp-rv">E quando alguém se dispõe a contar e outra pessoa aceita imaginar…
                 alguma coisa acontece entre as duas.</p>
             <p class="lp-rv">É esse encontro que eu quero ensinar você a construir.</p>

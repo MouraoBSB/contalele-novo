@@ -169,6 +169,8 @@
 /* Depois de um título o texto precisa de mais ar: o line-height apertado dos
    títulos come parte da margem. */
 .cl-landing h2 + .lp-fecho{margin-top:40px}
+/* `.cl-landing p` zera a margem e tirava o bloco do centro. */
+.cl-landing p.lp-fecho{margin-left:auto;margin-right:auto}
 
 /* ── Capa do curso ────────────────────────────────────────────── */
 .lp-capa{border-radius:24px;overflow:hidden;box-shadow:var(--sombra-g)}
@@ -192,6 +194,14 @@
 .lp-visar .lp-deco{left:50%;top:50%;transform:translate(-50%,-50%);opacity:.16}
 .lp-visar strong{position:relative;z-index:1;font-family:var(--display);font-weight:400;
   font-size:38px;letter-spacing:.01em;color:var(--ink);display:block}
+.lp-visar__lema{position:relative;z-index:1;display:block;margin-top:8px;
+  font-family:var(--display);font-size:18px;color:var(--accent)}
+.lp-visar-letras{list-style:none;padding:0;margin:0 0 24px;display:grid;gap:12px}
+.lp-visar-letras li{display:flex;gap:14px;align-items:flex-start}
+.lp-visar-letras__letra{flex:0 0 38px;width:38px;height:38px;border-radius:999px;
+  background:var(--bg-3);color:var(--ink);display:grid;place-items:center;
+  font-family:var(--display);font-size:20px;line-height:1}
+.lp-visar-letras li > span:last-child{padding-top:6px}
 .lp-painel{background:var(--bg-2);border-radius:24px;padding:24px;margin-top:32px;
   font-size:17px;font-weight:800}
 
@@ -435,6 +445,7 @@
   .lp-col2--lele{grid-template-columns:.85fr 1.15fr;align-items:start}
   .lp-col2--imagine{display:grid;grid-template-columns:1.25fr .75fr;gap:48px;align-items:center}
   .lp-visar strong{font-size:64px}
+  .lp-visar__lema{font-size:24px}
   .lp-remate{padding:72px 32px}
   .lp-remate p{font-size:52px}
   .lp-remate__quatro{font-size:24px}
