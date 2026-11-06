@@ -25,6 +25,11 @@ p { text-wrap: pretty; line-height: 1.55; }
   font-weight: 800;
 }
 .cl-skip:focus { left: 16px; top: 16px; }
+/* Texto só para leitor de tela */
+.cl-sr {
+  position: absolute !important; width: 1px; height: 1px; margin: -1px; padding: 0;
+  overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+}
 :focus-visible { outline: 3px solid var(--cl-accent); outline-offset: 3px; border-radius: 4px; }
 @media (prefers-reduced-motion: reduce) {
   * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
@@ -42,9 +47,10 @@ p { text-wrap: pretty; line-height: 1.55; }
   backdrop-filter: blur(8px);
   background: color-mix(in srgb, var(--cl-bg) 92%, transparent);
 }
+/* Só o padding vertical: o lateral vem de .cl-conteudo (antes zerava e o logo encostava na borda). */
 .cl-cabecalho__interno {
   display: flex; align-items: center; justify-content: space-between;
-  gap: 18px; padding: 16px 0;
+  gap: 18px; padding-top: 16px; padding-bottom: 16px;
   position: relative;
 }
 .cl-logo { display: inline-flex; flex-shrink: 0; }
@@ -64,6 +70,10 @@ p { text-wrap: pretty; line-height: 1.55; }
   transition: right .25s ease;
 }
 .cl-nav a:not(.cl-btn):hover::after { right: 0; }
+.cl-nav a[aria-current="page"] { color: var(--cl-accent); }
+.cl-nav a[aria-current="page"]::after { right: 0; }
+/* Itens que só existem no menu aberto do celular (ex.: Entrar). */
+.cl-nav__celular { display: none; }
 .cl-cabecalho__cta { display: flex; align-items: center; gap: 14px; }
 .cl-cabecalho__cta .cl-link-plain {
   color: var(--cl-ink); font-weight: 700; font-size: 15px;
@@ -74,10 +84,12 @@ p { text-wrap: pretty; line-height: 1.55; }
   padding: 8px; color: var(--cl-ink);
   display: inline-flex;
 }
-@media (min-width: 980px) {
-  .cl-nav { display: flex; gap: 28px; align-items: center; }
+/* Com 8 itens, o menu horizontal só cabe a partir de 1080px sem apertar o botão. */
+@media (min-width: 1080px) {
+  .cl-nav { display: flex; gap: 20px; align-items: center; }
   .cl-menu-btn { display: none; }
 }
+@media (min-width: 1240px) { .cl-nav { gap: 26px; } }
 .cl-nav--aberto {
   display: flex !important; flex-direction: column; gap: 14px;
   position: absolute; top: 100%; left: 0; right: 0;
@@ -86,7 +98,17 @@ p { text-wrap: pretty; line-height: 1.55; }
   border-bottom: 1px solid var(--cl-border);
   box-shadow: var(--cl-shadow-lg);
 }
-.cl-nav--aberto a { font-size: 17px; }
+.cl-nav--aberto a { font-size: 17px; align-self: flex-start; }
+.cl-nav--aberto .cl-nav__celular { display: block; }
+/* Celular estreito: a conta vai para o menu aberto e o botão encolhe, para o topo não transbordar. */
+@media (max-width: 439px) {
+  .cl-cabecalho__interno { gap: 10px; }
+  .cl-logo img { height: 38px; }
+  .cl-cabecalho__cta { gap: 6px; }
+  .cl-cabecalho__cta .cl-cabecalho__conta { display: none; }
+  .cl-cabecalho__cta .cl-btn { padding: 11px 16px; font-size: 14px; }
+}
+@media (max-width: 359px) { .cl-cabecalho__cta .cl-btn { padding: 10px 12px; font-size: 13px; } }
 
 /* ── Botões ───────────────────────────────────────────────────── */
 .cl-btn {
@@ -117,6 +139,8 @@ p { text-wrap: pretty; line-height: 1.55; }
   font-size: 1.12em;
   display: inline-block; transform: translateY(-0.04em);
 }
+/* Nos títulos o destaque pode ter várias palavras: inline quebra a linha sem sobrepor. */
+.cl-cta-fim h2 .cl-em, .cl-secao__titulo .cl-em, .cl-titulo-hero .cl-em { display: inline; }
 
 /* Títulos com escala fluida */
 .cl-titulo-hero {
@@ -329,7 +353,7 @@ p { text-wrap: pretty; line-height: 1.55; }
 .cl-depo__autor { display: flex; align-items: center; gap: 14px; margin-top: 16px; }
 .cl-depo__autor img { width: 46px; height: 46px; border-radius: 999px; object-fit: cover; border: 2px solid var(--cl-bg-3); }
 
-/* ── Banner café (faixa "sexta 16h" / CTA) ────────────────────── */
+/* ── Banner café (CTA) ────────────────────────────────────────── */
 .cl-faixa {
   background: var(--cl-ink); color: var(--cl-bg);
   border-radius: 28px;
@@ -364,31 +388,6 @@ p { text-wrap: pretty; line-height: 1.55; }
 .cl-faixa .cl-btn-ghost  { color: var(--cl-bg); border-color: rgba(253,245,212,0.5); }
 .cl-faixa .cl-btn-ghost:hover { border-color: var(--cl-bg-3); color: var(--cl-bg-3); }
 
-/* Contador da sexta */
-.cl-contador {
-  background: rgba(253,245,212,0.06);
-  border: 1px solid rgba(253,245,212,0.14);
-  border-radius: 18px;
-  padding: 20px 22px 18px;
-  align-self: start;
-}
-.cl-contador__titulo {
-  font-size: 10.5px; font-weight: 800; letter-spacing: 0.18em;
-  text-transform: uppercase; color: rgba(253,245,212,0.72);
-  margin: 0 0 14px;
-}
-.cl-contador__grid {
-  display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;
-}
-.cl-contador__valor {
-  font-family: var(--cl-font-display); font-weight: 400;
-  font-size: 30px; color: var(--cl-bg-3); line-height: 1;
-}
-.cl-contador__rotulo {
-  font-size: 11px; color: rgba(253,245,212,0.6);
-  margin-top: 4px;
-}
-
 @media (min-width: 820px) {
   .cl-faixa__interno { grid-template-columns: 1.2fr 0.8fr; align-items: center; }
 }
@@ -405,10 +404,11 @@ p { text-wrap: pretty; line-height: 1.55; }
 .cl-cta-fim h2 {
   font-size: clamp(32px, 4.4vw, 56px);
   font-weight: 900;
-  margin: 0 0 14px;
+  margin: 0 auto 14px;
+  max-width: 760px;
 }
 .cl-cta-fim h2 .cl-em { color: var(--cl-accent); }
-.cl-cta-fim p { font-size: 16px; color: var(--cl-ink); opacity: 0.78; max-width: 540px; margin: 0 auto 26px; }
+.cl-cta-fim p { font-size: 16px; color: var(--cl-ink); max-width: 540px; margin: 0 auto 26px; }
 .cl-cta-fim__girassol-l,
 .cl-cta-fim__girassol-r {
   position: absolute;
@@ -419,6 +419,11 @@ p { text-wrap: pretty; line-height: 1.55; }
 }
 .cl-cta-fim__girassol-l { left: 6%; top: 20%; }
 .cl-cta-fim__girassol-r { right: 6%; bottom: 18%; }
+/* No celular os girassóis vão para os cantos, longe do texto. */
+@media (max-width: 619px) {
+  .cl-cta-fim__girassol-l { left: -24px; top: 18px; }
+  .cl-cta-fim__girassol-r { right: -24px; bottom: 18px; }
+}
 @media (min-width: 900px) {
   .cl-cta-fim__girassol-l { left: 8%; top: 28%; }
   .cl-cta-fim__girassol-r { right: 8%; bottom: 22%; }
@@ -560,7 +565,8 @@ p { text-wrap: pretty; line-height: 1.55; }
   grid-template-columns: 1fr;
 }
 .cl-rodape__marca p { color: rgba(253,245,212,0.65); font-size: 14px; max-width: 280px; margin: 16px 0 0; line-height: 1.55; }
-.cl-rodape__marca img { height: 44px; width: auto; filter: brightness(0) invert(1); }
+/* A logo branca já vem pronta para o fundo café: sem filtro, o girassol aparece. */
+.cl-rodape__marca img { height: 56px; width: auto; }
 .cl-rodape__col h4 {
   font-size: 13px; font-weight: 800; letter-spacing: 0.12em;
   text-transform: uppercase; color: var(--cl-bg-3);

@@ -13,6 +13,7 @@
   --cl-bg-3:      #ffdc3a;   /* amarelo girassol */
   --cl-ink:       #2b1300;   /* café profundo */
   --cl-ink-dim:   rgba(43, 19, 0, 0.58);
+  --cl-ink-soft:  rgba(43, 19, 0, 0.74);   /* texto secundário com contraste AA sobre creme e branco */
   --cl-accent:    #c4390e;   /* laranja queimado */
   --cl-surface:   #ffffff;
   --cl-border:    rgba(43, 19, 0, 0.08);

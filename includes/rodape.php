@@ -14,6 +14,18 @@ $whatsRodape = function_exists('configuracao')
 $emailRodape = function_exists('configuracao')
     ? configuracao('email_contato', 'contato@contalele.com.br')
     : 'contato@contalele.com.br';
+
+// Faixa acima do rodapé. A página pode trocar os textos e o botão definindo
+// $faixaFim com as mesmas chaves (ex.: /cursos leva o botão ao WhatsApp).
+$faixaFim = array_merge([
+    'antes'    => 'Sua próxima roda ',
+    'destaque' => 'começa aqui',
+    'depois'   => '.',
+    'texto'    => 'Conte com a Lelê para escolas, eventos e famílias, ou aprenda a contar histórias nos cursos dela.',
+    'botao'    => 'Falar com a Lelê',
+    'href'     => '/contato',
+    'externo'  => false,
+], $faixaFim ?? []);
 ?>
 </main>
 
@@ -26,9 +38,9 @@ $emailRodape = function_exists('configuracao')
         <?php girassol(['tamanho' => 110, 'gira' => true]); ?>
     </span>
     <div class="cl-conteudo cl-cta-fim__interno">
-        <h2 id="cta-fim-titulo">Sua próxima roda <span class="cl-em">começa aqui</span>.</h2>
-        <p>Conte com a Lelê para escolas, eventos, famílias — ou venha escutar uma história no canal toda sexta.</p>
-        <a class="cl-btn cl-btn-primary cl-btn-lg" href="/contato">Falar com a Lelê</a>
+        <h2 id="cta-fim-titulo"><?= e($faixaFim['antes']) ?><span class="cl-em"><?= e($faixaFim['destaque']) ?></span><?= e($faixaFim['depois']) ?></h2>
+        <p><?= e($faixaFim['texto']) ?></p>
+        <a class="cl-btn cl-btn-primary cl-btn-lg" href="<?= e($faixaFim['href']) ?>"<?= $faixaFim['externo'] ? ' target="_blank" rel="noopener"' : '' ?>><?= e($faixaFim['botao']) ?></a>
     </div>
 </section>
 
@@ -37,12 +49,13 @@ $emailRodape = function_exists('configuracao')
     <div class="cl-conteudo">
         <div class="cl-rodape__grid">
             <div class="cl-rodape__marca">
-                <img src="/assets/img/logo.png" alt="Conta Lelê">
+                <img src="/assets/img/logo-branca.png" alt="Conta Lelê" width="213" height="156" loading="lazy">
                 <p>Contação de histórias, cordéis, livros e cursos para professores, mediadores e famílias.</p>
             </div>
             <div class="cl-rodape__col">
                 <h4>Conta Lelê</h4>
                 <ul>
+                    <li><a href="/cursos">Cursos</a></li>
                     <li><a href="/sobre">A Lelê</a></li>
                     <li><a href="/contacao">Contação de Histórias</a></li>
                     <li><a href="/cordeis">Cordéis</a></li>
