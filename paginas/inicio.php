@@ -10,14 +10,17 @@ $conteudo = require CL_RAIZ . '/includes/conteudo.php';
 require_once CL_RAIZ . '/includes/conexao.php';
 require_once CL_RAIZ . '/includes/repositorio.php';
 require_once CL_RAIZ . '/includes/girassol.php';
+require_once CL_RAIZ . '/includes/cursos.php';
+require_once CL_RAIZ . '/includes/cursos-cartoes.php';
 
+$cssExtra        = ['/assets/css/cursos.css'];
+$cursos          = cursos_publicados();
 $cordeisDestaque = array_slice(listar_cordeis(), 0, 3);
 $depoimentos     = listar_depoimentos();
-$whats           = configuracao('whatsapp', '5561991938603');
 
 $seo['titulo']    = 'Conta Lelê — Contação de histórias, cordéis e cursos';
-$seo['descricao'] = 'A Lelê conta e escreve histórias de verdade para escolas, '
-    . 'eventos e famílias. Conheça o trabalho, os cordéis e os livros.';
+$seo['descricao'] = 'A Lelê conta e escreve histórias para escolas, eventos e famílias, '
+    . 'e ensina a contar nos cursos online Conte&Encante e Cante & Encante.';
 $seo['json_ld']   = json_ld_pessoa($seo['url_base']);
 
 // Depoimento para sobrepor no hero (pega o primeiro disponível).
@@ -28,27 +31,24 @@ $tonsCards = ['cl-tom-amarelo', 'cl-tom-laranja', 'cl-tom-cafe', 'cl-tom-creme',
 ?>
 
 <!-- HERO ----------------------------------------------------------- -->
-<section class="cl-hero">
+<section class="cl-hero cl-hero--cursos">
     <div class="cl-conteudo cl-hero__interno">
         <div class="cl-hero__copy">
-            <p class="cl-eyebrow">Plataforma de contação de histórias</p>
-            <h1 class="cl-titulo-hero">Oi, eu sou a <span class="cl-em">Lelê</span><br>
-                ...e conto <span class="cl-em">histórias</span><br>de verdade.</h1>
-            <p class="cl-hero__sub"><?= e($conteudo['hero_sub']) ?></p>
+            <p class="cl-eyebrow">Cursos de contação de histórias</p>
+            <h1 class="cl-titulo-hero">Oi, eu sou a <span class="cl-em">Lelê</span>. Vem aprender a contar
+                histórias comigo.</h1>
+            <p class="cl-hero__sub">Cursos online para professoras, mediadores de leitura e famílias, com o que
+                eu aprendi em mais de 20 anos contando histórias.</p>
             <div class="cl-hero__ctas">
-                <a class="cl-btn cl-btn-primary cl-btn-lg" href="/contacao">Ver o trabalho</a>
-                <a class="cl-btn cl-btn-ghost cl-btn-lg" href="https://www.youtube.com/c/ContaLel%C3%AA" target="_blank" rel="noopener">
-                    <svg class="cl-icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                        <polygon points="6 4 20 12 6 20 6 4" fill="currentColor"/>
-                    </svg>
-                    Assistir a uma história
-                </a>
+                <a class="cl-btn cl-btn-primary cl-btn-lg" href="/cursos">Ver os cursos</a>
+                <a class="cl-btn cl-btn-ghost cl-btn-lg" href="/sobre">Conhecer a Lelê</a>
             </div>
         </div>
 
         <div class="cl-hero__foto-wrap">
             <img class="cl-hero__foto" src="/assets/img/lele-hero.jpg"
-                 alt="A Lelê, contadora de histórias" width="640" height="800">
+                 alt="Lelê sorri e acena para a câmera, com flores laranja no cabelo, diante de um fundo azul"
+                 width="1600" height="1066" fetchpriority="high">
 
             <?php if ($depoHero): ?>
             <figure class="cl-hero__depo">
@@ -62,6 +62,16 @@ $tonsCards = ['cl-tom-amarelo', 'cl-tom-laranja', 'cl-tom-cafe', 'cl-tom-creme',
                 <?php girassol(['tamanho' => 140, 'gira' => true]); ?>
             </span>
         </div>
+
+        <?php if ($cursos): ?>
+            <div class="cl-hero__cursos">
+                <h2>Os cursos</h2>
+                <div class="cl-mini-lista">
+                    <?php foreach ($cursos as $curso) { curso_mini($curso); } ?>
+                </div>
+                <a class="cl-hero__todos" href="/cursos">Comparar os cursos<?= curso_icone('seta') ?></a>
+            </div>
+        <?php endif; ?>
     </div>
 </section>
 
@@ -96,53 +106,6 @@ $tonsCards = ['cl-tom-amarelo', 'cl-tom-laranja', 'cl-tom-cafe', 'cl-tom-creme',
         </div>
 
         <p class="cl-mt-4"><a class="cl-btn cl-btn-primary" href="/contacao">Ver tudo sobre contação</a></p>
-    </div>
-</section>
-
-<!-- Faixa café — toda sexta no canal ------------------------------- -->
-<section class="cl-secao" style="padding-top:0">
-    <div class="cl-conteudo">
-        <div class="cl-faixa" data-cl-proxima-sexta>
-            <div class="cl-faixa__interno">
-                <div>
-                    <p class="cl-eyebrow">Ao vivo toda sexta · 16:00</p>
-                    <h2 class="cl-secao__titulo">Toda sexta tem uma <span class="cl-em">história nova</span> no canal.</h2>
-                    <p>Histórias originais e clássicas reinventadas, gravadas com olho-no-olho para as crianças — e gratuitas. Inscreva-se para receber o lembrete.</p>
-                    <div class="cl-faixa__ctas">
-                        <a class="cl-btn cl-btn-yellow" href="https://www.youtube.com/c/ContaLel%C3%AA?sub_confirmation=1" target="_blank" rel="noopener">
-                            <svg class="cl-icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
-                                <path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/>
-                                <path d="M13.7 21a2 2 0 0 1-3.4 0"/>
-                            </svg>
-                            Me avisar
-                        </a>
-                        <a class="cl-btn cl-btn-ghost" href="https://www.youtube.com/c/ContaLel%C3%AA" target="_blank" rel="noopener">Ver o canal</a>
-                    </div>
-                </div>
-
-                <div class="cl-contador" aria-live="polite">
-                    <p class="cl-contador__titulo">Próxima história em</p>
-                    <div class="cl-contador__grid">
-                        <div>
-                            <div class="cl-contador__valor" data-cl-dias>—</div>
-                            <div class="cl-contador__rotulo">dias</div>
-                        </div>
-                        <div>
-                            <div class="cl-contador__valor" data-cl-horas>—</div>
-                            <div class="cl-contador__rotulo">h</div>
-                        </div>
-                        <div>
-                            <div class="cl-contador__valor" data-cl-min>—</div>
-                            <div class="cl-contador__rotulo">m</div>
-                        </div>
-                        <div>
-                            <div class="cl-contador__valor" data-cl-seg>—</div>
-                            <div class="cl-contador__rotulo">s</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 </section>
 
