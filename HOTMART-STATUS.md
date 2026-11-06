@@ -123,10 +123,11 @@ Uma venda em 12x rende **R$ 77,05 a menos** de base que uma à vista.
 A oferta normal `87ea4lrn` e o preço base (R$ 397) **não foram alterados**. Só a
 página de vendas troca de checkout durante a promoção.
 
-**Na página:** o array `$promocao` em `paginas/conte-e-encante.php` liga e desliga a
-Black Friday (`'ativa' => true/false`). Ligada, todos os botões vão para `36l1f851`,
-com faixa, topo café, selo e cartão "de R$ 397 por R$ 297". Desligada, o HTML volta
-igual ao da tag git `conte-e-encante-pre-black-friday`.
+**No site:** a `'promocao'` de cada curso em `includes/cursos.php` liga e desliga a
+Black Friday (`'ativa' => true/false`). A mesma chave vale para a página de vendas, a
+`/cursos`, a home e o bloco "Outros cursos". Ligada, todos os botões do Conte vão para
+`36l1f851`, com faixa, topo café, selo e cartão "de R$ 397 por R$ 297". Desligada, a
+página de vendas volta igual à da tag git `conte-e-encante-pre-black-friday`.
 
 > **Fora do site, continuam em R$ 397:** os QR codes da seção 6 (`qr-conte-encante-*`)
 > e qualquer link de checkout colado em bio, WhatsApp ou grupo com `?off=87ea4lrn`.
@@ -351,9 +352,9 @@ tem MEI e o lançamento era no dia seguinte. **Assunto para revisitar com um con
 
 ### Ao encerrar a Black Friday (vale para os dois produtos)
 
-- [ ] Conte: `'ativa' => false` em `$promocao` (`paginas/conte-e-encante.php`) e deploy
-- [ ] Cante: `'ativa' => false` em `$promocao` (`paginas/cante-e-encante.php`) e deploy —
-      os botões voltam sozinhos para a oferta `q5glzjoe` (R$ 97)
+- [ ] `includes/cursos.php`: `'ativa' => false` na `'promocao'` do Conte e na do Cante, e
+      deploy desse arquivo. Páginas de venda, `/cursos`, home e bloco "Outros cursos" voltam
+      juntos ao preço normal; os botões do Cante voltam sozinhos para a oferta `q5glzjoe` (R$ 97)
 - [ ] Decidir se as ofertas `36l1f851` (Conte, R$ 297) e `nn7nhybh` (Cante, R$ 67) ficam
       inativas na Hotmart, para ninguém comprar com desconto por um link antigo
 - [ ] Cante → área de membros → aba Adicional → anúncio "Quer o curso completo? Pague só
@@ -482,8 +483,9 @@ página. O nome do curso ficou em peso normal porque, em negrito, o PDF sai desl
 
 ### Página de vendas
 
-`paginas/cante-e-encante.php` — landing isolada, sem senha, indexável. O array
-`$promocao` liga e desliga a Black Friday; desligada, os botões vão para `q5glzjoe`.
+`paginas/cante-e-encante.php` — landing isolada, sem senha, indexável. A `'promocao'`
+do Cante em `includes/cursos.php` liga e desliga a Black Friday; desligada, os botões
+vão para `q5glzjoe`.
 Repasse de afiliado igual ao do Conte (`checkout_com_afiliado()`).
 
 Painel → seção **Curso Cante & Encante**:
