@@ -178,10 +178,6 @@ body.lp-barra-on{padding-bottom:76px}
 .lp-fim-foto{border-radius:24px;aspect-ratio:4/5;max-height:520px;width:100%}
 .lp-fim-txt p{font-size:19px;font-weight:700;line-height:1.5}
 .lp-vem{font-family:var(--display);font-weight:400;color:var(--accent);font-size:34px;line-height:1.1;margin:8px 0 24px!important}
-/* nota alunos */
-.lp-alunos{background:var(--bg);border-top:1px solid var(--borda);padding:32px 0;text-align:center;font-size:14px}
-.lp-alunos p{margin:0 auto 6px;max-width:640px}
-.lp-alunos a{font-weight:800}
 /* rodapé */
 .lp-rodape{background:var(--ink);color:var(--bg);padding:48px 0 56px;text-align:center}
 .lp-rodape .lp-wrap{display:grid;gap:16px;justify-items:center}

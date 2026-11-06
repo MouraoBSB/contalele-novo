@@ -15,24 +15,24 @@ require_once CL_RAIZ . '/includes/conexao.php';
 require_once CL_RAIZ . '/includes/repositorio.php';
 require_once CL_RAIZ . '/includes/girassol.php';
 require_once CL_RAIZ . '/includes/previa.php';
+require_once CL_RAIZ . '/includes/cursos.php';
+require_once CL_RAIZ . '/includes/cursos-cartoes.php';
 
 // Enquanto não publicada, a página só abre com a senha de pré-visualização.
 $publicada = exigir_previa('curso', 'Conte&Encante');
 
 $layout   = 'landing';
-$cssExtra = ['/assets/css/conte-e-encante.css'];
+$cssExtra = ['/assets/css/conte-e-encante.css', '/assets/css/outros-cursos.css'];
 $jsExtra  = ['/assets/js/conte-e-encante.js'];
 
 // ── Dados da oferta ──────────────────────────────────────────────────────
-// O ?off fixa a oferta "Padrao sem juros". Sem ele o link segue o preço base
-// vigente, o que quebra no dia em que existir uma promoção.
-// Checkout, preço e parcelamento não têm versão "vazia" na página: campo em
-// branco no painel (salvo ou nunca preenchido) volta para o padrão do código.
-$urlCheckout   = trim(configuracao('curso_checkout_url', ''))
-    ?: 'https://pay.hotmart.com/B107134315C?off=87ea4lrn';
-$preco         = trim(configuracao('curso_preco', '')) ?: '397';
+// Preço, checkout e promoção vêm da lista única de cursos (includes/cursos.php),
+// a mesma de /cursos e da home. Campo em branco no painel volta para o padrão de lá.
+$curso         = curso('conte-e-encante');
+$oferta        = $curso['vigente'];
+$urlCheckout   = $oferta['checkout'];
 $parcelamento  = trim(configuracao('curso_parcelamento', ''))
-    ?: 'ou 12x de R$ 33,09 sem juros · Pix ou cartão de crédito';
+    ?: 'ou ' . $oferta['parcelas'] . 'x de R$ ' . $oferta['parcela'] . ' sem juros · Pix ou cartão de crédito';
 $garantiaDias  = trim(configuracao('curso_garantia_dias', '7'));
 $cargaHoraria  = trim(configuracao('curso_carga_horaria', '25 horas'));
 $certificado   = trim(configuracao('curso_certificado',
@@ -53,21 +53,10 @@ $encontros     = trim(configuracao('curso_encontros_ao_vivo',
     'São 5 encontros ao vivo, aos sábados pela manhã, pelo Zoom.'));
 
 // ── Promoção ─────────────────────────────────────────────────────────────
-// Black Friday por tempo limitado, sem data de término: liga e desliga aqui.
-// Com 'ativa' => false a página volta ao layout e aos valores normais, sem outra
-// alteração. A versão anterior está no git, na tag conte-e-encante-pre-black-friday.
-// Os valores precisam bater com a oferta "Black Friday 2026" da Hotmart.
-$promocao = [
-    'ativa'    => true,
-    'nome'     => 'Black Friday',
-    'produto'  => 'Conte&Encante',
-    'checkout' => 'https://pay.hotmart.com/B107134315C?off=36l1f851',
-    'de'       => 'R$ 397',
-    'por'      => 'R$ 297',
-    'desconto' => 'R$ 100',
-    'parcela'  => '12x de R$ 24,75',
-];
-$promocao = $promocao['ativa'] ? $promocao : null;
+// Liga e desliga em includes/cursos.php. Desligada, a página volta ao layout e
+// aos valores normais, sem outra alteração. A versão anterior à Black Friday
+// está no git, na tag conte-e-encante-pre-black-friday.
+$promocao = curso_promocao_pagina($curso, $oferta);
 if ($promocao !== null) {
     // A oferta da promoção vence o checkout do painel enquanto estiver ativa.
     $urlCheckout = $promocao['checkout'];
@@ -123,7 +112,7 @@ $seo['json_ld'] = [
     ],
     'offers' => [
         '@type'         => 'Offer',
-        'price'         => preg_replace('/\D/', '', $promocao['por'] ?? $preco) ?: '397',
+        'price'         => (string) ($oferta['promocao']['preco'] ?? $oferta['preco']),
         'priceCurrency' => 'BRL',
         'category'      => 'Paid',
         'url'           => $urlCheckout !== '' ? $urlCheckout : $seo['url_base'] . '/conte-e-encante',
@@ -928,7 +917,7 @@ function lp_check(): string
         <?php else: ?>
             <div class="lp-cartao-preco lp-rv">
                 <p class="lp-cartao-preco__rotulo">Entre para o Conte&amp;Encante por</p>
-                <p class="lp-preco">R$&nbsp;<?= e($preco) ?></p>
+                <p class="lp-preco"><?= reais_html($oferta['preco']) ?></p>
                 <p class="lp-dim" style="margin:0"><?= e($parcelamento) ?></p>
                 <?= $abreCta() ?>Quero entrar no Conte&amp;Encante</a>
             </div>
@@ -1080,3 +1069,5 @@ function lp_check(): string
         <?php endif; ?>
     </div>
 </section>
+
+<?php cursos_bloco_outros('conte-e-encante'); ?>

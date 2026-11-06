@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 require_once __DIR__ . '/../includes/funcoes.php';
-require __DIR__ . '/../includes/repositorio.php';
+require_once __DIR__ . '/../includes/repositorio.php';
 
 // A validação de nome de tabela é pura (não toca o banco) e pode ser testada.
 $erro = null;

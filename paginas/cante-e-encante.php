@@ -13,38 +13,30 @@ declare(strict_types=1);
 require_once CL_RAIZ . '/includes/conexao.php';
 require_once CL_RAIZ . '/includes/repositorio.php';
 require_once CL_RAIZ . '/includes/girassol.php';
+require_once CL_RAIZ . '/includes/cursos.php';
+require_once CL_RAIZ . '/includes/cursos-cartoes.php';
 
 $layout         = 'landing';
 $landingPropria = true;
-$cssExtra       = ['/assets/css/cante-e-encante.css'];
+$cssExtra       = ['/assets/css/cante-e-encante.css', '/assets/css/outros-cursos.css'];
 $jsExtra        = ['/assets/js/cante-e-encante.js'];
 
 // ── Dados da oferta ──────────────────────────────────────────────────────
-// O ?off fixa a oferta "Preço base" (R$ 97). Sem ele o link segue o preço base
-// vigente, o que quebra no dia em que existir uma promoção. O painel pode trocar
-// o link; campo vazio (salvo ou nunca preenchido) volta para este.
-$urlCheckout = trim(configuracao('cante_checkout_url', ''))
-    ?: 'https://pay.hotmart.com/O108321613K?off=q5glzjoe';
-$preco       = 'R$ 97';
+// Preço, checkout e promoção vêm da lista única de cursos (includes/cursos.php),
+// a mesma de /cursos e da home. O painel pode trocar o link; campo vazio volta
+// para o padrão de lá.
+$curso       = curso('cante-e-encante');
+$oferta      = $curso['vigente'];
+$urlCheckout = $oferta['checkout'];
+$preco       = reais($oferta['preco']);
 // A carga horária precisa bater com a do certificado na Hotmart (texto fixo lá).
 // Campo vazio no painel (salvo ou nunca preenchido) volta para este texto.
 $certificado = trim(configuracao('cante_certificado', ''))
     ?: 'Ao concluir o curso, você recebe um certificado de 3 horas.';
 
 // ── Promoção ─────────────────────────────────────────────────────────────
-// Black Friday por tempo limitado, sem data de término: liga e desliga aqui.
-// Os valores precisam bater com a oferta "Black Friday 2026" da Hotmart.
-$promocao = [
-    'ativa'    => true,
-    'nome'     => 'Black Friday',
-    'produto'  => 'Cante & Encante',
-    'checkout' => 'https://pay.hotmart.com/O108321613K?off=nn7nhybh',
-    'de'       => 'R$ 97',
-    'por'      => 'R$ 67',
-    'desconto' => 'R$ 30',
-    'parcela'  => '12x de R$ 5,59',
-];
-$promocao = $promocao['ativa'] ? $promocao : null;
+// Liga e desliga em includes/cursos.php.
+$promocao = curso_promocao_pagina($curso, $oferta);
 if ($promocao !== null && $promocao['checkout'] !== '') {
     $urlCheckout = $promocao['checkout'];
 }
@@ -79,7 +71,7 @@ $seo['json_ld'] = [
     ],
     'offers' => [
         '@type'         => 'Offer',
-        'price'         => preg_replace('/\D/', '', $promocao['por'] ?? $preco),
+        'price'         => (string) ($oferta['promocao']['preco'] ?? $oferta['preco']),
         'priceCurrency' => 'BRL',
         'category'      => 'Paid',
         'url'           => $externo ? $urlCheckout : $seo['url_base'] . '/cante-e-encante',
@@ -529,15 +521,10 @@ $checkSvg = '<span class="lp-ck"><svg aria-hidden="true" focusable="false"><use 
         </div>
     </div>
 </section>
-</main>
 
-<!-- 14 · Nota para alunos do Conte&Encante -->
-<aside class="lp-alunos" aria-label="Alunos do Conte&amp;Encante">
-    <div class="lp-wrap">
-        <p>Já é aluna ou aluno do Conte&amp;Encante? O Cante &amp; Encante já está na sua área de membros, como bônus.</p>
-        <p>Quer aprofundar a técnica de contar histórias? <a href="/conte-e-encante">Conheça o Conte&amp;Encante</a></p>
-    </div>
-</aside>
+<!-- 14 · Outros cursos (inclui a nota para alunos do Conte&Encante) -->
+<?php cursos_bloco_outros('cante-e-encante'); ?>
+</main>
 
 <footer class="lp-rodape">
     <div class="lp-wrap">
