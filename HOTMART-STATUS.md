@@ -1,6 +1,6 @@
 # Hotmart — Status da configuração
 
-**Última atualização:** 04/11/2026
+**Última atualização:** 05/11/2026
 
 | Produto | Lançamento | Situação |
 |---|---|---|
@@ -131,6 +131,30 @@ igual ao da tag git `conte-e-encante-pre-black-friday`.
 > **Fora do site, continuam em R$ 397:** os QR codes da seção 6 (`qr-conte-encante-*`)
 > e qualquer link de checkout colado em bio, WhatsApp ou grupo com `?off=87ea4lrn`.
 > Para divulgar a Black Friday, use o link da `36l1f851`.
+
+### 3.2 Upgrade para alunos do Cante & Encante
+
+Criado em 05/11/2026. Quem comprou o Cante & Encante passa para o Conte&Encante pagando
+só a diferença.
+
+**Regra de preço:** preço vigente do Conte menos o preço vigente do Cante. Assim o total
+pago pelos dois sempre dá o preço do Conte.
+
+| Oferta | Código | Preço | Parcelamento | Quando vale |
+|---|---|---|---|---|
+| `Upgrade Cante - Black Friday` | `lr7ety55` | R$ 230,00 (297 − 67) | até 12x de R$ 19,17 sem juros | Enquanto durar a Black Friday |
+| `Upgrade Cante` | `m405mhln` | R$ 300,00 (397 − 97) | até 12x de R$ 25,00 sem juros | Depois da Black Friday |
+
+As duas ofertas têm:
+- a descrição no checkout `Curso Conte e Encante - upgrade para alunos do Cante e Encante`;
+- recuperador automático ligado, até 12 parcelas (com aceite autorizado pelo Thiago).
+
+**Onde o link aparece:**
+- **Só dentro da área de membros do Cante,** num anúncio que é liberado 8 dias após a compra, quando a garantia de 7 dias já acabou (ver seção 9). A liberação tardia evita o truque de comprar o Cante, fazer o upgrade e pedir reembolso do Cante.
+- **O link nunca vai para o site.** O site só diz que quem tem o Cante "paga só a diferença".
+
+> **Sem trava:** a Hotmart não confere se quem usa o link comprou o Cante. Se o link
+> vazar, alguém de fora paga R$ 300 em vez de R$ 397.
 
 ---
 
@@ -332,6 +356,9 @@ tem MEI e o lançamento era no dia seguinte. **Assunto para revisitar com um con
       os botões voltam sozinhos para a oferta `q5glzjoe` (R$ 97)
 - [ ] Decidir se as ofertas `36l1f851` (Conte, R$ 297) e `nn7nhybh` (Cante, R$ 67) ficam
       inativas na Hotmart, para ninguém comprar com desconto por um link antigo
+- [ ] Cante → área de membros → aba Adicional → anúncio "Quer o curso completo? Pague só
+      a diferença" → **Editar** → trocar a oferta de `lr7ety55` (R$ 230) para `m405mhln`
+      (R$ 300). Depois decidir se a `lr7ety55` fica inativa (seção 3.2)
 
 ### Ação imediata
 
@@ -424,8 +451,17 @@ expiração de **365 dias** para todas as turmas (via Agendar em massa):
 Materiais anexados às aulas: letras **com cifras** (não partitura), os mapas mentais das
 aulas 1 e 5 e o e-book *Circo Encantado* (aula 6).
 
-A aba **Adicional** está vazia: as cópias importadas do Conte (6 aulas + "Cópia de
-Aula 01", nenhuma publicada) foram excluídas em 04/11/2026.
+A aba **Adicional** tinha cópias importadas do Conte (6 aulas + "Cópia de Aula 01", nenhuma
+publicada), excluídas em 04/11/2026. Desde 05/11/2026 ela tem só o upgrade:
+
+- **Módulo:** `Próximo passo`, do tipo **Módulo adicional**. Esse tipo é "conteúdo
+  complementar não obrigatório para a conclusão do curso", então não segura o certificado.
+- **Conteúdo:** um **Anúncio** chamado "Quer o curso completo? Pague só a diferença", publicado:
+  - produto: Conte&Encante, oferta `lr7ety55` (R$ 230) enquanto durar a Black Friday;
+  - imagem: a capa do Conte (`assets/img/curso/curso-capa.jpg`);
+  - descrição em 3 parágrafos: o que é o Conte, "25 horas de curso, com certificado, e o Cante & Encante já vem dentro dele", e "você paga só a diferença entre os dois cursos". Sem preço no texto, para não precisar editar quando a promoção acabar;
+  - agendamento: liberação **8 dias após a compra**, sem expiração, todas as turmas.
+- **Ao encerrar a Black Friday:** trocar a oferta do anúncio para `m405mhln` (checklist na seção 8).
 
 ### Certificado
 
