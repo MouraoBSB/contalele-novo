@@ -108,8 +108,8 @@ function cursos_catalogo(): array
                 . 'instrumento nem cantar bem.',
             'linha'    => 'Música nas histórias, com a Lelê e Kleyton Santos.',
             'foto'     => [
-                'src' => '/assets/img/cante/aula1-lele-e-kleyton.jpg', 'w' => 1200, 'h' => 675, 'pos' => '58% 30%',
-                'alt' => 'Lelê sorri no palco, ao lado do músico Kleyton Santos, sentado com o violão',
+                'src' => '/assets/img/cante/aula1-lele-e-kleyton-sorrindo.jpg', 'w' => 1200, 'h' => 675, 'pos' => '58% 30%',
+                'alt' => 'Lelê sorri para a câmera no palco, ao lado do músico Kleyton Santos, sentado com o violão',
             ],
             'destaque' => '',
             'fatos'    => [

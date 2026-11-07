@@ -21,6 +21,9 @@ $landingPropria = true;
 $cssExtra       = ['/assets/css/cante-e-encante.css', '/assets/css/outros-cursos.css'];
 $jsExtra        = ['/assets/js/cante-e-encante.js'];
 
+// ?v= com a data do arquivo: se o vídeo for refeito com o mesmo nome, a Cloudflare não serve o antigo.
+$comVersao = static fn(string $caminho): string => $caminho . '?v=' . (int) @filemtime(CL_RAIZ . $caminho);
+
 // ── Dados da oferta ──────────────────────────────────────────────────────
 // Preço, checkout e promoção vêm da lista única de cursos (includes/cursos.php),
 // a mesma de /cursos e da home. O painel pode trocar o link; campo vazio volta
@@ -51,7 +54,7 @@ $cta = 'href="' . e($externo ? $urlCheckout : '#lp-investimento') . '"'
 $seo['titulo']    = 'Cante & Encante — música na contação de histórias, com Lelê e Kleyton Santos';
 $seo['descricao'] = 'Curso online para colocar música nas suas histórias mesmo sem tocar instrumento '
     . 'nem cantar bem. 6 aulas com Lelê e Kleyton Santos.';
-$seo['imagem']    = $seo['url_base'] . '/assets/img/cante/aula1-lele-e-kleyton.jpg';
+$seo['imagem']    = $seo['url_base'] . '/assets/img/cante/aula1-lele-e-kleyton-sorrindo.jpg';
 
 $seo['json_ld'] = [
     '@context'    => 'https://schema.org',
@@ -186,8 +189,8 @@ $checkSvg = '<span class="lp-ck"><svg aria-hidden="true" focusable="false"><use 
                 <p class="lp-rv">A própria Lelê não toca violão. Mesmo assim, depois de uma apresentação, uma professora
                     veio conversar achando que ela era professora de música.</p>
             </div>
-            <figure class="lp-foto lp-r169 lp-rv" style="margin-top:8px"><img src="/assets/img/cante/aula1-lele-e-kleyton.jpg"
-                alt="Lelê, de figurino azul, sorri com a mão no ombro do Kleyton, que está sentado com o violão no palco"
+            <figure class="lp-foto lp-r169 lp-rv" style="margin-top:8px"><img src="/assets/img/cante/aula1-lele-e-kleyton-sorrindo.jpg"
+                alt="Lelê, de figurino azul, sorri para a câmera no palco, ao lado do Kleyton, sentado com o violão"
                 width="1200" height="675" loading="lazy"></figure>
         </div>
         <div class="lp-rv" style="margin-top:48px;max-width:860px">
@@ -231,11 +234,12 @@ $checkSvg = '<span class="lp-ck"><svg aria-hidden="true" focusable="false"><use 
         <div class="lp-video-grid">
             <div class="lp-rv">
                 <div class="lp-video"><video controls preload="none" playsinline
-                    poster="/assets/img/cante/sucolandia-capa.jpg" aria-describedby="lp-video-desc"><source
-                    src="/assets/video/cante-e-encante-sucolandia.mp4" type="video/mp4">Seu navegador não reproduz este vídeo.</video></div>
-                <p class="lp-video-desc" id="lp-video-desc"><b>O que acontece na cena (1min15s):</b> no palco, a Lelê canta
-                    e marca o ritmo no pandeiro enquanto o Kleyton toca violão. Cada verso puxa uma rima com o nome de um
-                    suco, como “Eu vou ali e volto já! Suco de maracujá”.</p>
+                    poster="<?= e($comVersao('/assets/img/cante/sucolandia-capa.jpg')) ?>" aria-describedby="lp-video-desc"><source
+                    src="<?= e($comVersao('/assets/video/cante-e-encante-sucolandia.mp4')) ?>" type="video/mp4">Seu navegador não reproduz este vídeo.</video></div>
+                <p class="lp-video-desc" id="lp-video-desc"><b>O que acontece na cena (1min34s, com as falas e a letra
+                    escritas na tela):</b> no palco, a Lelê conta como funciona a brincadeira. Depois, canta e marca o
+                    ritmo no pandeiro enquanto o Kleyton toca violão. Cada verso puxa uma rima com o nome de um suco, como
+                    “Eu vou ali e volto já! Suco de maracujá”.</p>
             </div>
             <div class="lp-rv">
                 <p class="lp-eyebrow">Um trecho da Sucolândia</p>
