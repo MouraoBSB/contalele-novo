@@ -25,6 +25,9 @@ $layout   = 'landing';
 $cssExtra = ['/assets/css/conte-e-encante.css', '/assets/css/outros-cursos.css'];
 $jsExtra  = ['/assets/js/conte-e-encante.js'];
 
+// ?v= com a data do arquivo: se o vídeo for refeito com o mesmo nome, a Cloudflare não serve o antigo.
+$comVersao = static fn(string $caminho): string => $caminho . '?v=' . (int) @filemtime(CL_RAIZ . $caminho);
+
 // ── Dados da oferta ──────────────────────────────────────────────────────
 // Preço, checkout e promoção vêm da lista única de cursos (includes/cursos.php),
 // a mesma de /cursos e da home. Campo em branco no painel volta para o padrão de lá.
@@ -294,6 +297,35 @@ function lp_check(): string
         </ul>
         <p class="lp-fecho lp-rv">E, principalmente, daquilo que nenhuma técnica substitui:
             a conexão entre quem conta e quem escuta.</p>
+    </div>
+</section>
+
+<!-- 5b · Vídeo com momentos das aulas ----------------------------------- -->
+<section class="lp-secao lp-amarelo-2">
+    <div class="lp-largura">
+        <div class="lp-col2 lp-col2--video">
+            <div class="lp-rv">
+                <div class="lp-video"><video controls preload="none" playsinline
+                    poster="<?= e($comVersao('/assets/img/curso/curso-video-capa.jpg')) ?>"
+                    aria-describedby="lp-video-desc"><source
+                    src="<?= e($comVersao('/assets/video/conte-e-encante-momentos.mp4')) ?>" type="video/mp4">Seu
+                    navegador não reproduz este vídeo.</video></div>
+                <p class="lp-video-desc" id="lp-video-desc"><b>O que acontece no vídeo (1min34s, com as falas
+                    escritas na tela):</b> no
+                    estúdio e no palco, a Lelê fala da coragem de ser ridículo e convida para uma viagem ao
+                    mundo do era uma vez. Depois, transforma um tecido em noite e chuva, uma taça com coroa
+                    em príncipe, uma tesoura em professora e o próprio joelho em palhaço. No fim, deixa um
+                    recado: “Mas comece. Não pare. Há crianças precisando de você.”</p>
+            </div>
+            <div class="lp-rv">
+                <p class="lp-olho">Momentos das aulas</p>
+                <h2>Um tecido vira noite. Uma taça vira <em>príncipe</em>.</h2>
+                <p class="lp-lead" style="margin-top:24px">Com objetos simples, voz e corpo, a Lelê
+                    mostra como uma história ganha vida diante de quem escuta.</p>
+                <p>E lembra que, para contar, você não precisa esperar ter tudo pronto. Precisa
+                    começar.</p>
+            </div>
+        </div>
     </div>
 </section>
 

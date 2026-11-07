@@ -176,6 +176,12 @@
 .lp-capa{border-radius:24px;overflow:hidden;box-shadow:var(--sombra-g)}
 .lp-capa img{width:100%;height:auto;border-radius:24px}
 
+/* ── Vídeo com momentos das aulas ─────────────────────────────── */
+.lp-video{border-radius:22px;overflow:hidden;background:var(--ink);box-shadow:var(--sombra-g);
+  aspect-ratio:16/9}
+.lp-video video{display:block;width:100%;height:100%;object-fit:cover;background:var(--ink)}
+.cl-landing .lp-video-desc{font-size:14px;margin:14px 0 32px}
+
 /* ── Cards de tom ─────────────────────────────────────────────── */
 .lp-grade{display:grid;gap:16px;margin-top:32px}
 .lp-card-tom{position:relative;overflow:hidden;border-radius:22px;padding:24px;
@@ -444,6 +450,8 @@
   .lp-col2{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
   .lp-col2--lele{grid-template-columns:.85fr 1.15fr;align-items:start}
   .lp-col2--imagine{display:grid;grid-template-columns:1.25fr .75fr;gap:48px;align-items:center}
+  .lp-col2--video{grid-template-columns:1.5fr 1fr}
+  .cl-landing .lp-video-desc{margin-bottom:0}
   .lp-visar strong{font-size:64px}
   .lp-visar__lema{font-size:24px}
   .lp-remate{padding:72px 32px}
