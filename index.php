@@ -35,6 +35,7 @@ $rotas = [
     'festivais' => 'festivais',
     'cursos'    => 'cursos',
     'contato'   => 'contato',
+    'links'     => 'links',     // link na bio do Instagram
     // Contas de cursistas
     'criar-conta'            => 'criar-conta',
     'entrar'                 => 'entrar',
