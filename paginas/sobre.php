@@ -71,7 +71,7 @@ $seo['json_ld']   = json_ld_pessoa($seo['url_base']);
         <div class="cl-grade cl-grade--3 cl-stagger">
             <?php foreach ($conteudo['equipe'] as $m): ?>
                 <article class="cl-card cl-card-midia">
-                    <img src="/assets/img/<?= e($m['foto']) ?>" alt="<?= e($m['nome']) ?>" loading="lazy">
+                    <img src="<?= e(url_imagem($m['foto'])) ?>" alt="<?= e($m['nome']) ?>" loading="lazy">
                     <div class="cl-card-midia__corpo">
                         <h3><?= e($m['nome']) ?></h3>
                         <p><?= e($m['funcao']) ?></p>

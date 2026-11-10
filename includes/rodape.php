@@ -94,5 +94,8 @@ $faixaFim = array_merge([
     </svg>
 </a>
 <script src="/assets/js/main.js?v=<?= @filemtime(CL_RAIZ . '/assets/js/main.js') ?: time() ?>" defer></script>
+<?php foreach ($jsExtra ?? [] as $js): ?>
+<script src="<?= e($js) ?>?v=<?= @filemtime(CL_RAIZ . $js) ?: time() ?>" defer></script>
+<?php endforeach; ?>
 </body>
 </html>

@@ -1,0 +1,135 @@
+/* ──────────────────────────────────────────────────────────────
+   Carrossel de depoimentos da home. Mobile-first.
+   Sem JavaScript, o trilho continua rolando com o dedo, o trackpad
+   ou o teclado; o script só acrescenta setas e indicadores.
+   Thiago Mourão — https://github.com/MouraoBSB — 10/11/2026
+   ────────────────────────────────────────────────────────────── */
+
+.dp { overflow: hidden; }
+.dp-girassol {
+  position: absolute;
+  top: 28px; right: -40px;
+  width: 120px; height: 120px;
+  pointer-events: none;
+}
+.dp-topo { padding-right: 72px; }
+
+/* ── Trilho ───────────────────────────────────────────────────── */
+.dp-trilho {
+  display: flex;
+  gap: 14px;
+  margin: 8px -18px 0;
+  padding: 6px 18px 22px;
+  list-style: none;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scroll-padding: 0 18px;
+}
+.dp-trilho:focus-visible { outline: 3px solid var(--cl-accent); outline-offset: -3px; border-radius: var(--cl-radius-lg); }
+.dp--js .dp-trilho { scrollbar-width: none; }
+.dp--js .dp-trilho::-webkit-scrollbar { display: none; }
+
+.dp-item {
+  flex: 0 0 86%;
+  display: flex;
+  scroll-snap-align: start;
+}
+
+/* ── Cartão ───────────────────────────────────────────────────── */
+.dp-cartao {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 0;
+  padding: 20px 22px 22px;
+  border: 1px solid var(--cl-border);
+  border-radius: var(--cl-radius-lg);
+  background: var(--cl-surface);
+  box-shadow: var(--cl-shadow-md);
+}
+.dp-aspas {
+  display: block;
+  height: 30px;
+  color: var(--cl-accent);
+  font-family: var(--cl-font-display);
+  font-size: 60px;
+  line-height: 0.95;
+}
+.dp-texto {
+  margin: 6px 0 0;
+  color: var(--cl-ink);
+  font-size: 15px;
+  line-height: 1.6;
+}
+.dp-texto p { margin: 0 0 10px; text-wrap: pretty; }
+.dp-texto p:last-child { margin-bottom: 0; }
+.dp-pessoa {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: auto;
+  padding-top: 18px;
+}
+.dp-pessoa img {
+  flex: none;
+  width: 56px; height: 56px;
+  border: 3px solid var(--cl-bg-3);
+  border-radius: 50%;
+  object-fit: cover;
+}
+.dp-pessoa strong { font-size: 15px; font-weight: 800; line-height: 1.3; }
+
+/* ── Controles ────────────────────────────────────────────────── */
+.dp-controles {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  margin-top: 4px;
+}
+.dp-controles[hidden] { display: none; }
+.dp-seta {
+  display: grid;
+  place-items: center;
+  width: 44px; height: 44px;
+  padding: 0;
+  border: 1.5px solid var(--cl-ink);
+  border-radius: var(--cl-pill);
+  background: var(--cl-surface);
+  color: var(--cl-ink);
+  cursor: pointer;
+  transition: transform 0.15s ease, background-color 0.15s ease;
+}
+.dp-seta--anterior svg { transform: scaleX(-1); }
+.dp-seta:disabled { opacity: 0.35; cursor: default; }
+.dp-seta:focus-visible { outline: 3px solid var(--cl-accent); outline-offset: 3px; }
+.dp-pontos { display: flex; align-items: center; gap: 6px; }
+.dp-ponto {
+  width: 8px; height: 8px;
+  border-radius: var(--cl-pill);
+  background: var(--cl-ink);
+  opacity: 0.2;
+  transition: width 0.2s ease, opacity 0.2s ease;
+}
+.dp-ponto--ativo { width: 22px; background: var(--cl-accent); opacity: 1; }
+
+@media (hover: hover) {
+  .dp-seta:not(:disabled):hover { transform: translateY(-1px); background: var(--cl-bg-3); }
+}
+@media (min-width: 640px) {
+  .dp-item { flex-basis: calc((100% - 14px) / 2); }
+}
+@media (min-width: 900px) {
+  .dp-topo { padding-right: 0; }
+  .dp-girassol { top: 40px; right: 24px; width: 150px; height: 150px; }
+  .dp-trilho { gap: 22px; margin: 12px -32px 0; padding: 6px 32px 24px; scroll-padding: 0 32px; }
+  .dp-item { flex-basis: calc((100% - 22px) / 2); }
+  .dp-texto { font-size: 15.5px; }
+}
+@media (min-width: 1040px) {
+  .dp-item { flex-basis: calc((100% - 44px) / 3); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dp-seta, .dp-ponto { transition: none; }
+}

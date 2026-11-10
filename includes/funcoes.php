@@ -108,3 +108,33 @@ function checkout_com_afiliado(string $urlCheckout, array $parametros): string
     }
     return $urlCheckout . (str_contains($urlCheckout, '?') ? '&' : '?') . http_build_query($repasse);
 }
+
+/**
+ * Endereço público de um arquivo gravado no banco.
+ * O painel salva os envios em uploads/; os arquivos que vêm com o projeto
+ * ficam na pasta própria do tipo. Procura primeiro em uploads/.
+ */
+function url_arquivo(string $arquivo, string $pastaProjeto, ?string $raiz = null): string
+{
+    $arquivo = ltrim(str_replace('\\', '/', $arquivo), '/');
+    if ($arquivo === '' || in_array('..', explode('/', $arquivo), true)) {
+        return '';
+    }
+    $codificado = implode('/', array_map('rawurlencode', explode('/', $arquivo)));
+    $raiz ??= CL_RAIZ;
+    return is_file($raiz . '/uploads/' . $arquivo)
+        ? '/uploads/' . $codificado
+        : '/' . $pastaProjeto . '/' . $codificado;
+}
+
+/** Imagem gravada no banco: uploads/ ou assets/img/. */
+function url_imagem(string $arquivo, ?string $raiz = null): string
+{
+    return url_arquivo($arquivo, 'assets/img', $raiz);
+}
+
+/** PDF gravado no banco: uploads/ ou downloads/. */
+function url_pdf(string $arquivo, ?string $raiz = null): string
+{
+    return url_arquivo($arquivo, 'downloads', $raiz);
+}

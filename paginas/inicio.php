@@ -12,8 +12,10 @@ require_once CL_RAIZ . '/includes/repositorio.php';
 require_once CL_RAIZ . '/includes/girassol.php';
 require_once CL_RAIZ . '/includes/cursos.php';
 require_once CL_RAIZ . '/includes/cursos-cartoes.php';
+require_once CL_RAIZ . '/includes/depoimentos.php';
 
-$cssExtra        = ['/assets/css/cursos.css'];
+$cssExtra        = ['/assets/css/cursos.css', '/assets/css/depoimentos.css'];
+$jsExtra         = ['/assets/js/carrossel.js'];
 $cursos          = cursos_publicados();
 $cordeisDestaque = array_slice(listar_cordeis(), 0, 3);
 $depoimentos     = listar_depoimentos();
@@ -53,7 +55,7 @@ $tonsCards = ['cl-tom-amarelo', 'cl-tom-laranja', 'cl-tom-cafe', 'cl-tom-creme',
             <?php if ($depoHero): ?>
             <figure class="cl-hero__depo">
                 <div class="cl-hero__depo__estrelas" aria-label="5 estrelas">★★★★★</div>
-                <blockquote style="margin:0">"<?= e(mb_strimwidth($depoHero['texto'], 0, 130, '…')) ?>"</blockquote>
+                <blockquote style="margin:0">"<?= e(texto_resumido((string) $depoHero['texto'], 130)) ?>"</blockquote>
                 <figcaption class="cl-hero__depo__autor"><?= e($depoHero['autor']) ?></figcaption>
             </figure>
             <?php endif; ?>
@@ -120,7 +122,7 @@ $tonsCards = ['cl-tom-amarelo', 'cl-tom-laranja', 'cl-tom-cafe', 'cl-tom-creme',
             <?php foreach ($cordeisDestaque as $c): ?>
                 <article class="cl-card cl-card-midia">
                     <?php if ($c['imagem_capa']): ?>
-                        <img src="/assets/img/<?= e($c['imagem_capa']) ?>" alt="Capa de <?= e($c['titulo']) ?>" loading="lazy">
+                        <img src="<?= e(url_imagem($c['imagem_capa'])) ?>" alt="Capa de <?= e($c['titulo']) ?>" loading="lazy">
                     <?php endif; ?>
                     <div class="cl-card-midia__corpo">
                         <h3><?= e($c['titulo']) ?></h3>
@@ -136,22 +138,45 @@ $tonsCards = ['cl-tom-amarelo', 'cl-tom-laranja', 'cl-tom-cafe', 'cl-tom-creme',
 
 <?php if ($depoimentos): ?>
 <!-- Depoimentos ---------------------------------------------------- -->
-<section class="cl-secao">
+<section class="cl-secao dp" aria-labelledby="dp-titulo">
+    <?php girassol(['tamanho' => 120, 'classe' => 'dp-girassol']); ?>
     <div class="cl-conteudo">
-        <p class="cl-eyebrow">O que dizem</p>
-        <h2 class="cl-secao__titulo">Quem já viveu uma <span class="cl-em">história</span></h2>
-        <div class="cl-grade cl-grade--3 cl-stagger">
-            <?php foreach ($depoimentos as $d): ?>
-                <figure class="cl-depo" style="margin:0">
-                    <blockquote>"<?= e($d['texto']) ?>"</blockquote>
-                    <figcaption class="cl-depo__autor">
-                        <?php if (!empty($d['foto'])): ?>
-                            <img src="/assets/img/<?= e($d['foto']) ?>" alt="<?= e($d['autor']) ?>" loading="lazy">
-                        <?php endif; ?>
-                        <strong><?= e($d['autor']) ?></strong>
-                    </figcaption>
-                </figure>
-            <?php endforeach; ?>
+        <div class="dp-topo">
+            <p class="cl-eyebrow">O que dizem</p>
+            <h2 class="cl-secao__titulo" id="dp-titulo">Quem já viveu uma <span class="cl-em">história</span></h2>
+        </div>
+
+        <div class="dp-carrossel" data-carrossel role="region" aria-roledescription="carrossel"
+            aria-labelledby="dp-titulo">
+            <ul class="dp-trilho" id="dp-trilho" tabindex="0">
+                <?php foreach ($depoimentos as $d): ?>
+                    <li class="dp-item">
+                        <figure class="dp-cartao">
+                            <span class="dp-aspas" aria-hidden="true">&ldquo;</span>
+                            <blockquote class="dp-texto">
+                                <?php foreach (texto_em_paragrafos((string) $d['texto']) as $paragrafo): ?>
+                                    <p><?= e($paragrafo) ?></p>
+                                <?php endforeach; ?>
+                            </blockquote>
+                            <figcaption class="dp-pessoa">
+                                <?php if (!empty($d['foto'])): ?>
+                                    <img src="<?= e(url_imagem($d['foto'])) ?>" alt="" width="56" height="56"
+                                        loading="lazy" decoding="async">
+                                <?php endif; ?>
+                                <strong><?= e($d['autor']) ?></strong>
+                            </figcaption>
+                        </figure>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+            <div class="dp-controles" hidden>
+                <button class="dp-seta dp-seta--anterior" type="button" data-dp-ir="-1"
+                    aria-controls="dp-trilho" aria-label="Depoimento anterior"><?= curso_icone('seta', 20) ?></button>
+                <div class="dp-pontos" aria-hidden="true"></div>
+                <button class="dp-seta" type="button" data-dp-ir="1"
+                    aria-controls="dp-trilho" aria-label="Próximo depoimento"><?= curso_icone('seta', 20) ?></button>
+            </div>
+            <p class="cl-sr" aria-live="polite" data-dp-aviso></p>
         </div>
     </div>
 </section>

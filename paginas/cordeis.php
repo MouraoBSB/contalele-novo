@@ -40,7 +40,7 @@ $seo['descricao'] = 'Conheça os cordéis escritos e contados pela Lelê: histó
                                         allowfullscreen></iframe>
                             </div>
                         <?php elseif ($c['imagem_capa']): ?>
-                            <img src="/assets/img/<?= e($c['imagem_capa']) ?>" alt="Capa de <?= e($c['titulo']) ?>"
+                            <img src="<?= e(url_imagem($c['imagem_capa'])) ?>" alt="Capa de <?= e($c['titulo']) ?>"
                                  style="border-radius:14px;margin:14px 0" loading="lazy">
                         <?php endif; ?>
                         <p><?= e($c['sinopse']) ?></p>
