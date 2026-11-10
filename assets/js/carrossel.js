@@ -70,7 +70,58 @@
     window.addEventListener('resize', agendar);
 
     raiz.classList.add('dp--js');
+    prepararTextosLongos(raiz);
     atualizar();
+  }
+
+  /* Textos longos começam recolhidos, com botão para ler o depoimento inteiro.
+     Leitores de tela continuam lendo o texto todo (só o visual é cortado). */
+  function prepararTextosLongos(raiz) {
+    var textos = raiz.querySelectorAll('.dp-texto');
+
+    function medir() {
+      Array.prototype.forEach.call(textos, function (texto) {
+        var botao = texto.nextElementSibling;
+        var temBotao = botao && botao.classList.contains('dp-ler');
+        if (temBotao && botao.getAttribute('aria-expanded') === 'true') return;
+
+        texto.classList.add('dp-texto--recolhido');
+        // Só recolhe se sobrar texto de verdade (mais de ~2 linhas escondidas).
+        var longo = texto.scrollHeight > texto.clientHeight * 1.2;
+        texto.classList.toggle('dp-texto--recolhido', longo);
+
+        if (longo && !temBotao) {
+          botao = document.createElement('button');
+          botao.type = 'button';
+          botao.className = 'dp-ler';
+          botao.setAttribute('aria-controls', texto.id);
+          botao.setAttribute('aria-expanded', 'false');
+          botao.textContent = 'Ler o depoimento inteiro';
+          texto.insertAdjacentElement('afterend', botao);
+        } else if (!longo && temBotao) {
+          botao.remove();
+        }
+      });
+    }
+
+    raiz.addEventListener('click', function (ev) {
+      var botao = ev.target.closest('.dp-ler');
+      if (!botao) return;
+      var texto = document.getElementById(botao.getAttribute('aria-controls'));
+      var abrir = botao.getAttribute('aria-expanded') !== 'true';
+      texto.classList.toggle('dp-texto--recolhido', !abrir);
+      botao.setAttribute('aria-expanded', abrir ? 'true' : 'false');
+      botao.textContent = abrir ? 'Mostrar menos' : 'Ler o depoimento inteiro';
+    });
+
+    var espera = 0;
+    window.addEventListener('resize', function () {
+      window.clearTimeout(espera);
+      espera = window.setTimeout(medir, 150);
+    });
+    medir();
+    // A fonte do site chega depois e muda a altura das linhas: mede de novo.
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(medir);
   }
 
   Array.prototype.forEach.call(document.querySelectorAll('[data-carrossel]'), iniciar);

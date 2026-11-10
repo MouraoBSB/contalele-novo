@@ -149,22 +149,22 @@ $tonsCards = ['cl-tom-amarelo', 'cl-tom-laranja', 'cl-tom-cafe', 'cl-tom-creme',
         <div class="dp-carrossel" data-carrossel role="region" aria-roledescription="carrossel"
             aria-labelledby="dp-titulo">
             <ul class="dp-trilho" id="dp-trilho" tabindex="0">
-                <?php foreach ($depoimentos as $d): ?>
+                <?php foreach ($depoimentos as $i => $d): ?>
                     <li class="dp-item">
                         <figure class="dp-cartao">
-                            <span class="dp-aspas" aria-hidden="true">&ldquo;</span>
-                            <blockquote class="dp-texto">
-                                <?php foreach (texto_em_paragrafos((string) $d['texto']) as $paragrafo): ?>
-                                    <p><?= e($paragrafo) ?></p>
-                                <?php endforeach; ?>
-                            </blockquote>
                             <figcaption class="dp-pessoa">
                                 <?php if (!empty($d['foto'])): ?>
                                     <img src="<?= e(url_imagem($d['foto'])) ?>" alt="" width="56" height="56"
                                         loading="lazy" decoding="async">
                                 <?php endif; ?>
                                 <strong><?= e($d['autor']) ?></strong>
+                                <span class="dp-aspas" aria-hidden="true">&ldquo;</span>
                             </figcaption>
+                            <blockquote class="dp-texto" id="dp-texto-<?= $i ?>">
+                                <?php foreach (texto_em_paragrafos((string) $d['texto']) as $paragrafo): ?>
+                                    <p><?= e($paragrafo) ?></p>
+                                <?php endforeach; ?>
+                            </blockquote>
                         </figure>
                     </li>
                 <?php endforeach; ?>
