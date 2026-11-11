@@ -16,7 +16,7 @@ declare(strict_types=1);
  */
 function listar_publicados(string $tabela): array
 {
-    $permitidas = ['cordeis', 'ebooks', 'noticias', 'depoimentos', 'festivais', 'premios'];
+    $permitidas = ['cordeis', 'ebooks', 'noticias', 'depoimentos', 'depoimentos_video', 'festivais', 'premios'];
     if (!in_array($tabela, $permitidas, true)) {
         throw new InvalidArgumentException("Tabela não permitida: {$tabela}");
     }
@@ -29,6 +29,7 @@ function listar_cordeis(): array      { return listar_publicados('cordeis'); }
 function listar_ebooks(): array       { return listar_publicados('ebooks'); }
 function listar_noticias(): array     { return listar_publicados('noticias'); }
 function listar_depoimentos(): array  { return listar_publicados('depoimentos'); }
+function listar_depoimentos_video(): array { return listar_publicados('depoimentos_video'); }
 function listar_festivais(): array    { return listar_publicados('festivais'); }
 function listar_premios(): array      { return listar_publicados('premios'); }
 

@@ -25,6 +25,7 @@ $cartoes = [
     ['Livros',      $contar('SELECT COUNT(*) FROM ebooks'),      '/admin/conteudo.php?recurso=ebooks'],
     ['Notícias',    $contar('SELECT COUNT(*) FROM noticias'),    '/admin/conteudo.php?recurso=noticias'],
     ['Depoimentos', $contar('SELECT COUNT(*) FROM depoimentos'), '/admin/conteudo.php?recurso=depoimentos'],
+    ['Depoimentos em vídeo', $contar('SELECT COUNT(*) FROM depoimentos_video'), '/admin/conteudo.php?recurso=depoimentos_video'],
     ['Festivais',   $contar('SELECT COUNT(*) FROM festivais'),   '/admin/conteudo.php?recurso=festivais'],
     ['Prêmios',     $contar('SELECT COUNT(*) FROM premios'),     '/admin/conteudo.php?recurso=premios'],
 ];

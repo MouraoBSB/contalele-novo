@@ -71,3 +71,39 @@ function json_ld_pessoa(string $urlBase): array
         ],
     ];
 }
+
+/**
+ * Nó schema.org VideoObject de um depoimento em vídeo (para o @graph da página).
+ * Os caminhos já vêm prontos (com ?v=); sem capa não há miniatura e o nó não é gerado.
+ */
+function json_ld_depoimento_video(array $d, string $urlBase, string $caminhoVideo, string $caminhoCapa): ?array
+{
+    if ($caminhoVideo === '' || $caminhoCapa === '') {
+        return null;
+    }
+    $base       = rtrim($urlBase, '/');
+    $transcrito = trim((string) preg_replace('/\s+/u', ' ', (string) ($d['transcricao'] ?? '')));
+    $destaque   = trim((string) ($d['destaque'] ?? ''));
+    $no = [
+        '@type'        => 'VideoObject',
+        'name'         => 'Depoimento de ' . $d['autor'] . ' sobre o curso de contação de histórias',
+        'description'  => $destaque !== '' ? $destaque : mb_strimwidth($transcrito, 0, 160, '…'),
+        'thumbnailUrl' => $base . $caminhoCapa,
+        'contentUrl'   => $base . $caminhoVideo,
+        'inLanguage'   => 'pt-BR',
+        'transcript'   => $transcrito,
+    ];
+    if (preg_match('/^\d{4}-\d{2}-\d{2}/', (string) ($d['criado_em'] ?? ''), $m)) {
+        $no['uploadDate'] = $m[0];
+    }
+    return $no;
+}
+
+/** Junta vários nós de dados estruturados num bloco só, com um @context na raiz. */
+function json_ld_grafo(array $nos): array
+{
+    return [
+        '@context' => 'https://schema.org',
+        '@graph'   => array_map(static fn (array $no): array => array_diff_key($no, ['@context' => true]), $nos),
+    ];
+}

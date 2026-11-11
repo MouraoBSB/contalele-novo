@@ -14,6 +14,7 @@ $config = require CL_RAIZ . '/config.php';
 require CL_RAIZ . '/includes/erros.php';
 require CL_RAIZ . '/includes/funcoes.php';
 require CL_RAIZ . '/includes/conexao.php';
+require __DIR__ . '/incluir/upload.php';
 
 ativar_tratamento_erros($config['site']['ambiente']);
 header('Content-Type: text/html; charset=utf-8');
@@ -33,6 +34,13 @@ foreach (['pdo_mysql', 'mbstring', 'openssl', 'curl', 'fileinfo', 'gd'] as $ext)
     $checagens[] = ['Extensão ' . $ext, extension_loaded($ext), extension_loaded($ext) ? 'carregada' : 'AUSENTE'];
 }
 
+// O vídeo dos depoimentos é o maior arquivo que o painel recebe.
+$limiteEnvio = limite_servidor_bytes();
+$maiorTipo   = tipos_arquivo()['video']['max'];
+$checagens[] = ['Limite de envio de arquivos', $limiteEnvio >= $maiorTipo,
+    formatar_mb($limiteEnvio) . ' (upload_max_filesize ' . ini_get('upload_max_filesize')
+    . ', post_max_size ' . ini_get('post_max_size') . '; o vídeo pede até ' . formatar_mb($maiorTipo) . ')'];
+
 foreach (['uploads', 'logs'] as $pasta) {
     $caminho = CL_RAIZ . '/' . $pasta;
     $checagens[] = ['Pasta ' . $pasta . ' gravável', is_writable($caminho), $caminho];
@@ -43,7 +51,7 @@ try {
     $checagens[] = ['Conexão com o banco', true, 'conectado'];
     $tabelas = $pdo->query('SHOW TABLES')->fetchAll(PDO::FETCH_COLUMN);
     $esperadas = ['usuarios_admin', 'usuarios_cursistas', 'tokens_autenticacao', 'limites_acao',
-        'cordeis', 'ebooks', 'noticias', 'depoimentos', 'festivais', 'premios', 'mensagens_contato',
+        'cordeis', 'ebooks', 'noticias', 'depoimentos', 'depoimentos_video', 'festivais', 'premios', 'mensagens_contato',
         'configuracoes'];
     $faltando = array_diff($esperadas, $tabelas);
     $checagens[] = ['Tabelas do banco', $faltando === [],

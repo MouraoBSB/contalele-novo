@@ -4,7 +4,8 @@
  * Cada recurso define a tabela, os rótulos e os campos do formulário.
  * O motor de CRUD (admin/conteudo.php) é dirigido por este arquivo.
  *
- * Tipos de campo: 'texto', 'area', 'numero', 'data', 'imagem', 'pdf'.
+ * Tipos de campo: 'texto', 'area', 'numero', 'data' e os de arquivo de tipos_arquivo()
+ * (upload.php): 'imagem', 'pdf', 'video'.
  *
  * Thiago Mourão — https://github.com/MouraoBSB
  */
@@ -62,6 +63,22 @@ return [
             'autor' => ['rotulo' => 'Autor', 'tipo' => 'texto', 'obrigatorio' => true],
             'texto' => ['rotulo' => 'Depoimento', 'tipo' => 'area', 'obrigatorio' => true],
             'foto'  => ['rotulo' => 'Foto', 'tipo' => 'imagem'],
+        ],
+    ],
+    'depoimentos_video' => [
+        'singular' => 'Depoimento em vídeo',
+        'plural'   => 'Depoimentos em vídeo',
+        'tabela'   => 'depoimentos_video',
+        'rotulo'   => 'autor',
+        'slug'     => false,
+        'campos'   => [
+            'autor'       => ['rotulo' => 'Nome', 'tipo' => 'texto', 'obrigatorio' => true],
+            'descricao'   => ['rotulo' => 'Quem é (ex.: Aluna do Conte&Encante)', 'tipo' => 'texto'],
+            'destaque'    => ['rotulo' => 'Frase em destaque (um trecho curto da fala)', 'tipo' => 'texto'],
+            'transcricao' => ['rotulo' => 'Transcrição (tudo o que a pessoa fala no vídeo)', 'tipo' => 'area', 'obrigatorio' => true],
+            'video'       => ['rotulo' => 'Vídeo (MP4 já editado, com legenda)', 'tipo' => 'video'],
+            'capa'        => ['rotulo' => 'Capa (foto vertical, 9:16)', 'tipo' => 'imagem'],
+            'link'        => ['rotulo' => 'Página do curso (ex.: /conte-e-encante)', 'tipo' => 'texto'],
         ],
     ],
     'festivais' => [

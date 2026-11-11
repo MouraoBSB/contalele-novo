@@ -138,3 +138,23 @@ function url_pdf(string $arquivo, ?string $raiz = null): string
 {
     return url_arquivo($arquivo, 'downloads', $raiz);
 }
+
+/** Vídeo gravado no banco: uploads/ ou assets/video/. */
+function url_video(string $arquivo, ?string $raiz = null): string
+{
+    return url_arquivo($arquivo, 'assets/video', $raiz);
+}
+
+/**
+ * Acrescenta ?v=<data do arquivo> a um endereço do site, para a Cloudflare e o navegador
+ * buscarem o arquivo novo quando ele for trocado com o mesmo nome.
+ */
+function com_versao(string $url, ?string $raiz = null): string
+{
+    $caminho = rawurldecode($url);
+    if ($url === '' || in_array('..', explode('/', $caminho), true)) {
+        return $url;
+    }
+    $arquivo = ($raiz ?? CL_RAIZ) . $caminho;
+    return is_file($arquivo) ? $url . '?v=' . (int) filemtime($arquivo) : $url;
+}

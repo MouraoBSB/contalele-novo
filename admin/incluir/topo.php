@@ -29,6 +29,7 @@ $u = usuario_logado();
         <a href="/admin/conteudo.php?recurso=ebooks">Livros</a>
         <a href="/admin/conteudo.php?recurso=noticias">Notícias</a>
         <a href="/admin/conteudo.php?recurso=depoimentos">Depoimentos</a>
+        <a href="/admin/conteudo.php?recurso=depoimentos_video">Depoimentos em vídeo</a>
         <a href="/admin/conteudo.php?recurso=festivais">Festivais</a>
         <a href="/admin/conteudo.php?recurso=premios">Prêmios</a>
         <a href="/admin/mensagens.php">Mensagens</a>

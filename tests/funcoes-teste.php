@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-require __DIR__ . '/../includes/funcoes.php';
+require_once __DIR__ . '/../includes/funcoes.php';
 
 // e() — escape de HTML
 afirmar_igual('&lt;b&gt;', e('<b>'), 'e() escapa tags HTML');
@@ -47,6 +47,25 @@ file_put_contents($raizTeste . '/uploads/f9e8d7.pdf', 'x');
 afirmar_igual('/uploads/f9e8d7.pdf', url_pdf('f9e8d7.pdf', $raizTeste), 'url_pdf() acha o PDF enviado pelo painel em uploads/');
 afirmar_igual('/downloads/cordel.pdf', url_pdf('cordel.pdf', $raizTeste), 'url_pdf() usa downloads/ para PDFs do projeto');
 afirmar_igual('', url_pdf('../x.pdf', $raizTeste), 'url_pdf() recusa caminho com ..');
+
+// url_video() — vídeos enviados pelo painel ficam em uploads/; os do projeto, em assets/video/
+file_put_contents($raizTeste . '/uploads/c4d5e6.mp4', 'x');
+afirmar_igual('/uploads/c4d5e6.mp4', url_video('c4d5e6.mp4', $raizTeste), 'url_video() acha o vídeo enviado pelo painel em uploads/');
+afirmar_igual('/assets/video/depoimento-manuela.mp4', url_video('depoimento-manuela.mp4', $raizTeste), 'url_video() usa assets/video/ para vídeos do projeto');
+afirmar_igual('', url_video('../config.php', $raizTeste), 'url_video() recusa caminho com ..');
+
+// com_versao() — acrescenta ?v=<data do arquivo> para o cache da Cloudflare pegar a troca
+mkdir($raizTeste . '/assets/video', 0777, true);
+file_put_contents($raizTeste . '/assets/video/foto nova.mp4', 'x');
+touch($raizTeste . '/assets/video/foto nova.mp4', 1700000000);
+afirmar_igual('/assets/video/foto%20nova.mp4?v=1700000000', com_versao('/assets/video/foto%20nova.mp4', $raizTeste), 'com_versao() usa a data do arquivo, mesmo com nome codificado');
+afirmar_igual('/assets/video/sumiu.mp4', com_versao('/assets/video/sumiu.mp4', $raizTeste), 'com_versao() deixa o endereço como está se o arquivo não existe');
+afirmar_igual('', com_versao('', $raizTeste), 'com_versao() devolve vazio para endereço vazio');
+afirmar_igual('/assets/x/../../config.php', com_versao('/assets/x/../../config.php', $raizTeste), 'com_versao() não consulta caminho com ..');
+unlink($raizTeste . '/assets/video/foto nova.mp4');
+rmdir($raizTeste . '/assets/video');
+rmdir($raizTeste . '/assets');
+unlink($raizTeste . '/uploads/c4d5e6.mp4');
 unlink($raizTeste . '/uploads/f9e8d7.pdf');
 unlink($raizTeste . '/uploads/a1b2c3.jpg');
 rmdir($raizTeste . '/uploads');

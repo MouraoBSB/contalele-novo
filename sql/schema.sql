@@ -77,6 +77,22 @@ CREATE TABLE IF NOT EXISTS depoimentos (
     KEY ix_depoimentos_listagem (publicado, ordem)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+CREATE TABLE IF NOT EXISTS depoimentos_video (
+    id          INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    autor       VARCHAR(120) NOT NULL,
+    descricao   VARCHAR(160) NULL,
+    destaque    VARCHAR(300) NULL,
+    transcricao TEXT         NOT NULL,
+    video       VARCHAR(255) NULL,
+    capa        VARCHAR(255) NULL,
+    link        VARCHAR(255) NULL,
+    ordem       INT          NOT NULL DEFAULT 0,
+    publicado   TINYINT(1)   NOT NULL DEFAULT 1,
+    criado_em   DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (id),
+    KEY ix_depoimentos_video_listagem (publicado, ordem)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 CREATE TABLE IF NOT EXISTS festivais (
     id        INT UNSIGNED NOT NULL AUTO_INCREMENT,
     titulo    VARCHAR(200) NOT NULL,

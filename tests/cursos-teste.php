@@ -99,3 +99,10 @@ afirmar(curso_publicado($catalogo['conte-e-encante'], ['curso_publicado' => '1']
 afirmar(!curso_publicado($catalogo['conte-e-encante'], ['curso_publicado' => '0']), 'Conte: escondido com a chave em 0');
 afirmar(!curso_publicado($catalogo['conte-e-encante'], []), 'Conte: escondido sem a chave');
 afirmar(curso_publicado($catalogo['cante-e-encante'], []), 'Cante: sempre publicado');
+
+// curso_icone('play') — ícone de reproduzir do set da marca (linha, sem preenchimento)
+require_once __DIR__ . '/../includes/funcoes.php';
+require_once __DIR__ . '/../includes/cursos-cartoes.php';
+$play = curso_icone('play', 28);
+afirmar(str_contains($play, 'width="28"') && str_contains($play, '<path'), 'curso_icone() desenha o ícone de play');
+afirmar(str_contains($play, 'fill="none"'), 'curso_icone() desenha o play só com linha');

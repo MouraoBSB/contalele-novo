@@ -31,13 +31,23 @@ $pdo    = bd();
 $acao   = (string) ($_GET['acao'] ?? 'listar');
 $base   = '/admin/conteudo.php?recurso=' . rawurlencode($chave);
 
-$IMG_EXT = ['jpg', 'jpeg', 'png', 'webp'];
-$IMG_MIME = ['image/jpeg', 'image/png', 'image/webp'];
-$PDF_EXT = ['pdf'];
-$PDF_MIME = ['application/pdf'];
+$TIPOS_ARQUIVO   = tipos_arquivo();
+$LIMITE_SERVIDOR = limite_servidor_bytes();
 
 // ── Ações POST ───────────────────────────────────────────────────────
 if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
+    // Envio maior que o post_max_size: o PHP descarta o formulário inteiro (campos, arquivos e CSRF).
+    if ($_POST === [] && $_FILES === [] && (int) ($_SERVER['CONTENT_LENGTH'] ?? 0) > 0) {
+        registrar_log('Formulário do painel maior que o limite do servidor', [
+            'recurso' => $chave,
+            'bytes'   => (int) $_SERVER['CONTENT_LENGTH'],
+            'limite'  => $LIMITE_SERVIDOR,
+        ]);
+        $_SESSION['cl_flash'] = ['tipo' => 'erro', 'texto' => 'O arquivo enviado passa do limite do servidor ('
+            . formatar_mb($LIMITE_SERVIDOR) . '). Nada foi salvo.'];
+        header('Location: ' . $base);
+        exit;
+    }
     if (!csrf_validar($_POST['csrf'] ?? null)) {
         http_response_code(400);
         exit('Sessão expirada. Volte e recarregue a página.');
@@ -48,14 +58,10 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
         $dados = [];
         $erros = [];
         foreach ($rec['campos'] as $nome => $def) {
-            if ($def['tipo'] === 'imagem' || $def['tipo'] === 'pdf') {
+            if (isset($TIPOS_ARQUIVO[$def['tipo']])) {
+                $tipo = $TIPOS_ARQUIVO[$def['tipo']];
                 try {
-                    $ehImg = $def['tipo'] === 'imagem';
-                    $arquivo = processar_upload(
-                        $nome,
-                        $ehImg ? $IMG_EXT : $PDF_EXT,
-                        $ehImg ? $IMG_MIME : $PDF_MIME
-                    );
+                    $arquivo = processar_upload($nome, $tipo['ext'], $tipo['mime'], min($tipo['max'], $LIMITE_SERVIDOR));
                 } catch (RuntimeException $e) {
                     $erros[] = $def['rotulo'] . ': ' . $e->getMessage();
                     $arquivo = null;
@@ -197,12 +203,13 @@ if ($acao === 'novo' || $acao === 'editar') {
                 <?php $valor = (string) ($registro[$nome] ?? ''); ?>
                 <?php if ($def['tipo'] === 'area'): ?>
                     <textarea name="<?= e($nome) ?>"><?= e($valor) ?></textarea>
-                <?php elseif ($def['tipo'] === 'imagem' || $def['tipo'] === 'pdf'): ?>
+                <?php elseif (isset($TIPOS_ARQUIVO[$def['tipo']])): ?>
+                    <?php $tipo = $TIPOS_ARQUIVO[$def['tipo']]; ?>
                     <?php if ($valor !== ''): ?>
                         <small>Atual: <?= e($valor) ?> — envie um arquivo só para substituir.</small>
                     <?php endif; ?>
-                    <input type="file" name="<?= e($nome) ?>"
-                           accept="<?= $def['tipo'] === 'imagem' ? 'image/*' : 'application/pdf' ?>">
+                    <input type="file" name="<?= e($nome) ?>" accept="<?= e($tipo['accept']) ?>">
+                    <small>Até <?= e(formatar_mb(min($tipo['max'], $LIMITE_SERVIDOR))) ?>.</small>
                 <?php elseif ($def['tipo'] === 'numero'): ?>
                     <input type="number" name="<?= e($nome) ?>" value="<?= e($valor) ?>">
                 <?php elseif ($def['tipo'] === 'data'): ?>

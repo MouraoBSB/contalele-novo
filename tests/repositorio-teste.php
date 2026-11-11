@@ -25,3 +25,4 @@ afirmar(function_exists('youtube_id'), 'youtube_id() existe');
 afirmar_igual('2s-SudIPNXs', youtube_id('https://www.youtube.com/watch?v=2s-SudIPNXs'), 'youtube_id() de URL watch');
 afirmar_igual('abc12345678', youtube_id('https://youtu.be/abc12345678'), 'youtube_id() de URL curta');
 afirmar_igual('', youtube_id('texto sem url'), 'youtube_id() devolve vazio quando não há ID');
+afirmar(function_exists('listar_depoimentos_video'), 'listar_depoimentos_video() existe');

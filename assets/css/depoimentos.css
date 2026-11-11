@@ -155,3 +155,142 @@
 @media (prefers-reduced-motion: reduce) {
   .dp-seta, .dp-ponto { transition: none; }
 }
+
+/* ══════════════════════════════════════════════════════════════
+   Depoimentos em vídeo (antes do carrossel escrito), no fundo café
+   de palco. Um vídeo: destaque com o texto ao lado. Vários: o mesmo
+   carrossel dos depoimentos escritos (classes dp-*).
+   ══════════════════════════════════════════════════════════════ */
+.dv { overflow: hidden; }
+.dv .cl-em { color: var(--cl-bg-3); }
+.dv-girassol {
+  position: absolute;
+  top: 28px; right: -40px;
+  width: 120px; height: 120px;
+  pointer-events: none;
+}
+.dv-topo { padding-right: 72px; }
+.dv-lista { margin: 8px 0 0; padding: 0; list-style: none; }
+
+.dv-cartao { display: flex; flex-direction: column; gap: 20px; margin: 0; }
+.dv-video {
+  position: relative;
+  width: 100%;
+  max-width: 340px;
+  margin: 0 auto;
+  aspect-ratio: 9 / 16;
+  overflow: hidden;
+  border: 3px solid var(--cl-bg-3);
+  border-radius: var(--cl-radius-xl);
+  background: var(--cl-ink);
+  box-shadow: 0 24px 44px -22px rgba(18, 8, 0, 0.75);
+}
+.dv-video video { display: block; width: 100%; height: 100%; object-fit: cover; background: var(--cl-ink); }
+.dv-play {
+  position: absolute;
+  left: 50%; top: 50%;
+  display: grid;
+  place-items: center;
+  width: 76px; height: 76px;
+  margin: -38px 0 0 -38px;
+  padding: 0 0 0 4px; /* centro ótico do triângulo */
+  border: 2px solid var(--cl-ink);
+  border-radius: var(--cl-pill);
+  background: var(--cl-bg-3);
+  color: var(--cl-ink);
+  box-shadow: var(--cl-shadow-lg);
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+.dv-play[hidden] { display: none; }
+.dv-play:focus-visible { outline: 3px solid var(--cl-bg-3); outline-offset: 4px; }
+
+.dv-corpo { max-width: 600px; }
+.dv-frase {
+  position: relative;
+  margin: 0 0 16px;
+  padding-top: 34px;
+  color: var(--cl-bg);
+  font-size: 20px;
+  font-weight: 800;
+  line-height: 1.35;
+  text-wrap: pretty;
+}
+.dv-frase::before {
+  content: "\201C";
+  position: absolute;
+  top: -10px; left: -2px;
+  color: var(--cl-bg-3);
+  font-family: var(--cl-font-display);
+  font-size: 72px;
+  line-height: 1;
+}
+.dv-pessoa { display: flex; flex-direction: column; gap: 2px; margin: 0 0 18px; }
+.dv-pessoa strong {
+  color: var(--cl-bg-3);
+  font-family: var(--cl-font-display);
+  font-size: 26px;
+  font-weight: 400;
+  line-height: 1.15;
+}
+.dv-pessoa span { color: rgba(253, 245, 212, 0.8); font-size: 14px; font-weight: 700; }
+.dv-link { margin: 0 0 14px; }
+.dv-link .cl-ico { margin-left: 6px; }
+.dv-transcricao summary {
+  display: list-item;
+  padding: 10px 0;
+  color: var(--cl-bg-3);
+  font-weight: 800;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+.dv-transcricao summary:focus-visible { outline: 3px solid var(--cl-bg-3); outline-offset: 3px; border-radius: 4px; }
+.dv-transcricao p {
+  margin: 0 0 10px;
+  color: rgba(253, 245, 212, 0.88);
+  font-size: 15px;
+  line-height: 1.6;
+  text-wrap: pretty;
+}
+
+/* Carrossel (dois vídeos ou mais) sobre o café */
+.dv .dp-trilho { margin-top: 8px; }
+.dv .dp-trilho:focus-visible { outline-color: var(--cl-bg-3); }
+.dv .dp-item { flex-basis: 78%; }
+.dv .dp-item .dv-video { max-width: none; }
+.dv .dp-item .dv-frase { font-size: 16px; padding-top: 28px; }
+.dv .dp-item .dv-frase::before { font-size: 60px; }
+.dv .dp-item .dv-pessoa strong { font-size: 22px; }
+.dv .dp-ponto { background: var(--cl-bg); opacity: 0.35; }
+.dv .dp-ponto--ativo { background: var(--cl-bg-3); opacity: 1; }
+
+@media (hover: hover) {
+  .dv-play:hover { transform: scale(1.06); }
+}
+@media (min-width: 640px) {
+  .dv .dp-item { flex-basis: calc((100% - 14px) / 2); }
+}
+@media (min-width: 760px) {
+  .dv--um .dv-cartao {
+    display: grid;
+    grid-template-columns: minmax(260px, 340px) 1fr;
+    gap: 44px;
+    align-items: center;
+  }
+  .dv--um .dv-video { margin: 0; }
+  .dv--um .dv-frase { font-size: 24px; }
+}
+@media (min-width: 900px) {
+  .dv-topo { padding-right: 0; }
+  .dv-girassol { top: 40px; right: 24px; width: 150px; height: 150px; }
+  .dv .dp-item { flex-basis: calc((100% - 44px) / 3); }
+}
+@media (min-width: 1040px) {
+  .dv--um .dv-cartao { grid-template-columns: 360px 1fr; gap: 72px; }
+  .dv--um .dv-frase { font-size: 30px; }
+  .dv .dp-item { flex-basis: calc((100% - 66px) / 4); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dv-play { transition: none; }
+}

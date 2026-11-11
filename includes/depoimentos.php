@@ -47,3 +47,27 @@ function texto_resumido(string $texto, int $limite): string
     $trecho = $espaco === false ? mb_substr($corrido, 0, $limite - 1) : mb_substr($trecho, 0, $espaco);
     return preg_replace('/[\s,;:]+$/u', '', $trecho) . '…';
 }
+
+/**
+ * Depoimentos em vídeo que têm arquivo de vídeo (um cadastro sem vídeo não aparece no site).
+ *
+ * @param array<int,array<string,mixed>> $linhas
+ * @return array<int,array<string,mixed>>
+ */
+function depoimentos_com_video(array $linhas): array
+{
+    return array_values(array_filter(
+        $linhas,
+        static fn (array $d): bool => trim((string) ($d['video'] ?? '')) !== ''
+    ));
+}
+
+/**
+ * Caminho de uma página do próprio site (ex.: /conte-e-encante), ou vazio se o valor
+ * digitado no painel não for um caminho interno simples.
+ */
+function link_interno(string $valor): string
+{
+    $valor = trim($valor);
+    return preg_match('~^/[a-z0-9-]+(?:/[a-z0-9-]+)*/?(?:#[a-z0-9-]+)?$~', $valor) ? $valor : '';
+}

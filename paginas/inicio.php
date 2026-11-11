@@ -15,15 +15,31 @@ require_once CL_RAIZ . '/includes/cursos-cartoes.php';
 require_once CL_RAIZ . '/includes/depoimentos.php';
 
 $cssExtra        = ['/assets/css/cursos.css', '/assets/css/depoimentos.css'];
-$jsExtra         = ['/assets/js/carrossel.js'];
+$jsExtra         = ['/assets/js/carrossel.js', '/assets/js/depoimentos-video.js'];
 $cursos          = cursos_publicados();
 $cordeisDestaque = array_slice(listar_cordeis(), 0, 3);
 $depoimentos     = listar_depoimentos();
 
+// Depoimentos em vídeo: endereços resolvidos (uploads/ ou assets/) e versionados para o cache.
+$depoimentosVideo = array_map(static function (array $d): array {
+    $capa = trim((string) ($d['capa'] ?? ''));
+    $d['url_video'] = com_versao(url_video((string) $d['video']));
+    $d['url_capa']  = $capa !== '' ? com_versao(url_imagem($capa)) : '';
+    $d['url_link']  = link_interno((string) ($d['link'] ?? ''));
+    return $d;
+}, depoimentos_com_video(listar_depoimentos_video()));
+$variosVideos = count($depoimentosVideo) > 1;
+
 $seo['titulo']    = 'Conta Lelê — Contação de histórias, cordéis e cursos';
 $seo['descricao'] = 'A Lelê conta e escreve histórias para escolas, eventos e famílias, '
     . 'e ensina a contar nos cursos online Conte&Encante e Cante & Encante.';
-$seo['json_ld']   = json_ld_pessoa($seo['url_base']);
+$nosVideo = array_values(array_filter(array_map(
+    static fn (array $d): ?array => json_ld_depoimento_video($d, $seo['url_base'], $d['url_video'], $d['url_capa']),
+    $depoimentosVideo
+)));
+$seo['json_ld'] = $nosVideo
+    ? json_ld_grafo([json_ld_pessoa($seo['url_base']), ...$nosVideo])
+    : json_ld_pessoa($seo['url_base']);
 
 // Depoimento para sobrepor no hero (pega o primeiro disponível).
 $depoHero = $depoimentos[0] ?? null;
@@ -132,6 +148,72 @@ $tonsCards = ['cl-tom-amarelo', 'cl-tom-laranja', 'cl-tom-cafe', 'cl-tom-creme',
             <?php endforeach; ?>
         </div>
         <p class="cl-mt-4"><a class="cl-btn cl-btn-ghost" href="/cordeis">Ver todos os cordéis</a></p>
+    </div>
+</section>
+<?php endif; ?>
+
+<?php if ($depoimentosVideo): ?>
+<!-- Depoimentos em vídeo (antes dos escritos) ---------------------- -->
+<section class="cl-secao cl-secao--ink dv<?= $variosVideos ? '' : ' dv--um' ?>" aria-labelledby="dv-titulo">
+    <?php girassol(['tamanho' => 150, 'classe' => 'dv-girassol']); ?>
+    <div class="cl-conteudo">
+        <div class="dv-topo">
+            <p class="cl-eyebrow">Em vídeo</p>
+            <h2 class="cl-secao__titulo" id="dv-titulo">Quem fez o curso <span class="cl-em">conta</span></h2>
+        </div>
+
+        <div class="dv-carrossel"<?= $variosVideos
+            ? ' data-carrossel role="region" aria-roledescription="carrossel" aria-labelledby="dv-titulo"' : '' ?>>
+            <ul class="dv-lista<?= $variosVideos ? ' dp-trilho' : '' ?>" id="dv-trilho"<?= $variosVideos ? ' tabindex="0"' : '' ?>>
+                <?php foreach ($depoimentosVideo as $i => $d): ?>
+                    <li class="dv-item<?= $variosVideos ? ' dp-item' : '' ?>">
+                        <article class="dv-cartao" aria-labelledby="dv-nome-<?= $i ?>">
+                            <div class="dv-video">
+                                <video id="dv-video-<?= $i ?>" controls preload="none" playsinline width="720" height="1280"
+                                    <?php if ($d['url_capa'] !== ''): ?>poster="<?= e($d['url_capa']) ?>"<?php endif; ?>
+                                    aria-label="Depoimento em vídeo de <?= e($d['autor']) ?>, com legenda">
+                                    <source src="<?= e($d['url_video']) ?>" type="video/mp4">
+                                    Seu navegador não reproduz este vídeo.
+                                    <a href="<?= e($d['url_video']) ?>">Baixe o depoimento</a>.
+                                </video>
+                                <button class="dv-play" type="button" data-dv-play="dv-video-<?= $i ?>" hidden
+                                    aria-label="Assistir ao depoimento de <?= e($d['autor']) ?>"><?= curso_icone('play', 30) ?></button>
+                            </div>
+                            <div class="dv-corpo">
+                                <?php if (trim((string) $d['destaque']) !== ''): ?>
+                                    <p class="dv-frase"><?= e(trim((string) $d['destaque'])) ?></p>
+                                <?php endif; ?>
+                                <p class="dv-pessoa">
+                                    <strong id="dv-nome-<?= $i ?>"><?= e($d['autor']) ?></strong>
+                                    <?php if (trim((string) $d['descricao']) !== ''): ?>
+                                        <span><?= e(trim((string) $d['descricao'])) ?></span>
+                                    <?php endif; ?>
+                                </p>
+                                <?php if ($d['url_link'] !== ''): ?>
+                                    <a class="cl-btn cl-btn-yellow dv-link" href="<?= e($d['url_link']) ?>">Conhecer o curso<?= curso_icone('seta') ?></a>
+                                <?php endif; ?>
+                                <details class="dv-transcricao">
+                                    <summary>Ler a transcrição</summary>
+                                    <?php foreach (texto_em_paragrafos((string) $d['transcricao']) as $paragrafo): ?>
+                                        <p><?= e($paragrafo) ?></p>
+                                    <?php endforeach; ?>
+                                </details>
+                            </div>
+                        </article>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+            <?php if ($variosVideos): ?>
+                <div class="dp-controles" hidden>
+                    <button class="dp-seta dp-seta--anterior" type="button" data-dp-ir="-1"
+                        aria-controls="dv-trilho" aria-label="Vídeo anterior"><?= curso_icone('seta', 20) ?></button>
+                    <div class="dp-pontos" aria-hidden="true"></div>
+                    <button class="dp-seta" type="button" data-dp-ir="1"
+                        aria-controls="dv-trilho" aria-label="Próximo vídeo"><?= curso_icone('seta', 20) ?></button>
+                </div>
+                <p class="cl-sr" aria-live="polite" data-dp-aviso></p>
+            <?php endif; ?>
+        </div>
     </div>
 </section>
 <?php endif; ?>
