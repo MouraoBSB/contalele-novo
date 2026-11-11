@@ -10,7 +10,9 @@ declare(strict_types=1);
 
 require_once CL_RAIZ . '/includes/girassol.php';
 require_once CL_RAIZ . '/includes/autenticacao_cursista.php';
-$cursistaCab = cursista_logado();
+require_once CL_RAIZ . '/includes/repositorio.php';
+$cursistaCab   = cursista_logado();
+$mostrarEntrar = $cursistaCab === null && entrada_visivel('configuracao');
 
 $cssExtra = $cssExtra ?? [];
 // Rota da requisição (definida em index.php): marca o item atual do menu.
@@ -64,14 +66,14 @@ $menuPrincipal = [
             <?php // No celular estreito a conta sai do topo e entra aqui, no menu aberto. ?>
             <?php if ($cursistaCab !== null): ?>
                 <a class="cl-nav__celular" href="/minha-conta">Minha conta</a>
-            <?php else: ?>
+            <?php elseif ($mostrarEntrar): ?>
                 <a class="cl-nav__celular" href="/entrar">Entrar</a>
             <?php endif; ?>
         </nav>
         <div class="cl-cabecalho__cta">
             <?php if ($cursistaCab !== null): ?>
                 <a class="cl-btn cl-btn-ghost cl-cabecalho__conta" href="/minha-conta">Minha conta</a>
-            <?php else: ?>
+            <?php elseif ($mostrarEntrar): ?>
                 <a class="cl-conta-link cl-cabecalho__conta" href="/entrar">Entrar</a>
             <?php endif; ?>
             <a class="cl-btn cl-btn-primary" href="/cursos">Quero contar histórias</a>

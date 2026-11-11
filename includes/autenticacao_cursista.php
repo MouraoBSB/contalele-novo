@@ -97,3 +97,21 @@ function destino_seguro(?string $destino, string $padrao = '/minha-conta'): stri
     }
     return $destino;
 }
+
+/**
+ * O botão "Entrar" aparece no site? Liga-se no painel (Configurações → Contas de cursistas).
+ * Sem a configuração, ou se o banco falhar, fica escondido; as páginas de conta seguem no ar.
+ *
+ * @param callable(string,string):string $lerConfiguracao  Normalmente configuracao().
+ */
+function entrada_visivel(callable $lerConfiguracao): bool
+{
+    try {
+        return $lerConfiguracao('contas_entrada_visivel', '0') === '1';
+    } catch (Throwable $e) {
+        if (function_exists('registrar_log')) {
+            registrar_log('Não foi possível ler a configuração do botão Entrar', ['erro' => $e->getMessage()]);
+        }
+        return false;
+    }
+}

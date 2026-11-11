@@ -11,17 +11,33 @@
     var video = document.getElementById(botao.getAttribute('data-dv-play'));
     if (!video) return;
 
-    botao.hidden = false;
-    botao.addEventListener('click', function () {
+    // Até a primeira reprodução, só o botão amarelo: o celular desenha o próprio play
+    // no centro do vídeo quando há controles nativos, e os dois ficavam sobrepostos.
+    function prepararCapa() {
+      video.controls = false;
+      botao.hidden = false;
+    }
+
+    function tocar() {
+      video.controls = true;
       var tocando = video.play();
       // Navegador que recusa o play (economia de dados, por exemplo): o controle nativo assume.
       if (tocando && typeof tocando.catch === 'function') {
         tocando.catch(function () { botao.hidden = true; });
       }
       video.focus();
+    }
+
+    prepararCapa();
+    botao.addEventListener('click', tocar);
+    video.addEventListener('click', function () {
+      if (!video.controls) tocar();
     });
-    video.addEventListener('play', function () { botao.hidden = true; });
-    video.addEventListener('ended', function () { botao.hidden = false; });
+    video.addEventListener('play', function () {
+      video.controls = true;
+      botao.hidden = true;
+    });
+    video.addEventListener('ended', prepararCapa);
   });
 
   // Ao começar um depoimento, pausa os outros.

@@ -36,6 +36,12 @@ $grupos = [
         'smtp_remetente' => ['SMTP — e-mail remetente', 'email', ''],
         'smtp_seguranca' => ['SMTP — criptografia (tls, ssl ou nenhuma)', 'text', ''],
     ],
+    'Contas de cursistas' => [
+        'contas_entrada_visivel' => ['Mostrar o botão "Entrar" no site', 'bool',
+            'Desmarcada, o "Entrar" some do topo e do menu do celular. As páginas de entrar e de '
+            . 'criar conta continuam funcionando para quem tiver o link, e quem já está logado '
+            . 'continua vendo "Minha conta".'],
+    ],
     'Login com Google' => [
         'google_client_id'     => ['Google — Client ID', 'text', ''],
         'google_client_secret' => ['Google — Client Secret', 'password', ''],
