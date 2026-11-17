@@ -134,12 +134,12 @@ Se não tiver a foto certa: bloco com `aspect-ratio: 4/5`, fundo `--bg-2`, com t
 - Set base: home, book, play, bag, user, bell, back, search, heart, star, check, chevron, clock, lock, pix, card, whats, plus, cart.
 
 ### Quando precisar de um ícone novo
-1. Cheque se já existe em `screens.jsx → Icon`.
+1. Cheque se já existe em `curso_icone()` (`includes/cursos-cartoes.php`: seta, check, mais, play).
 2. Desenhe **simples, sem detalhe**, alinhado ao set existente.
 3. **Não use emojis** na UI (exceto nas capas dos livros como acento gráfico — emojis grandes 56px de tamanho).
 
 ### Girassol
-- Componente `<Sunflower size={N} />` em `screens.jsx`.
+- Função `girassol(['tamanho' => N, 'classe' => '...'])` em `includes/girassol.php`.
 - É **o único ornamento decorativo da marca**. Use generosamente: cantos de cards, fundos de hero, ao lado de títulos, no rodapé.
 - Cor fixa: pétalas `#ffcc1f`, contorno `#c4390e`, miolo `#5a2a0a`.
 
@@ -229,8 +229,8 @@ contalele/
 ├── includes/             ← conexao, erros, funcoes, seo, cabecalho, rodape
 ├── paginas/              ← uma página por rota (incluídas pelo roteador)
 ├── admin/                ← painel administrativo + diagnostico
-├── assets/               ← css/ (brand-tokens + style), js/, img/
-├── sql/schema.sql        ← schema do banco
+├── assets/               ← css/ (brand-tokens + style), js/, img/, video/
+├── sql/schema.sql        ← schema do banco (fonte única da estrutura)
 ├── downloads/            ← PDFs dos e-books
 ├── uploads/              ← imagens enviadas pelo admin
 ├── logs/                 ← logs de erro
@@ -245,8 +245,34 @@ contalele/
 3. Ajuste `$seo` dentro da página se o título/descrição forem específicos.
 
 ### Adicionando um curso/cordel/livro
-O conteúdo dinâmico (cordéis, e-books, notícias, depoimentos, festivais) é
-gerenciado pelo painel administrativo (`/admin/`) — não por edição de código.
+O conteúdo dinâmico (cordéis, e-books, notícias, depoimentos escritos e em vídeo,
+festivais) é gerenciado pelo painel administrativo (`/admin/`) — não por edição de código.
+Os campos de cada área ficam em `admin/incluir/recursos.php`; os tipos de arquivo aceitos
+(imagem, PDF, vídeo MP4), em `tipos_arquivo()` de `admin/incluir/upload.php`.
+
+### Arquivos de mídia
+- O painel salva os envios em `uploads/`; os arquivos que vêm com o projeto ficam em
+  `assets/img/`, `downloads/` ou `assets/video/`. Monte o endereço sempre com
+  `url_imagem()`, `url_pdf()` ou `url_video()` (procuram primeiro em `uploads/`), nunca com
+  a pasta fixa.
+- Arquivo trocado com o mesmo nome precisa de `com_versao()` (acrescenta `?v=` com a data
+  do arquivo) por causa do cache da Cloudflare.
+
+### Depoimentos em vídeo
+- Seção "Quem fez o curso conta" na home, antes do carrossel escrito; com mais de um vídeo
+  vira o mesmo carrossel. Tabela `depoimentos_video`.
+- O vídeo entra já editado: vertical 9:16, legenda animada queimada, MP4 720p
+  (cerca de 9 MB por minuto). A capa é uma foto vertical 9:16. A transcrição completa é obrigatória
+  (acessibilidade e SEO).
+
+### Alterações no banco de produção
+- Primeiro mude `sql/schema.sql`. Em produção, aplique por script com simulação,
+  cópia de segurança e transação; confira tabelas e colunas antes.
+- A página `/admin/diagnostico.php?token=…` mostra tabelas, pastas e o limite de envio.
+
+### Botão "Entrar"
+Está escondido do público por enquanto. Para religar, marque "Mostrar o botão Entrar no site"
+no painel, em Configurações → Contas de cursistas (chave `contas_entrada_visivel`).
 
 ---
 
@@ -256,5 +282,5 @@ Quando o usuário pedir uma nova funcionalidade, peça, conteúdo:
 1. **Releia este CLAUDE.md.** Não improvise paleta nem tipografia.
 2. **Use os tokens existentes** (`var(--ink)`, etc.). Não introduza hex novos sem consultar.
 3. **Antes de gerar imagem ou SVG decorativo,** pergunte. A Lelê provavelmente tem o ativo real.
-4. **Em dúvida sobre tom**, releia a seção 1.3 (Voz) e olhe o copy existente em `data.js`.
+4. **Em dúvida sobre tom**, releia a seção 1.3 (Voz) e olhe o copy existente em `includes/conteudo.php`.
 5. **Não recrie a paleta antiga** (rosa/roxo na mesma peça). O sistema atual está em modo amarelo claro.
